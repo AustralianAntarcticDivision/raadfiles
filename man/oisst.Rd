@@ -5,27 +5,18 @@
 \alias{oisst_daily_files}
 \alias{oisst}
 \alias{oisst_monthly_files}
-\alias{oisst}
-\alias{ghrsst_daily_files}
 \title{OISST files}
 \usage{
 oisst_daily_files()
 
 oisst_monthly_files()
-
-ghrsst_daily_files()
 }
 \value{
-tibble data frame of file names
-
 tibble data frame of file names
 }
 \description{
 Optimally Interpolated Sea Surface Temperature
-
-The Group for High Resolution Sea Surface Temperature (GHRSST) files.
 }
 \examples{
-oisst_daily_files()
 oisst_daily_files()
 }
