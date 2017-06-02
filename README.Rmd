@@ -1,0 +1,37 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# raadfiles
+
+The goal of raadfiles is to manage information about the files used by raadtools. 
+
+## Why raadfiles?
+
+```{r timing}
+library(raadtools)
+system.time(rt_files <- sstfiles())
+
+library(raadfiles)
+system.time(rf_files <- oisst_daily_files())
+
+range(rt_files$date)
+range(rf_files$date)
+
+length(rt_files$date)
+length(rf_files$date)
+
+
+```
