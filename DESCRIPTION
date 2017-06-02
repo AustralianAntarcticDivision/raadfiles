@@ -9,6 +9,7 @@ Description: Tools for managing collections of files for the 'raad' family.
 Depends: R (>= 3.4.0)
 Imports: 
     dplyr,
+    raster, 
     rlang,
     stringr,
     tibble
