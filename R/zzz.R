@@ -55,7 +55,7 @@ run_this_function_to_build_cfa_cache <- function() {
       cfafiles.default.data.directory = cfafiles.default.data.directory,
       cfafiles.admin.directory = cfafiles.admin.directory)
     if (!inherits(files_vector, "try-error")) {
-      op.cfafiles[["cfafiles.filename.database"]] <- tibble::tibble(fullname = file.path(cfafiles.default.data.directory, files_vector))
+      op.cfafiles[["cfafiles.filename.database"]] <- tibble::tibble(root = cfafiles.default.data.directory, file = files_vector)
     }
     toset <- !(names(op.cfafiles) %in% names(op))
     if(any(toset)) options(op.cfafiles[toset])
@@ -97,7 +97,7 @@ run_this_function_to_build_cfa_cache <- function() {
   ## try RAAD_DIR, which may only be available to R CMD check from ~/.R/check.Renviron
   r <- getOption("repos")
   dd <- getOption("default.datadir")
-  print(Sys.getenv("RAAD_DIR"))
+
   if (is.null(dd["default.datadir"])) {
     dd["default.datadir"] <- Sys.getenv("RAAD_DIR");
     options(repos = r, default.datadir = dd);
