@@ -55,7 +55,8 @@ run_this_function_to_build_cfa_cache <- function() {
       cfafiles.default.data.directory = cfafiles.default.data.directory,
       cfafiles.admin.directory = cfafiles.admin.directory)
     if (!inherits(files_vector, "try-error")) {
-      op.cfafiles[["cfafiles.filename.database"]] <- tibble::tibble(root = cfafiles.default.data.directory, file = files_vector)
+      op.cfafiles[["cfafiles.filename.database"]] <- tibble::tibble(root = cfafiles.default.data.directory,
+                                                                    file = gsub("^/", "", gsub(cfafiles.default.data.directory, "", files_vector)))
     }
     toset <- !(names(op.cfafiles) %in% names(op))
     if(any(toset)) options(op.cfafiles[toset])
