@@ -25,12 +25,12 @@ run_this_function_to_build_cfa_cache <- function() {
   op <- options()
 
 
-  pathwasset <- .trysetpath()
+  raad_path_was_set <- .trysetpath()
 
 
-  if (pathwasset) {
+  if (raad_path_was_set) {
   ## RAADTOOLS
-  raadfiles.default.data.directory <- getOption("default.datadir")
+  raadfiles.default.data.directory <- unname(getOption("default.datadir"))
   if (file.exists(raadfiles.default.data.directory)) {
     fs <- NULL
     load(  file.path(raadfiles.default.data.directory, "admin", "filelist", "allfiles2.Rdata"))
@@ -42,6 +42,7 @@ run_this_function_to_build_cfa_cache <- function() {
     if(any(toset)) options(op.raadfiles[toset])
 
   }
+
   }
   ## CFA
   cfafiles.default.data.directory <- "/rdsi/public/CFA"
@@ -108,13 +109,14 @@ run_this_function_to_build_cfa_cache <- function() {
 
 
 .onAttach <- function(libname, pkgname) {
-  pathwasset <- .trysetpath()
-  if (!pathwasset) {
-    packageStartupMessage("\nWarning: could not find data repository at any of\n\n",
-                          paste(.possiblepaths()[["default.datadir"]], collapse = "\n"), sep = "\n\n")
+  raad_path_was_set <- .trysetpath()
+  if (!raad_path_was_set) {
+    print("Note: raadtools files not available on this system")
+    #packageStartupMessage("\nWarning: could not find data repository at any of\n\n",
+    #                      paste(.possiblepaths()[["default.datadir"]], collapse = "\n"), sep = "\n\n")
 
-    packageStartupMessage("Consider setting the option for your system\n")
-    packageStartupMessage('For example: options(default.datadir = "', gsub("\\\\", "/", normalizePath("/myrepository/data", mustWork = FALSE)), '")', '\n', sep = "")
+#    packageStartupMessage("Consider setting the option for your system\n")
+#    packageStartupMessage('For example: options(default.datadir = "', gsub("\\\\", "/", normalizePath("/myrepository/data", mustWork = FALSE)), '")', '\n', sep = "")
 
   }
 }
