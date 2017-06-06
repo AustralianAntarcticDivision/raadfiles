@@ -16,11 +16,44 @@ knitr::opts_chunk$set(
 
 # raadfiles
 
-The goal of raadfiles is to manage information about the files used by raadtools. 
+The goal of `raadfiles` is to manage information about the large collection of files used by raadtools, and related systems. 
+
+## Motivation
+
+You have a huge set of files you need to access regularly, and the information about those files is the first thing you need. 
+
+This project aims to speed up and help you control the following: 
+
+* raw file listing
+* seaching file names for patterns
+* caching metadata extracted from the files
+
+The overall goal is to help you write code to access and manipulate the data in those files. This is a natural complement to
+schemes that automatically obtain files and build file collections such as [raadsync](https://github.com/AustralianAntarcticDataCentre/raadsync.git) but can be used for other collections as well. 
+
+
+## Set up
+
+1. Get a huge file collection. (You probably have lots, but see raadsync for an possible way forward if not).
+2. Install `raadfiles`. 
+3. Set up the automated file listing and caching mechanism. 
+
+## Install raadfiles
+
+```{r}
+devtools::install_github("AustralianAntarcticDivsion/raadfiles")
+```
+
+## Set up the automated file listing and caching mechanism
+
+1. An R script to list all the files and save to a cache, use raw text or R workspace `saveRDS` or feather or an actual database. 
+2. Create a cron job to run that script every day/hour/minute. 
+3. Configure `raadfiles::custom_setup` (TBD, see R/zzz.R for the in-built mechanism)
+
 
 ## Why raadfiles?
 
-```{r timing}
+```{r timing, eval=FALSE}
 library(raadtools)
 system.time(rt_files <- sstfiles())
 
