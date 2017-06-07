@@ -51,7 +51,11 @@ devtools::install_github("AustralianAntarcticDivsion/raadfiles")
 3. Configure `raadfiles::custom_setup` (TBD, see R/zzz.R for the in-built mechanism)
 
 
-## Why raadfiles?
+## Why raadfiles for raadtools?
+
+* consistent convention around "file", "root" in the file cache to have a clear separation on the configured path versus the data
+* mechanism to load file cache into memory on load, for all functions to share 
+* 
 
 ```{r timing, eval=FALSE}
 library(raadtools)

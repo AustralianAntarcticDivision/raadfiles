@@ -38,7 +38,7 @@ run_this_function_to_build_cfa_cache <- function() {
     op.raadfiles <- list(
       raadfiles.default.data.directory = raadfiles.default.data.directory,
       raadfiles.filename.database = tibble::tibble(root = raadfiles.default.data.directory,
-                                                   file = gsub("^/", "", gsub(raadfiles.default.data.directory, "", fs)))
+                                                   file = fs)
       )
     toset <- !(names(op.raadfiles) %in% names(op))
     if(any(toset)) options(op.raadfiles[toset])
@@ -57,7 +57,7 @@ run_this_function_to_build_cfa_cache <- function() {
       cfafiles.admin.directory = cfafiles.admin.directory)
     if (!inherits(files_vector, "try-error")) {
       op.cfafiles[["cfafiles.filename.database"]] <- tibble::tibble(root = cfafiles.default.data.directory,
-                                                                    file = gsub("^/", "", gsub(cfafiles.default.data.directory, "", files_vector)))
+                                                                    file = files_vector)
     }
     toset <- !(names(op.cfafiles) %in% names(op))
     if(any(toset)) options(op.cfafiles[toset])
@@ -115,7 +115,7 @@ run_this_function_to_build_cfa_cache <- function() {
 .onAttach <- function(libname, pkgname) {
   raad_path_was_set <- .trysetpath()
   if (!raad_path_was_set) {
-    print("Note: raadtools files not available on this system")
+    packageStartupMessage("Note: raadtools files not available on this system")
     #packageStartupMessage("\nWarning: could not find data repository at any of\n\n",
     #                      paste(.possiblepaths()[["default.datadir"]], collapse = "\n"), sep = "\n\n")
 
