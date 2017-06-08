@@ -15,6 +15,7 @@
 run_this_function_to_build_cfa_cache <- function() {
   dp <- getOption("cfafiles.default.data.directory")
   files <- list.files(dp, recursive = TRUE, full.names = TRUE)
+  files <- stringr::str_replace(files, sprintf("%s/",  dp), "")
   saveRDS(files, file.path(getOption("cfafiles.admin.directory"), "admin", "filelist", "cfa_allfiles.rds"), compress = FALSE)
 }
 
