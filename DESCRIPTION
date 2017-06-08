@@ -12,6 +12,7 @@ Imports:
     progress,
     raster, 
     rlang,
+    RNetCDF,
     stringr,
     tibble
 License: GPL-3
