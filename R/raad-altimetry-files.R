@@ -1,4 +1,4 @@
-#' Altimetry and so forth
+#' Altimetry products
 #'
 #' From Copernicus
 #'
