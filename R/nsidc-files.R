@@ -14,9 +14,9 @@
 #' nsidc_north_monthly_files()
 #' nsidc_monthly_files()
 nsidc_south_monthly_files <- function() {
-  files <-   nsidc_monthly_files() %>% dplyr::filter(stringr::str_detect(file, "south"))
+  files <-    dplyr::filter(nsidc_monthly_files(), stringr::str_detect(file, "south"))
     ## arrange and distinct to resolve versions
-  files <- files %>% dplyr::arrange(dplyr::desc(file)) %>% dplyr::distinct(date, .keep_all = TRUE) %>% dplyr::arrange(date)
+  files <-  dplyr::arrange(dplyr::distinct(dplyr::arrange(files, dplyr::desc(file)), date, .keep_all = TRUE), date)
   if (nrow(files) < 1)
     stop("no files found")
   files
@@ -24,9 +24,9 @@ nsidc_south_monthly_files <- function() {
 #' @name nsidc_monthly_files
 #' @export
 nsidc_north_monthly_files <- function() {
-  files <-   nsidc_monthly_files() %>% dplyr::filter(stringr::str_detect(file, "north"))
+  files <-    dplyr::filter(nsidc_monthly_files(), stringr::str_detect(file, "north"))
   ## arrange and distinct to resolve versions
-  files <- files %>% dplyr::arrange(dplyr::desc(file)) %>% dplyr::distinct(date, .keep_all = TRUE) %>% dplyr::arrange(date)
+  files <-  dplyr::arrange(dplyr::distinct(dplyr::arrange(files, dplyr::desc(file)), date, .keep_all = TRUE), date)
   if (nrow(files) < 1)
     stop("no files found")
   files
