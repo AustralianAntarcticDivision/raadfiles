@@ -1,3 +1,8 @@
+# dev
+
+* new NSIDC monthly files, separates north, south, daily, monthly and provider
+ at the function level, also supports fix https://github.com/AustralianAntarcticDivision/raadtools/issues/54
+
 # raadfiles 0.0.1
 
 
