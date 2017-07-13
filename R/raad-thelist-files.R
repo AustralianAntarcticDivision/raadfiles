@@ -97,11 +97,12 @@
 #' @param pattern is used to string match generally, if this is not NULL then format is ignored
 #'
 #' @return tibble data frame of file names
-#' @importFrom dplyr arrange distinct filter mutate
+#' @importFrom dplyr %>% arrange distinct filter mutate
 #' @importFrom rlang .data
+#' @importFrom stringr str_detect str_replace
 #' @name thelist
 #' @export
-#' @importFrom stringr str_detect str_extract str_replace
+
 #' @examples
 #' thelist_daily_files()
 thelist_files <- function(format = c("gdb", "tab", "shp", "asc"),
