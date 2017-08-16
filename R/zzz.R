@@ -22,7 +22,7 @@ run_this_function_to_build_cfa_cache <- function() {
 
 
 #' @importFrom tibble tibble
-.onLoad <- function(libname, pkgname) {
+.onAttach <- function(libname, pkgname) {
   op <- options()
 
 
@@ -31,20 +31,27 @@ run_this_function_to_build_cfa_cache <- function() {
 
 
   if (raad_path_was_set) {
-  ## RAADTOOLS
-  raadfiles.default.data.directory <- unname(getOption("default.datadir"))
-  if (file.exists(raadfiles.default.data.directory)) {
-    fs <- NULL
-    load(  file.path(raadfiles.default.data.directory, "admin", "filelist", "allfiles2.Rdata"))
-    op.raadfiles <- list(
-      raadfiles.default.data.directory = raadfiles.default.data.directory,
-      raadfiles.filename.database = tibble::tibble(root = raadfiles.default.data.directory,
-                                                   file = fs)
-      )
-    toset <- !(names(op.raadfiles) %in% names(op))
-    if(any(toset)) options(op.raadfiles[toset])
-
-  }
+    ## RAADTOOLS
+    raadfiles.default.data.directory <- unname(getOption("default.datadir"))
+    raadfiles.default.data.directory_data <- file.path(raadfiles.default.data.directory, "data")
+    ## we have to look into the ./data directory for systems that don't provide visibility
+    ## up a level ...
+    if (file.exists(raadfiles.default.data.directory_data)) {
+      fs <- NULL
+      file_cache_path <- file.path(raadfiles.default.data.directory, "admin", "filelist", "allfiles2.Rdata")
+      if (!file.exists(file_cache_path)) {
+        warning(paste("cannot file cache:", file_cache_path))
+      } else {
+        load(  file_cache_path)
+        op.raadfiles <- list(
+          raadfiles.default.data.directory = raadfiles.default.data.directory,
+          raadfiles.filename.database = tibble::tibble(root = raadfiles.default.data.directory,
+                                                       file = fs)
+        )
+        toset <- !(names(op.raadfiles) %in% names(op))
+        if(any(toset)) options(op.raadfiles[toset])
+      }
+    }
 
   }
   ## CFA
@@ -64,7 +71,7 @@ run_this_function_to_build_cfa_cache <- function() {
     if(any(toset)) options(op.cfafiles[toset])
   }
 
- invisible()
+  invisible()
 }
 
 
@@ -112,18 +119,18 @@ run_this_function_to_build_cfa_cache <- function() {
 
 
 
-
-.onAttach <- function(libname, pkgname) {
-  raad_path_was_set <- .trysetpath()
-  if (!raad_path_was_set) {
-    packageStartupMessage("Note: raadtools files not available on this system")
-    #packageStartupMessage("\nWarning: could not find data repository at any of\n\n",
-    #                      paste(.possiblepaths()[["default.datadir"]], collapse = "\n"), sep = "\n\n")
-
-#    packageStartupMessage("Consider setting the option for your system\n")
-#    packageStartupMessage('For example: options(default.datadir = "', gsub("\\\\", "/", normalizePath("/myrepository/data", mustWork = FALSE)), '")', '\n', sep = "")
-
-  }
-}
+#
+# .onAttach <- function(libname, pkgname) {
+#   raad_path_was_set <- .trysetpath()
+#   if (!raad_path_was_set) {
+#     packageStartupMessage("Note: raadtools files not available on this system")
+#     #packageStartupMessage("\nWarning: could not find data repository at any of\n\n",
+#     #                      paste(.possiblepaths()[["default.datadir"]], collapse = "\n"), sep = "\n\n")
+#
+# #    packageStartupMessage("Consider setting the option for your system\n")
+# #    packageStartupMessage('For example: options(default.datadir = "', gsub("\\\\", "/", normalizePath("/myrepository/data", mustWork = FALSE)), '")', '\n', sep = "")
+#
+#   }
+# }
 
 
