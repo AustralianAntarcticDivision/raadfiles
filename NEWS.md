@@ -1,5 +1,7 @@
 # dev
 
+* new global file cache not bound to a single root
+
 * new `ncep2_uwnd_6hr_files` and `ncep2_vwnd_6hr_files`, note this is quite 
 different from the old `raadtools::windfiles` - expectation is that downstream read will explicitly deal with `uwnd`, `vwnd` separately
 

@@ -38,11 +38,13 @@ run_this_function_to_build_cfa_cache <- function() {
     ## up a level ...
     if (file.exists(raadfiles.default.data.directory_data)) {
       fs <- NULL
-      file_cache_path <- file.path(raadfiles.default.data.directory, "admin", "filelist", "allfiles2.Rdata")
-      if (!file.exists(file_cache_path)) {
-        warning(paste("cannot file cache:", file_cache_path))
+      #file_cache_path <- file.path(raadfiles.default.data.directory, "admin", "filelist", "allfiles2.Rdata")
+      file_RDS_path <- file.path(raadfiles.default.data.directory, "admin", "filelist", "file_db.rds")
+      if (!file.exists(file_RDS_path)) {
+        warning(paste("cannot file cache:", file_RDS_path))
       } else {
-        load(  file_cache_path)
+        #load(  file_cache_path)
+        fs <- readRDS(file_RDS_path)
         op.raadfiles <- list(
           raadfiles.default.data.directory = raadfiles.default.data.directory,
           raadfiles.filename.database = tibble::tibble(root = raadfiles.default.data.directory,
