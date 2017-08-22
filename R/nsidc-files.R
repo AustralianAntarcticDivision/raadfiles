@@ -73,9 +73,9 @@ nsidc_daily_files <- function() {
   files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "sidads"))
 
   files <- dplyr::filter(files, stringr::str_detect(.data$file, "bin$"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "v1.1"))
+  files <- dplyr::filter(files, stringr::str_detect(.data$file, "v1.1") | stringr::str_detect(.data$file, "f18_nrt"))
 
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "nsidc0051_gsfc_nasateam_seaice.*daily"))
+  files <- dplyr::filter(files, stringr::str_detect(.data$file, "nsidc0051_gsfc_nasateam_seaice.*daily") | stringr::str_detect(.data$file, "nsidc0081_nrt_nasateam_seaice"))
   files <-   dplyr::transmute(files, file = .data$file,
                               fullname = file.path(.data$root, .data$file))
 
