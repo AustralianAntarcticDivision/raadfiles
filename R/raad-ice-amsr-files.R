@@ -3,7 +3,7 @@
 #' Sea ice concentration files at 6.25 km resolution, southern hemisphere.
 #'
 #' @return tibble data frame of file names
-#' @importFrom dplyr arrange distinct filter mutate
+#' @importFrom dplyr arrange distinct filter mutate transmute
 #' @importFrom rlang .data
 #' @name oisst
 #' @export
@@ -25,6 +25,7 @@ amsr_daily_files <- function() {
     files <- dplyr::filter(files,
                              stringr::str_detect(.data$file, f1) |
                              stringr::str_detect(.data$file, f2))
- files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(.data$file, "[0-9]{8}"), "%Y%m%d"), tz = "GMT"))
-    files %>% arrange(date) %>% distinct(date, .keep_all = TRUE)
+ files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(.data$file, "[0-9]{8}"), "%Y%m%d"), tz = "GMT")) %>%
+   dplyr::transmute(date, fullname = file.path(root, file))
+ files %>% arrange(date) %>% distinct(date, .keep_all = TRUE)
 }
