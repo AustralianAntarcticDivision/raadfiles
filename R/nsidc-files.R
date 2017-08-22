@@ -1,4 +1,4 @@
-#' NSIDC monthly sea-ice concentration
+#' NSIDC daily and monthly sea-ice concentration
 #'
 #' Sea ice concentration files.
 #'
@@ -8,8 +8,8 @@
 #' @name oisst
 #' @export
 #' @importFrom stringr str_detect str_extract str_replace
-#' @examples
 #' @export
+#' @examples
 #' nsidc_south_monthly_files()
 #' nsidc_north_monthly_files()
 #' nsidc_monthly_files()

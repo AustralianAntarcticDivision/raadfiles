@@ -1,5 +1,7 @@
 # dev
 
+* new function `amsr_daily_files` for the AMSR 6.25km data 
+
 * new global file cache not bound to a single root
 
 * new `ncep2_uwnd_6hr_files` and `ncep2_vwnd_6hr_files`, note this is quite 
