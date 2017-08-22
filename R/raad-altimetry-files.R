@@ -21,7 +21,7 @@ altimetry_daily_files <- function() {
 # (The new collection is syncing now - 23-Jun-2017)
 
   files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "SEALEVEL_GLO_PHY_L4"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*nc$"))
+  files <- dplyr::filter(files, stringr::str_detect(.data$file, "nc$"))  ## faster without the .
 
   files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
 

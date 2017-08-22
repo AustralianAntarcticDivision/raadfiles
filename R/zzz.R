@@ -37,7 +37,7 @@ run_this_function_to_build_cfa_cache <- function() {
     ## we have to look into the ./data directory for systems that don't provide visibility
     ## up a level ...
     if (file.exists(raadfiles.default.data.directory_data)) {
-      fs <- NULL
+      #fs <- NULL
       #file_cache_path <- file.path(raadfiles.default.data.directory, "admin", "filelist", "allfiles2.Rdata")
       file_RDS_path <- file.path(raadfiles.default.data.directory, "admin", "filelist", "file_db.rds")
       if (!file.exists(file_RDS_path)) {
@@ -47,8 +47,8 @@ run_this_function_to_build_cfa_cache <- function() {
         fs <- readRDS(file_RDS_path)
         op.raadfiles <- list(
           raadfiles.default.data.directory = raadfiles.default.data.directory,
-          raadfiles.filename.database = tibble::tibble(root = raadfiles.default.data.directory,
-                                                       file = fs)
+          ## changed here to use the existing cached data frame, not a raw character string MDS 2017-08-22
+          raadfiles.filename.database = fs
         )
         toset <- !(names(op.raadfiles) %in% names(op))
         if(any(toset)) options(op.raadfiles[toset])
