@@ -22,7 +22,7 @@ run_this_function_to_build_cfa_cache <- function() {
 
 
 #' @importFrom tibble tibble
-.onAttach <- function(libname, pkgname) {
+.onLoad <- function(libname, pkgname) {
   op <- options()
 
 
