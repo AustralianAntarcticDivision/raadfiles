@@ -7,7 +7,10 @@
 #'
 #' @examples
 bom_tmax_daily_files <- function() {
-  files <- dplyr::filter(get_raw_cfa_filenames(), stringr::str_detect(.data$file, "BoM_daily_vars/tmax"))
+  rawfiles <- get_raw_cfa_filenames()
+  if (is.null(rawfiles)) stop("no files found")
+  files <- dplyr::filter(rawfiles, stringr::str_detect(.data$file, "BoM_daily_vars/tmax"))
+
   files <-   dplyr::filter(files, stringr::str_detect(.data$file, "tmax_day.*\\.nc$"))
   files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
 
