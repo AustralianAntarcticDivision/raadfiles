@@ -46,7 +46,7 @@ run_this_function_to_build_cfa_cache <- function() {
         #load(  file_cache_path)
         fs <- readRDS(file_RDS_path)
         ## the client might  have a different path to the admin
-        fs$root <-  raadfiles.default.data.directory
+        fs$root <-  file.path(raadfiles.default.data.directory, "data")
         op.raadfiles <- list(
           raadfiles.default.data.directory = raadfiles.default.data.directory,
           ## changed here to use the existing cached data frame, not a raw character string MDS 2017-08-22
