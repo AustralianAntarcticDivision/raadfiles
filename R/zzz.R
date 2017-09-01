@@ -89,7 +89,8 @@ run_this_function_to_build_cfa_cache <- function() {
     "/mnt/aadc/Scientific_Data/Data/gridded_new",
     "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new",
     "/mnt/raad",
-    "/rdsi/PRIVATE",
+    "/rdsi/PUBLIC/raad", 
+#    "/rdsi/PRIVATE", ## this shouldn't affect anyone anymore ## MDS 2017-09-01
     "/rdsi/PRIVATE/raad"))
   a
 }
