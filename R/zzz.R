@@ -45,6 +45,10 @@ run_this_function_to_build_cfa_cache <- function() {
       } else {
         #load(  file_cache_path)
         fs <- readRDS(file_RDS_path)
+        ## the client might  have a different path to the admin
+        if (fs$root[1] != file.path(raadfiles.default.data.directory, "data")) {
+          fs$root <-  file.path(raadfiles.default.data.directory, "data")
+        }
         op.raadfiles <- list(
           raadfiles.default.data.directory = raadfiles.default.data.directory,
           ## changed here to use the existing cached data frame, not a raw character string MDS 2017-08-22
@@ -85,7 +89,8 @@ run_this_function_to_build_cfa_cache <- function() {
     "/mnt/aadc/Scientific_Data/Data/gridded_new",
     "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new",
     "/mnt/raad",
-    "/rdsi/PRIVATE",
+    "/rdsi/PUBLIC/raad", 
+#    "/rdsi/PRIVATE", ## this shouldn't affect anyone anymore ## MDS 2017-09-01
     "/rdsi/PRIVATE/raad"))
   a
 }
