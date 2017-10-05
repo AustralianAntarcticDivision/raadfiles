@@ -21,7 +21,7 @@ amsr_daily_files <- function() {
     ## modified from zmaw.de 2017-06-27 https://github.com/AustralianAntarcticDivision/raadtools/issues/52
     f1 <- "ftp-projects.cen.uni-hamburg.de/seaice/AMSR-E_ASI_IceConc/no_landmask/hdf/s6250/"
     ## 2012:2015+
-    f2 <- "www.iup.uni-bremen.de\\+8084/amsr2data/asi_daygrid_swath/s6250"
+    f2 <- "seaice.uni-bremen.de/amsr2/asi_daygrid_swath/s6250"
     files <- dplyr::filter(files,
                              stringr::str_detect(.data$file, f1) |
                              stringr::str_detect(.data$file, f2))
