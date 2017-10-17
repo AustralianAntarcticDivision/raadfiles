@@ -145,7 +145,7 @@ thelist_files <- function(format = c("gdb", "tab", "shp", "asc"),
   if (nrow(files) < 1)
     stop("no files found")
 
-  files <- dplyr::mutate(files,
-                         file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
+  #files <- dplyr::mutate(files,
+   #                      file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
   dplyr::arrange(files)
 }
