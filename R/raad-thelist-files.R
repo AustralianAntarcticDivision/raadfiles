@@ -93,7 +93,6 @@
 #'
 #' Arguments are used to pattern match on different aspects of the file name so that anything can be pulled out.
 #' @param format is used to targe tspecific formats see Details
-#' @param type is used to string match on parcel, road, dem, etc. (TODO build catalog)
 #' @param pattern is used to string match generally, if this is not NULL then format is ignored
 #'
 #' @return tibble data frame of file names
@@ -106,9 +105,8 @@
 #' @examples
 #' thelist_daily_files()
 thelist_files <- function(format = c("gdb", "tab", "shp", "asc"),
-                          pattern = NULL,
-                          type = NULL
-                          ) {
+                          pattern = NULL
+) {
   files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "listdata.thelist.tas.gov.au"))
   # unique(unlist(lapply(strsplit(files$file, "\\."), tail, 1)))
   # [1] "cpg"            "DAT"            "dbf"            "gdbindexes"     "gdbtable"       "gdbtablx"
@@ -120,30 +118,29 @@ thelist_files <- function(format = c("gdb", "tab", "shp", "asc"),
   #
   ## what will sf read
   ## dirname(<gdbindexes>) is fine
-#  afile <- files %>% filter(grepl("gdbindexes", file)) %>% slice(1) %>% mutate(fullname = file.path(root, file)) %>% pull(fullname)
-#  sf::read_sf(dirname(afile))
- #  afile <- files %>% filter(grepl("asc", file)) %>% slice(1) %>% mutate(fullname = file.path(root, file)) %>% pull(fullname)
+  #  afile <- files %>% filter(grepl("gdbindexes", file)) %>% slice(1) %>% mutate(fullname = file.path(root, file)) %>% pull(fullname)
+  #  sf::read_sf(dirname(afile))
+  #  afile <- files %>% filter(grepl("asc", file)) %>% slice(1) %>% mutate(fullname = file.path(root, file)) %>% pull(fullname)
 
 
-  if (!is.null(type)) files <- dplyr::filter(files, grepl(type, file))
+  #if (!is.null(type)) files <- dplyr::filter(files, grepl(type, file))
   if (!is.null(pattern)) files <- dplyr::filter(files, grepl(pattern, file))
-  if (is.null(pattern)) {
-    if (is.null(format) || is.na(format) || nchar(format) == 0) {
+  if (is.null(format) || is.na(format) || nchar(format) == 0) {
 
+  } else {
+    format <- match.arg(format)
+    if (format == "gdb") {
+      files <- dplyr::filter(files, grepl("gdb$", dirname(.data$file)))
+      files <- dplyr::mutate(files, file = dirname(file)) %>% distinct(root, file)
     } else {
-      format <- match.arg(format)
-      if (format == "gdb") {
-        files <- dplyr::filter(files, grepl("gdb$", dirname(.data$file)))
-        files <- dplyr::mutate(files, file = dirname(file)) %>% distinct(root, file)
-      } else {
-        files <- dplyr::filter(files, grepl(sprintf("%s$", format), .data$file))
-      }
+      files <- dplyr::filter(files, grepl(sprintf("%s$", format), .data$file))
     }
   }
 
-    datadir <- get_raad_datadir()
-    if (!datadir == files$root[1]) warning("datadir and file root don't match?")
-    files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
+
+  #datadir <- get_raad_datadir()
+  #if (!datadir == files$root[1]) warning("datadir and file root don't match?")
+  files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
 
   if (nrow(files) < 1)
     stop("no files found")
