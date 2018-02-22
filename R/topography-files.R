@@ -48,7 +48,8 @@ gebco14_files <- function(all = FALSE, ...) {
 #' @name topography
 #' @rdname topography-files
 gebco08_files <- function(all = FALSE, ...) {
-  dplyr::filter(gebco_14_files(all = TRUE), stringr::str_detect(.data$fullname, "GRIDONE_2D.nc$"))
+  pattern <- if (all) "www.bodc.ac.uk/gebco/" else "www.bodc.ac.uk/.*/GRIDONE_2D.nc$"
+  topo_files_generic(pattern)
 }
 
 #' @export
