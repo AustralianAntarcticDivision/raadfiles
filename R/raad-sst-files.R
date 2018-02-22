@@ -1,8 +1,22 @@
-#' OISST files
+#' OISST v2 files
 #'
-#' Optimally Interpolated Sea Surface Temperature
+#' Optimally Interpolated Sea Surface Temperature, from \url{https://www.ncei.noaa.gov/}. These files contain four
+#' variables `sst`, `anom`, `err` and `ice` for sea surface temperature, sst anomaly, sst error and sea ice concentration on
+#' a regular global longitude latitude grid, with dimensions 1440x720 grid (0.25 degree spatial resolution).
 #'
-#' @return tibble data frame of file names
+#' At the time of writing (2018-02-22) the files are accessible at
+#' \url{https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/access/avhrr-only/}. See the
+#' [bowerbird](https://github.com/AustralianAntarcticDivision/bowerbird) package for a convenient way to obtain this data set
+#' named "NOAA OI 1/4 Degree Daily SST AVHRR" in the [blueant configuration](https://github.com/AustralianAntarcticDivision/blueant).
+#'
+#' These files can be accessed individually `raster` package function `raster` or as multiple layers with `brick` or `raster::stack`. Use
+#' the `varname` argument to choose one of the four variables.
+#'
+#' To obtain full NetCDF header metadata use 'ncdf4::open.nc(file)' or 'RNetCDF::print.nc(RNetCDF::open.nc(file))' to see
+#' the equivalent of 'ncdump -h' output.
+#'
+#' Optimally Interpolated version 2 SST moved from 'eclipse.ncdc.noaa.gov', to 'www.ncei.noaa.gov' at the end of 2017.
+#' @return tibble data frame of file names, with columns `fullname` and `date`
 #' @importFrom dplyr arrange distinct filter mutate
 #' @importFrom rlang .data
 #' @name oisst
@@ -12,7 +26,7 @@
 #' oisst_daily_files()
 oisst_daily_files <- function() {
   files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "avhrr"))
-  files <- dplyr::filter(files, grepl("^.*eclipse\\.ncdc\\.noaa\\.gov.*OI-daily-v2.*\\.nc$",
+ files <- dplyr::filter(files, grepl("^.*www.ncei.noaa.gov.*sea-surface-temperature-optimum-interpolation.*avhrr-only.*\\.nc$",
                                       .data$file))
   files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
 

@@ -25,14 +25,30 @@ tibble data frame of file names
 
 tibble data frame of file names
 
-tibble data frame of file names
+tibble data frame of file names, with columns `fullname` and `date`
 }
 \description{
 Sea ice concentration files.
 
 Sea ice concentration files at 6.25 km resolution, southern hemisphere.
 
-Optimally Interpolated Sea Surface Temperature
+Optimally Interpolated Sea Surface Temperature, from \url{https://www.ncei.noaa.gov/}. These files contain four
+variables `sst`, `anom`, `err` and `ice` for sea surface temperature, sst anomaly, sst error and sea ice concentration on
+a regular global longitude latitude grid, with dimensions 1440x720 grid (0.25 degree spatial resolution).
+}
+\details{
+At the time of writing (2018-02-22) the files are accessible at
+\url{https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/access/avhrr-only/}. See the
+[bowerbird](https://github.com/AustralianAntarcticDivision/bowerbird) package for a convenient way to obtain this data set
+named "NOAA OI 1/4 Degree Daily SST AVHRR" in the [blueant configuration](https://github.com/AustralianAntarcticDivision/blueant).
+
+These files can be accessed individually `raster` package function `raster` or as multiple layers with `brick` or `raster::stack`. Use
+the `varname` argument to choose one of the four variables.
+
+To obtain full NetCDF header metadata use 'ncdf4::open.nc(file)' or 'RNetCDF::print.nc(RNetCDF::open.nc(file))' to see
+the equivalent of 'ncdump -h' output.
+
+Optimally Interpolated version 2 SST moved from 'eclipse.ncdc.noaa.gov', to 'www.ncei.noaa.gov' at the end of 2017.
 }
 \examples{
 nsidc_south_monthly_files()
