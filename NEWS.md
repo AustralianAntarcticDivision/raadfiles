@@ -1,5 +1,31 @@
 # dev
 
+* each 'topography' related files function now uses an internal generic pattern form, and each separate data variant has its own function. In 
+ contrast to other types, these files now have an argument `all` for exploratory use, to return the (non-exclusive) set of all files available with the 
+ data set
+
+* new functions for Macquarie Island region topography `macquarie100m_57S_files` and `macquarie100m_58S_files`, these are two UTM forms for 
+ the alternative zones 57 or 58. 
+ 
+* new functions for Smith and Sandwell topography `smith_sandwell_files`, `smith_sandwell_lon180_files` for the Pacific-view and Atlantic-view
+  variants and their analogues `smith_sandwell_unpolished_files`, `smith_sandwell_lon180_unpolished_files`. All Smith and Sandwell data now
+  defaults to version 18.1, older versions may be found with `smith_sandwell_files(all = TRUE)`. 
+ 
+* new functions for AAD George V Terre Adelie topography at various resolutions `george_v_terre_adelie_1000m_files`, 
+  `george_v_terre_adelie_500m_files`, `george_v_terre_adelie_250m_files`, and `george_v_terre_adelie_100m_files` 
+
+* new functions for IBCSO data and images `ibcso_files`, `ibcso_background_files`, `ibcso_bed_files`, `ibcso_digital_chart_files`, `ibcso_sid_files`
+
+* new functions  `etopo1_files` and `etopo2_files` for for NGDC NOAA global topographic data
+
+* new function `lakesuperior_files` for NGDC NOAA Lake Superior bathymetry data
+
+* new function `cryosat2_files` for Cryosat2 topography data
+
+* new functions `gebco14_files` and `gebco08_files` for GEBCO topography data 
+
+* new home for 'NOAA OI 1/4 Degree Daily SST AVHRR' now in ncei.noaa.gov
+
 * new function `amsr_daily_files` for the AMSR 6.25km data 
 
 * new global file cache not bound to a single root
