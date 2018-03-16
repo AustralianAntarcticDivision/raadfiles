@@ -1,5 +1,7 @@
 # dev
 
+* Added RAMP topography in `ramp_files`. 
+
 * each 'topography' related files function now uses an internal generic pattern form, and each separate data variant has its own function. In 
  contrast to other types, these files now have an argument `all` for exploratory use, to return the (non-exclusive) set of all files available with the 
  data set
