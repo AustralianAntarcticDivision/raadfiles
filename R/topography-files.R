@@ -55,6 +55,26 @@ gebco08_files <- function(all = FALSE, ...) {
 #' @export
 #' @name topography
 #' @rdname topography-files
+ramp_files <- function(all = FALSE, ...) {
+  pattern <- if (all) {
+    # ASCII grids contain fields for latitude, longitude, elevation relative to
+    # the WGS84 ellipsoid, and elevation relative to the OSU91A geoid. Data are
+    # represented in decimal degrees, from -180 degrees (west) to 180 degrees
+    # (east) longitude; and -90 to -60 (south) degrees latitude.
+    #
+    # ARC/INFO coverages of RAMP DEMs are organized into individual directories
+    # for each resolution (1 km, 400 m, and 200 m) and geoid/ellipsoid.
+    "sidads.colorado.edu/pub/DATASETS/nsidc0082_radarsat_dem_v02/200M/BINARY"
+    } else {
+      "sidads.colorado.edu/pub/DATASETS/nsidc0082_radarsat_dem_v02/200M/BINARY.*bin$"
+    }
+  topo_files_generic(pattern)
+}
+
+
+#' @export
+#' @name topography
+#' @rdname topography-files
 ibcso_files <- function(all = FALSE, ...) {
   pattern <- if (all) "hs.pangaea.de/.*/IBCSO.*" else "hs.pangaea.de/.*/ibcso_v1_is.tif$"
   topo_files_generic(pattern)

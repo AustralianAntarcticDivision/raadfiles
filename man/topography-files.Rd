@@ -6,6 +6,8 @@
 \alias{topography}
 \alias{gebco08_files}
 \alias{topography}
+\alias{ramp_files}
+\alias{topography}
 \alias{ibcso_files}
 \alias{topography}
 \alias{ibcso_background_files}
@@ -50,6 +52,8 @@
 gebco14_files(all = FALSE, ...)
 
 gebco08_files(all = FALSE, ...)
+
+ramp_files(all = FALSE, ...)
 
 ibcso_files(all = FALSE, ...)
 

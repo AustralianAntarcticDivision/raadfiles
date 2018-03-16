@@ -5,15 +5,12 @@
 \alias{thelist_files}
 \title{TheList}
 \usage{
-thelist_files(format = c("gdb", "tab", "shp", "asc"), pattern = NULL,
-  type = NULL)
+thelist_files(format = c("gdb", "tab", "shp", "asc"), pattern = NULL)
 }
 \arguments{
 \item{format}{is used to targe tspecific formats see Details}
 
 \item{pattern}{is used to string match generally, if this is not NULL then format is ignored}
-
-\item{type}{is used to string match on parcel, road, dem, etc. (TODO build catalog)}
 }
 \value{
 tibble data frame of file names
