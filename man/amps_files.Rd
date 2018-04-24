@@ -2,9 +2,17 @@
 % Please edit documentation in R/amps-files.R
 \name{amps_files}
 \alias{amps_files}
+\alias{amps_files}
+\alias{amps_d1files}
+\alias{amps_files}
+\alias{amps_d2files}
 \title{AMPS files}
 \usage{
 amps_files()
+
+amps_d1files(data.source = "", time.resolution = "4hourly", ...)
+
+amps_d2files(data.source = "", time.resolution = "4hourly", ...)
 }
 \description{
 Antarctic Mesoscale Prediction System

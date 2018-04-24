@@ -1,5 +1,7 @@
 # dev
 
+* New `amps_d2files` and `amps_d1files` (to replace raadtools version) functions for AMPs files. 
+
 * Added RAMP topography in `ramp_files`. 
 
 * each 'topography' related files function now uses an internal generic pattern form, and each separate data variant has its own function. In 
