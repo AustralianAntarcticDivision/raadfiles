@@ -6,6 +6,9 @@
 \usage{
 bom_tmax_daily_files()
 }
+\value{
+data frame of file names
+}
 \description{
 Data is daily but arranged in monthly files.
 }

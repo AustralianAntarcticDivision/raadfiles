@@ -2,10 +2,8 @@
 #'
 #' Data is daily but arranged in monthly files.
 #' @importFrom progress progress_bar
-#' @return
+#' @return data frame of file names
 #' @export
-#'
-#' @examples
 bom_tmax_daily_files <- function() {
   rawfiles <- get_raw_cfa_filenames()
   if (is.null(rawfiles)) stop("no files found")
@@ -43,7 +41,9 @@ bom_tmax_daily_files <- function() {
   files$n_slice <- unlist(lapply(files$fullname, get_dim, varname = "time", progress_ticker = pb))
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
                                                           "%Y%m%d"),tz = "GMT"))
-  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)
+  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date) %>%
+    set_dt_utc()
+
 }
 
 #' @importFrom RNetCDF dim.inq.nc open.nc close.nc

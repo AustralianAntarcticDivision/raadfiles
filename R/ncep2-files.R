@@ -20,7 +20,9 @@ ncep2_uwnd_6hr_files <- function() {
   datadir <- get_raad_datadir()
   files <- dplyr::mutate(files, date = ISOdate(as.integer(stringr::str_extract(file, "[0-9]{4}")), 1, 1),
                          file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
-  dplyr::arrange(dplyr::distinct(files, date, varname,  .keep_all = TRUE), date)
+  dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date) %>%
+    set_dt_utc()
+
 }
 #' @name ncep2_files
 #' @export
@@ -34,7 +36,10 @@ ncep2_vwnd_6hr_files <- function() {
   datadir <- get_raad_datadir()
   files <- dplyr::mutate(files, date = ISOdate(as.integer(stringr::str_extract(file, "[0-9]{4}")), 1, 1),
                          file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
-  dplyr::arrange(dplyr::distinct(files, date, varname,  .keep_all = TRUE), date)
+  dplyr::arrange(dplyr::distinct(files, .data$date,  .keep_all = TRUE), date)  %>%
+    set_dt_utc()
+
+
 }
 
 #dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "ncep.reanalysis2")) %>% mutate(file = basename(dirname(file))) %>% distinct(file)

@@ -1,0 +1,11 @@
+globalVariables("desc")  ## for dplyr in arrange()
+
+set_utc_md <- function(x) {
+  attr(x, "tz") <- "UTC"
+  x
+}
+## apply UTC metadata for print (raadtools#72)
+set_dt_utc <- function(x) {
+  x[["date"]] <- set_utc_md(x[["date"]])
+  x
+}

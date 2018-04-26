@@ -6,6 +6,9 @@
 \usage{
 cmip5_files()
 }
+\value{
+data frame of file names
+}
 \description{
 Currently in dev-test mode, using a very small subset until we get specifications.
 }

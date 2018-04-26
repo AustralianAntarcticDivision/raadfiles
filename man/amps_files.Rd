@@ -3,6 +3,8 @@
 \name{amps_files}
 \alias{amps_files}
 \alias{amps_files}
+\alias{amps_model_files}
+\alias{amps_files}
 \alias{amps_d1files}
 \alias{amps_files}
 \alias{amps_d2files}
@@ -10,10 +12,22 @@
 \usage{
 amps_files()
 
-amps_d1files(data.source = "", time.resolution = "4hourly", ...)
+amps_model_files(time.resolution = "4hourly", grid = "d1", ...)
 
-amps_d2files(data.source = "", time.resolution = "4hourly", ...)
+amps_d1files(time.resolution = "4hourly", ...)
+
+amps_d2files(time.resolution = "4hourly", ...)
+}
+\arguments{
+\item{time.resolution}{a placeholder, defaults to "4hourly" and remains unused}
+
+\item{grid}{one of `d1` (30km resolution) or `d2` (10km resolution)}
+
+\item{...}{reserved, unused}
 }
 \description{
-Antarctic Mesoscale Prediction System
+Antarctic Mesoscale Prediction System GRIB files.
+}
+\details{
+`amps_files` returns all the files, `amps_model_files` returns the files with date set from the file name, `amps_d1files` and `amps_d2files` return only the 30km and 10 km resolution grids respectively.
 }

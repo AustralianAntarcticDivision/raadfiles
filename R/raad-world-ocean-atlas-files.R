@@ -22,11 +22,8 @@ woa09_daily_files <- function() {
     stop("no files found")
   datadir <- get_raad_datadir()
   files <- dplyr::mutate(files,
-                         #date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
-                        #                                  "%Y%m%d"),tz = "GMT"),
 
                          file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
-  #files$date[is.na(files$date)] <- max(files$date, na.rm = TRUE) + 24 * 3600
-  #dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)
+
 files
   }

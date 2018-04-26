@@ -103,7 +103,7 @@
 #' @export
 
 #' @examples
-#' thelist_daily_files()
+#' thelist_files()
 thelist_files <- function(format = c("gdb", "tab", "shp", "asc"),
                           pattern = NULL
 ) {
@@ -131,7 +131,7 @@ thelist_files <- function(format = c("gdb", "tab", "shp", "asc"),
     format <- match.arg(format)
     if (format == "gdb") {
       files <- dplyr::filter(files, grepl("gdb$", dirname(.data$file)))
-      files <- dplyr::mutate(files, file = dirname(file)) %>% distinct(root, file)
+      files <- dplyr::mutate(files, file = dirname(.data$file)) %>% distinct(.data$root, .data$file)
     } else {
       files <- dplyr::filter(files, grepl(sprintf("%s$", format), .data$file))
     }

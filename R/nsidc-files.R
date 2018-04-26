@@ -5,7 +5,7 @@
 #' @return tibble data frame of file names
 #' @importFrom dplyr arrange distinct filter mutate
 #' @importFrom rlang .data
-#' @name oisst
+#' @name nsidc
 #' @export
 #' @importFrom stringr str_detect str_extract str_replace
 #' @export
@@ -21,7 +21,7 @@ nsidc_south_monthly_files <- function() {
     stop("no files found")
   files
 }
-#' @name nsidc_monthly_files
+#' @name nsidc
 #' @export
 nsidc_north_monthly_files <- function() {
   files <-    dplyr::filter(nsidc_monthly_files(), stringr::str_detect(file, "north"))
@@ -31,7 +31,7 @@ nsidc_north_monthly_files <- function() {
     stop("no files found")
   files
 }
-#' @name nsidc_monthly_files
+#' @name nsidc
 #' @export
 nsidc_monthly_files <- function() {
   files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "sidads"))
@@ -45,9 +45,10 @@ nsidc_monthly_files <- function() {
                                                    "%Y%m%d"),
                                            tz = "GMT"),
                          file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
-  files
+  files   %>%
+    set_dt_utc()
 }
-#' @name nsidc_monthly_files
+#' @name nsidc
 #' @export
 nsidc_south_daily_files <- function() {
   files <-    dplyr::filter(nsidc_daily_files(), stringr::str_detect(file, "south"))
@@ -57,7 +58,7 @@ nsidc_south_daily_files <- function() {
     stop("no files found")
   files
 }
-#' @name nsidc_monthly_files
+#' @name nsidc
 #' @export
 nsidc_north_daily_files <- function() {
   files <-    dplyr::filter(nsidc_daily_files(), stringr::str_detect(file, "north"))
@@ -67,7 +68,7 @@ nsidc_north_daily_files <- function() {
     stop("no files found")
   files
 }
-#' @name nsidc_daily_files
+#' @name nsidc
 #' @export
 nsidc_daily_files <- function() {
   files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "sidads"))
@@ -85,5 +86,6 @@ nsidc_daily_files <- function() {
                                            tz = "GMT"),
                   file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
 
-  files
+  files   %>%
+    set_dt_utc()
 }

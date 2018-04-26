@@ -111,5 +111,5 @@ txt is probably just xml, probably only relevant to GDAL and ESRI  list_fmp_data
 Arguments are used to pattern match on different aspects of the file name so that anything can be pulled out.
 }
 \examples{
-thelist_daily_files()
+thelist_files()
 }

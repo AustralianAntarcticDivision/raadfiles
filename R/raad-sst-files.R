@@ -36,7 +36,8 @@ oisst_daily_files <- function() {
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
                                                           "%Y%m%d"),tz = "GMT"),
                          file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
-  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)
+  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)  %>%
+    set_dt_utc()
 }
 #' @name oisst
 #' @export
@@ -61,7 +62,8 @@ oisst_monthly_files <- function() {
   dates <- as.POSIXct(strptime(names(r), "X%Y.%m.%d"), tz  = "GMT")
   datadir <- get_raad_datadir()
   dplyr::mutate(files, file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""),
-                date = dates, band = row_number())
+                date = dates, band = row_number())  %>%
+    set_dt_utc()
 
 }
 
@@ -90,7 +92,8 @@ ghrsst_daily_files <- function () {
                                                           "%Y%m%d"),tz = "GMT"),
                          file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)
-  files
+  files  %>%
+    set_dt_utc()
 }
 
 

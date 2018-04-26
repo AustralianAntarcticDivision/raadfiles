@@ -62,11 +62,11 @@
 
 
 .smithsandwellraw <- function(candidatefiles) {
-  tail(sort( grep("/topo_.*\\.img$", candidatefiles, value = TRUE)), 1)
+  utils::tail(sort( grep("/topo_.*\\.img$", candidatefiles, value = TRUE)), 1)
 }
 
 .smithsandwellvrt <- function(lon180 = FALSE) {
-  all_files <- raadfiles:::get_raw_raad_filenames() %>% mutate(fullname = file.path(root, file)) %>% dplyr::pull(fullname)
+  all_files <- get_raw_raad_filenames() %>% mutate(fullname = file.path(.data$root, .data$file)) %>% dplyr::pull(.data$fullname)
   binfile <- .smithsandwellraw(all_files)
   vrtfile1 <- file.path(dirname(binfile), ".vrt", gsub(".img$", ".vrt", basename(binfile)))
   vrtfile2 <- file.path(dirname(binfile), ".vrt",gsub(".img$", "atlantic.vrt", basename(binfile)))
