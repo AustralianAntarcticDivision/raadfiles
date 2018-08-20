@@ -32,7 +32,7 @@ altimetry_daily_files <- function() {
                                                           "%Y%m%d"),tz = "GMT"),
                          file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
   ## hope for the best, this is nrt "latest"
-  files$date[is.na(files$date)] <- max(files$date, na.rm = TRUE) + 24 * 3600
+  #files$date[is.na(files$date)] <- max(files$date, na.rm = TRUE) + 24 * 3600
   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)   %>%
     set_dt_utc()
 }
