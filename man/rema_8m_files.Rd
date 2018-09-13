@@ -2,11 +2,14 @@
 % Please edit documentation in R/rema-files.R
 \name{rema_8m_files}
 \alias{rema_8m_files}
+\alias{rema_tile_files}
 \alias{rema_100m_files}
 \alias{rema_200m_files}
 \alias{rema_1km_files}
 \title{Files for The Reference Elevation Model of Antarctica (REMA)}
 \usage{
+rema_tile_files(all = FALSE, ...)
+
 rema_100m_files(filled = TRUE, ...)
 
 rema_200m_files()
@@ -16,9 +19,9 @@ rema_1km_files()
 rema_8m_files(...)
 }
 \arguments{
-\item{filled}{return 'filled' variant if available}
-
 \item{...}{}
+
+\item{filled}{return 'filled' variant if available}
 }
 \value{
 data frame of file names
