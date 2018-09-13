@@ -1,5 +1,7 @@
 # dev
 
+* New `rema_8m_files`, `rema_100m_files`, `rema_200m_files`, and `rema_1km_files` for the Reference Elevation Model of Antarctica (REMA) topography. 
+
 * New `amps_d2files` and `amps_d1files` (to replace raadtools version) functions for AMPs files. 
 
 * Added RAMP topography in `ramp_files`. 
