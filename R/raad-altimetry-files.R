@@ -31,7 +31,12 @@ altimetry_daily_files <- function() {
     stop("no files found")
 
   files <- dplyr::transmute(files, date = .data$date, fullname= .data$fullname, root = .data$root)
-  #files$date[is.na(files$date)] <- max(files$date, na.rm = TRUE) + 24 * 3600
+  bad <- is.na(files$date)
+  if (sum(bad) == 1 && which(bad) == nrow(files)) {
+    files$date[bad] <- max(files$date, na.rm = TRUE) + 24 * 3600
+  } else {
+    files <- files[!is.na(files$date), ]
+  }
   dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date)   %>%
     set_dt_utc()
 }
