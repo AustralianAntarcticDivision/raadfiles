@@ -34,14 +34,15 @@ schemes that automatically obtain files and build file collections such as [raad
 
 ## Set up
 
-1. Get a huge file collection. (You probably have lots, but see raadsync for an possible way forward if not).
+1. Get a huge file collection. (You probably have lots, but see https://github.com/rOpensci/bowerbird for a possible way forward if not).
 2. Install `raadfiles`. 
 3. Set up the automated file listing and caching mechanism. 
 
 ## Install raadfiles
 
-```{r}
-devtools::install_github("AustralianAntarcticDivsion/raadfiles")
+```R
+## install.packages("remotes")
+remotes::install_github("AustralianAntarcticDivision/raadfiles")
 ```
 
 ## Set up the automated file listing and caching mechanism

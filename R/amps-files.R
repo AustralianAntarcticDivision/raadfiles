@@ -8,6 +8,11 @@
 #' @param grid one of `d1` (30km resolution) or `d2` (10km resolution)
 #' @param ... reserved, unused
 #' @export
+#' @examples
+#' amps_files()
+#' amps_model_files()
+#' amps_d1files()
+#' amps_d2files()
 amps_files <- function() {
 
   files <- dplyr::filter(get_raw_raad_filenames(),
@@ -24,10 +29,6 @@ amps_files <- function() {
                          stringr::str_detect(.data$file,
                                              "grb$"))
   files <- dplyr::filter(files, !stringr::str_detect(basename(.data$file), "^tmp"))
-  ## get all of them at this level
-  #files <- dplyr::filter(files,
-  #                       stringr::str_detect(.data$file,
-  #                                           sprintf("_%s_", grid)))
 
   files
 
@@ -37,7 +38,6 @@ amps_files <- function() {
 #' @export
 amps_model_files <- function(time.resolution = "4hourly", grid = "d1", ...) {
   files <- amps_files()
-  #datadir <- getOption("default.datadir")
   files$fullname <- file.path(files$root, files$file)
   files <- dplyr::filter(files,
                          stringr::str_detect(.data$file,
@@ -45,7 +45,7 @@ amps_model_files <- function(time.resolution = "4hourly", grid = "d1", ...) {
   dplyr::transmute(files, hour = substr(basename(.data$fullname), 20, 22),
                    model = substr(basename(.data$fullname), 9, 10),
                    date = as.POSIXct(strptime(basename(files$fullname), "%Y%m%d%H"), tz = "GMT") +
-                     as.integer(.data$hour) * 3600, .data$fullname, .data$file) %>%
+                     as.integer(.data$hour) * 3600, .data$fullname, .data$root) %>%
     set_dt_utc()
 
 
@@ -62,7 +62,7 @@ function(time.resolution = "4hourly", ...) {
   ## we want the most files with the highest preference
   dplyr::mutate(files, prefer = as.integer(.data$hour) > 12, h = as.integer(.data$hour))  %>%
     arrange(desc(.data$prefer), .data$h)   %>% dplyr::mutate(dupe = duplicated(.data$date)) %>% filter(!.data$dupe) %>%
-    arrange(.data$date) %>% dplyr::select(.data$file, .data$date, .data$fullname)
+    arrange(.data$date) %>% dplyr::select(.data$date, .data$fullname, .data$root)
 
 }
 
@@ -75,6 +75,6 @@ amps_d2files <- function (time.resolution = "4hourly",  ...)
 
   dplyr::mutate(files, prefer = as.integer(.data$hour) > 12, h = as.integer(.data$hour)) %>%
     arrange(desc(.data$prefer), .data$h) %>% dplyr::mutate(dupe = duplicated(.data$date)) %>%
-    filter(!.data$dupe) %>% arrange(.data$date) %>% dplyr::select(.data$file,
-                                                      .data$date, .data$fullname)
+    filter(!.data$dupe) %>% arrange(.data$date) %>% dplyr::select(
+                                                      .data$date, .data$fullname, .data$root)
 }
