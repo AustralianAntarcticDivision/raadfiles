@@ -124,7 +124,7 @@ thelist_files <- function(format = c("gdb", "tab", "shp", "asc"),
 
 
   #if (!is.null(type)) files <- dplyr::filter(files, grepl(type, file))
-  if (!is.null(pattern)) files <- dplyr::filter(files, grepl(pattern, file))
+  if (!is.null(pattern)) files <- dplyr::filter(files, grepl(pattern, .data$file))
   if (is.null(format) || is.na(format) || nchar(format) == 0) {
 
   } else {
@@ -140,7 +140,7 @@ thelist_files <- function(format = c("gdb", "tab", "shp", "asc"),
 
   #datadir <- get_raad_datadir()
   #if (!datadir == files$root[1]) warning("datadir and file root don't match?")
-  files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
+  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root)
 
   if (nrow(files) < 1)
     stop("no files found")
