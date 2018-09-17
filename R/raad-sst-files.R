@@ -28,15 +28,15 @@ oisst_daily_files <- function() {
   files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "avhrr"))
  files <- dplyr::filter(files, grepl("^.*www.ncei.noaa.gov.*sea-surface-temperature-optimum-interpolation.*avhrr-only.*\\.nc$",
                                       .data$file))
-  files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
+  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
 
   if (nrow(files) < 1)
     stop("no files found")
-  datadir <- get_raad_datadir()
+ ## datadir <- get_raad_datadir()
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
-                                                          "%Y%m%d"),tz = "GMT"),
-                         file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
+                                                          "%Y%m%d"),tz = "GMT"))
   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)  %>%
+    dplyr::select(.data$date, .data$fullname, .data$root) %>%
     set_dt_utc()
 }
 #' @name oisst
@@ -54,15 +54,14 @@ oisst_monthly_files <- function() {
   if (nrow(files) > 1) stop("only expecting one file for monthly OIv2 SST, but found ",
                             nrow(files), "please report to the maintainers")
 
-  files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
+  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root)
 
   r <- raster::stack(files$fullname, quick = TRUE)
   files <- files[rep(1L, raster::nlayers(r)), ]
 
   dates <- as.POSIXct(strptime(names(r), "X%Y.%m.%d"), tz  = "GMT")
-  datadir <- get_raad_datadir()
-  dplyr::mutate(files, file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""),
-                date = dates, band = row_number())  %>%
+  dplyr::transmute(files,
+                date = dates, fullname  = .data$fullname, band = row_number(), root = .data$root)  %>%
     set_dt_utc()
 
 }
@@ -85,12 +84,11 @@ ghrsst_daily_files <- function () {
   files <- dplyr::filter(files, grepl("JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*\\.nc$", .data$file))
   if (nrow(files) < 1)
     stop("no files found")
-  datadir <- get_raad_datadir()
-  files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
-
-  files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
-                                                          "%Y%m%d"),tz = "GMT"),
-                         file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
+ # datadir <- get_raad_datadir()
+  files <-   dplyr::transmute(files,
+                              date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$file), "[0-9]{8}"),"%Y%m%d"),tz = "GMT"),
+                              fullname = file.path(.data$root, .data$file),
+                              root = .data$root)
   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)
   files  %>%
     set_dt_utc()

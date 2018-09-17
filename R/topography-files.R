@@ -2,7 +2,7 @@
 topo_files_generic <- function(pattern, ...) {
   ## maybe tolower both?
   files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, pattern))
-  files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
+  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root)
   if (nrow(files) < 1)
     stop("no files found")
   files
