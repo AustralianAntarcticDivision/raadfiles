@@ -10,16 +10,16 @@
 #' @importFrom stringr str_extract str_replace
 #' @examples
 #' ncep2_uwnd_6hr_files()
+#' ncep2_vwnd_6hr_files()
 ncep2_uwnd_6hr_files <- function() {
   files <- ncep2_6hr_files()
   files <- dplyr::filter(files, grepl("^.*uwnd.*gauss.*\\.nc$", .data$file))
-  files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
+  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root)
 
   if (nrow(files) < 1)
     stop("no files found")
-  datadir <- get_raad_datadir()
-  files <- dplyr::mutate(files, date = ISOdate(as.integer(stringr::str_extract(file, "[0-9]{4}")), 1, 1),
-                         file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
+  files <- dplyr::transmute(files, date = ISOdate(as.integer(stringr::str_extract(basename(fullname), "[0-9]{4}")), 1, 1),
+                         fullname = .data$fullname, root = .data$root)
   dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date) %>%
     set_dt_utc()
 
@@ -29,14 +29,13 @@ ncep2_uwnd_6hr_files <- function() {
 ncep2_vwnd_6hr_files <- function() {
   files <- ncep2_6hr_files()
   files <- dplyr::filter(files, grepl("^.*vwnd.*gauss.*\\.nc$", .data$file))
-  files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
+  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root)
 
   if (nrow(files) < 1)
     stop("no files found")
-  datadir <- get_raad_datadir()
-  files <- dplyr::mutate(files, date = ISOdate(as.integer(stringr::str_extract(file, "[0-9]{4}")), 1, 1),
-                         file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
-  dplyr::arrange(dplyr::distinct(files, .data$date,  .keep_all = TRUE), date)  %>%
+  files <- dplyr::transmute(files, date = ISOdate(as.integer(stringr::str_extract(basename(fullname), "[0-9]{4}")), 1, 1),
+                         fullname = .data$fullname, root = .data$root)
+  dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date) %>%
     set_dt_utc()
 
 

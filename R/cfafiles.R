@@ -55,7 +55,8 @@ get_dim <- function(filename, varname, progress_ticker = NULL) {
 }
 
 get_raw_cfa_filenames <- function() {
-  getOption("cfafiles.filename.database" )
+  out <-  getOption("cfafiles.filename.database" )
+  if (is.null(out))  stop("no CFA files found")
 }
 get_cfa_datadir <- function() {
   getOption("cfafiles.default.data.directory")
