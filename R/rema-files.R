@@ -2,8 +2,7 @@
   files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file,
                                                                        "data.pgc.umn.edu"))
   if (!all) files <- dplyr::filter(files, grepl("tif$", .data$file))
-  files <- dplyr::transmute(files,fullname = file.path(.data$root,
-                                                                           .data$file), root = .data$root)
+  files <- dplyr::transmute(files,fullname = file.path(.data$root, .data$file), root = .data$root)
 }
 #' @name rema_8m_files
 #' @export
