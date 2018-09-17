@@ -27,7 +27,7 @@ amsr_daily_files <- function() {
                              stringr::str_detect(.data$file, f1) |
                              stringr::str_detect(.data$file, f2))
  files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(.data$file, "[0-9]{8}"), "%Y%m%d"), tz = "GMT")) %>%
-   dplyr::transmute(.data$date, fullname = file.path(.data$root, .data$file))
+   dplyr::transmute(date = .data$date, fullname = file.path(.data$root, .data$file), root = .data$root)
  files %>% arrange(.data$date) %>% distinct(.data$date, .keep_all = TRUE)   %>%
    set_dt_utc()
 }
