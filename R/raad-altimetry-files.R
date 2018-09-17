@@ -23,16 +23,15 @@ altimetry_daily_files <- function() {
   files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "SEALEVEL_GLO_PHY_L4"))
   files <- dplyr::filter(files, stringr::str_detect(.data$file, "nc$"))  ## faster without the .
 
-  files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
+  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root,
+                              date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
+                                                        "%Y%m%d"),tz = "GMT"))
 
   if (nrow(files) < 1)
     stop("no files found")
-  datadir <- get_raad_datadir()
-  files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
-                                                          "%Y%m%d"),tz = "GMT"),
-                         file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
-  ## hope for the best, this is nrt "latest"
+
+  files <- dplyr::transmute(files, date = .data$date, fullname= .data$fullname, root = .data$root)
   #files$date[is.na(files$date)] <- max(files$date, na.rm = TRUE) + 24 * 3600
-  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)   %>%
+  dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date)   %>%
     set_dt_utc()
 }
