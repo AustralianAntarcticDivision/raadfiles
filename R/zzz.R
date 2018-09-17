@@ -37,18 +37,12 @@ run_this_function_to_build_cfa_cache <- function() {
     ## we have to look into the ./data directory for systems that don't provide visibility
     ## up a level ...
     if (file.exists(raadfiles.default.data.directory_data)) {
-      #fs <- NULL
-      #file_cache_path <- file.path(raadfiles.default.data.directory, "admin", "filelist", "allfiles2.Rdata")
       file_RDS_path <- file.path(raadfiles.default.data.directory, "admin", "filelist", "file_db.rds")
       if (!file.exists(file_RDS_path)) {
         warning(paste("cannot file cache:", file_RDS_path))
       } else {
-        #load(  file_cache_path)
         fs <- readRDS(file_RDS_path)
-        ## the client might  have a different path to the admin
-      #  if (fs$root[1] != file.path(raadfiles.default.data.directory, "data")) {
-      #    fs$root <-  file.path(raadfiles.default.data.directory, "data")
-      #  }
+
         op.raadfiles <- list(
           raadfiles.default.data.directory = raadfiles.default.data.directory,
           ## changed here to use the existing cached data frame, not a raw character string MDS 2017-08-22
@@ -90,13 +84,11 @@ run_this_function_to_build_cfa_cache <- function() {
     "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new",
     "/mnt/raad",
     "/rdsi/PRIVATE/raad",
-    "/rdsi/PUBLIC/raad"
-#    "/rdsi/PRIVATE", ## this shouldn't affect anyone anymore ## MDS 2017-09-01
-    ))
+    "/rdsi/PUBLIC/raad" ))
   a
 }
 .trysetpath <- function() {
-  possibles <- .possiblepaths()[["default.datadir"]]
+  possibles <- .possiblepaths()
   success <- FALSE
   existing <- getOption("default.datadir")
   if (!is.null(existing)) {
@@ -112,33 +104,11 @@ run_this_function_to_build_cfa_cache <- function() {
       break;
     }
   }
-  ## try RAAD_DIR, which may only be available to R CMD check from ~/.R/check.Renviron
-  r <- getOption("repos")
-  dd <- getOption("default.datadir")
-
-  if (is.null(dd["default.datadir"])) {
-    dd["default.datadir"] <- Sys.getenv("RAAD_DIR");
-    options(repos = r, default.datadir = dd);
-  }
 
 
   success
 }
 
 
-
-#
-# .onAttach <- function(libname, pkgname) {
-#   raad_path_was_set <- .trysetpath()
-#   if (!raad_path_was_set) {
-#     packageStartupMessage("Note: raadtools files not available on this system")
-#     #packageStartupMessage("\nWarning: could not find data repository at any of\n\n",
-#     #                      paste(.possiblepaths()[["default.datadir"]], collapse = "\n"), sep = "\n\n")
-#
-# #    packageStartupMessage("Consider setting the option for your system\n")
-# #    packageStartupMessage('For example: options(default.datadir = "', gsub("\\\\", "/", normalizePath("/myrepository/data", mustWork = FALSE)), '")', '\n', sep = "")
-#
-#   }
-# }
 
 

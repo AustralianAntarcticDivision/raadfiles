@@ -30,7 +30,7 @@ data frame of file names
 Return files for various products from REMA Release 1
 }
 \details{
-'rema_8m_files' returns the base level 8 GeoTIFF files, there are 1254 files at 8m resolution.
+'rema_8m_files' returns the base level 8 GeoTIFF files, there are 1516 files at 8m resolution.
 }
 \examples{
 rema_8m_files()

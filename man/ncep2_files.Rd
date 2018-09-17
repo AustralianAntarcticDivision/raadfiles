@@ -3,7 +3,6 @@
 \name{ncep2_files}
 \alias{ncep2_files}
 \alias{ncep2_uwnd_6hr_files}
-\alias{ncep2_files}
 \alias{ncep2_vwnd_6hr_files}
 \title{NCEP2 wind files}
 \usage{

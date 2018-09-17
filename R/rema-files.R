@@ -62,5 +62,17 @@ rema_8m_files <- function(...) {
   files <- .rema_all_files() %>% dplyr::filter(stringr::str_detect(.data$file, pat))
   if (nrow(files) < 1)
     stop("no files found")
+  if (nrow(files) < 1516) warning(sprintf("Only a subsample (%i) of the total (1516) 8m mosaic tiles is available. ", nrow(files)))
+
   files
+}
+
+.write_rema_vrt <- function(product = "dem_8m", clobber = FALSE) {
+  product <- match.arg(product)
+  files <- rema_8m_files()
+  bname <- file.path(dirname(dirname(files$fullname[1])), "rema_mosaic_8m_dem.vrt")
+  if (!clobber && file.exists(bname)) stop("file exists: \n'", bname, "'\n use 'clobber = TRUE' to overwrite")
+  print(sprintf("Creating mosaic %s", bname))
+  sys <- sprintf("gdalbuildvrt %s %s", bname, paste(files$fullname, collapse = " "))
+  system(sys, intern = TRUE)
 }
