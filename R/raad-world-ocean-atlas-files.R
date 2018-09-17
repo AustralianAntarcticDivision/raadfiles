@@ -16,14 +16,11 @@ woa09_daily_files <- function() {
   files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "data.nodc.noaa.gov"))
   files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*nc$"))
 
-  files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
+  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root)
 
   if (nrow(files) < 1)
     stop("no files found")
-  datadir <- get_raad_datadir()
-  files <- dplyr::mutate(files,
 
-                         file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
 
 files
   }
