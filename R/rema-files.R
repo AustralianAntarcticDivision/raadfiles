@@ -14,6 +14,8 @@ rema_tile_files <- function(all = FALSE, ...) {
 #' @export
 rema_100m_files <- function(filled = TRUE, ...) {
   pat <- if (filled) "100m_.*filled" else "100m_"
+  files <- .rema_all_files() %>% dplyr::filter(stringr::str_detect(.data$fullname, pat))
+
   if (nrow(files) < 1)
     stop("no files found")
   files
@@ -22,16 +24,16 @@ rema_100m_files <- function(filled = TRUE, ...) {
 #' @export
 rema_200m_files <- function() {
   pat <- "200m_"
-  files <- .rema_all_files() %>% dplyr::filter(stringr::str_detect(.data$fullname, "200m"))
+  files <- .rema_all_files() %>% dplyr::filter(stringr::str_detect(.data$fullname, pat))
   if (nrow(files) < 1)
     stop("no files found")
   files
 }
 #' @name rema_8m_files
 #' @export
-rema_1km_files <- function() {
-  pat <- "1km_"
-  files <- .rema_all_files() %>% dplyr::filter(stringr::str_detect(.data$fullname, "1km"))
+rema_1km_files <- function(filled = TRUE, ...) {
+  pat <- if (filled) "1km_.*filled" else "1km_"
+  files <- .rema_all_files() %>% dplyr::filter(stringr::str_detect(.data$fullname, pat))
   if (nrow(files) < 1)
     stop("no files found")
   files
