@@ -3,15 +3,10 @@
 \name{nsidc}
 \alias{nsidc}
 \alias{nsidc_south_monthly_files}
-\alias{nsidc}
 \alias{nsidc_north_monthly_files}
-\alias{nsidc}
 \alias{nsidc_monthly_files}
-\alias{nsidc}
 \alias{nsidc_south_daily_files}
-\alias{nsidc}
 \alias{nsidc_north_daily_files}
-\alias{nsidc}
 \alias{nsidc_daily_files}
 \title{NSIDC daily and monthly sea-ice concentration}
 \usage{

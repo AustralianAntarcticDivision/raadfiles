@@ -10,11 +10,12 @@ Depends: R (>= 3.3.0)
 Imports:
     dplyr,
     progress,
-    raster, 
+    raster,
     rlang,
     RNetCDF,
     stringr,
-    tibble
+    tibble,
+    fs
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

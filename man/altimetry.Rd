@@ -4,7 +4,6 @@
 \name{altimetry}
 \alias{altimetry}
 \alias{altimetry_daily_files}
-\alias{altimetry}
 \alias{woa09_daily_files}
 \title{Altimetry products}
 \usage{
