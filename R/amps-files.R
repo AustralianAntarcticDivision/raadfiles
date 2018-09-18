@@ -15,7 +15,7 @@
 #' amps_d2files()
 amps_files <- function() {
 
-  files <- dplyr::filter(get_raw_raad_filenames(),
+  files <- dplyr::filter(get_raad_filenames(),
                          stringr::str_detect(.data$file, "ucar"))
   files <- dplyr::filter(files,
                          stringr::str_detect(.data$file,

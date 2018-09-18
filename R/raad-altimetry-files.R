@@ -20,7 +20,7 @@ altimetry_daily_files <- function() {
 #  Each nc file now contains all the variables for that day (sla, mdt, uv)
 # (The new collection is syncing now - 23-Jun-2017)
 
-  files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "SEALEVEL_GLO_PHY_L4"))
+  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "SEALEVEL_GLO_PHY_L4"))
   files <- dplyr::filter(files, stringr::str_detect(.data$file, "nc$"))  ## faster without the .
 
   files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root,

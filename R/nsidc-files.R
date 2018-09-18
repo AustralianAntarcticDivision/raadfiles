@@ -37,7 +37,7 @@ nsidc_north_monthly_files <- function() {
 #' @name nsidc
 #' @export
 nsidc_monthly_files <- function() {
-  files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "sidads"))
+  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "sidads"))
  files <- dplyr::filter(files, stringr::str_detect(.data$file, "nsidc0051_gsfc_nasateam_seaice.*monthly.*bin$"))
   files <-   dplyr::transmute(files, date = as.POSIXct(as.Date(sprintf("%s01", stringr::str_sub(basename(.data$file), 4, 9)),
                                                                "%Y%m%d"),
@@ -70,7 +70,7 @@ nsidc_north_daily_files <- function() {
 #' @name nsidc
 #' @export
 nsidc_daily_files <- function() {
-  files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "sidads"))
+  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "sidads"))
 
   files <- dplyr::filter(files, stringr::str_detect(.data$file, "bin$"))
   files <- dplyr::filter(files, stringr::str_detect(.data$file, "v1.1") | stringr::str_detect(.data$file, "f18_nrt"))

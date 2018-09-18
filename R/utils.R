@@ -46,7 +46,7 @@ remove_leading_slash <- function(x) {
 #'
 #' `set_raad_data_roots` set data root paths, default use is to apply the strings input as the exlusive set
 #' @export
-#' @rdname raad-min
+#' @rdname raad-admin
 get_raad_data_roots <- function() {
   getOption("raadfiles.data.roots")
 }
@@ -59,7 +59,7 @@ get_raadfiles_data_roots <- function() {
   get_raad_data_roots()
 }
 #' @export
-#' @rdname raad-min
+#' @rdname raad-admin
 get_raad_filenames <- function() {
   out <- getOption("raadfiles.filename.database" )
   if (is.null(out) || nrow(out) < 1) {
@@ -84,7 +84,7 @@ set_raadfile_data_roots <- function(..., replace_existing = TRUE, use_known_cand
 #' @param use_known_candidates apply internal logic for known candidates (for internal use at raad-hq), defaults to FALSE
 #'
 #' @export
-#' @rdname raad-min
+#' @rdname raad-admin
 set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidates = FALSE) {
   inputs <- validate_input_paths(...)
   if (use_known_candidates) {
@@ -116,7 +116,7 @@ set_raw_raad_filenames <- function() {
   set_raad_filenames()
 }
 #' @export
-#' @rdname raad-min
+#' @rdname raad-admin
 set_raad_filenames <- function() {
   raadfiles.data.roots <- get_raad_data_roots()
 

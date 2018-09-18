@@ -13,7 +13,7 @@
 #' @examples
 #' woa09_daily_files()
 woa09_daily_files <- function() {
-  files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "data.nodc.noaa.gov"))
+  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "data.nodc.noaa.gov"))
   files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*nc$"))
 
   files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root)

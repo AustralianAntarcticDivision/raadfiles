@@ -1,4 +1,6 @@
-# dev
+# 0.1.0
+
+* 'raadfiles' now uses a new approach to file cache management, so easier to use from scratch, relevant files are in `raad-admin`. 
 
 * New `rema_8m_files`, `rema_100m_files`, `rema_200m_files`, and `rema_1km_files` for the Reference Elevation Model of Antarctica (REMA) topography. 
 

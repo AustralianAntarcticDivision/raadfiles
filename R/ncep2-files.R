@@ -41,7 +41,7 @@ ncep2_vwnd_6hr_files <- function() {
 
 }
 
-#dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "ncep.reanalysis2")) %>% mutate(file = basename(dirname(file))) %>% distinct(file)
+#dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "ncep.reanalysis2")) %>% mutate(file = basename(dirname(file))) %>% distinct(file)
 # A tibble: 5 x 1
 #file
 #<chr>
@@ -53,8 +53,8 @@ ncep2_vwnd_6hr_files <- function() {
 
 
 ncep2_6hr_files <- function() {
-  dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "ncep.reanalysis2/gaussian_grid"))
+  dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "ncep.reanalysis2/gaussian_grid"))
 }
 ncep2_dailyavgs_files <- function() {
-  dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "ncep.reanalysis2.dailyavgs"))
+  dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "ncep.reanalysis2.dailyavgs"))
 }

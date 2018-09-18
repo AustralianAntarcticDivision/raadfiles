@@ -25,7 +25,7 @@
 #' @examples
 #' oisst_daily_files()
 oisst_daily_files <- function() {
-  files <- dplyr::filter(get_raw_raad_filenames(), stringr::str_detect(.data$file, "avhrr"))
+  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "avhrr"))
  files <- dplyr::filter(files, grepl("^.*www.ncei.noaa.gov.*sea-surface-temperature-optimum-interpolation.*avhrr-only.*\\.nc$",
                                       .data$file))
   files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
@@ -46,7 +46,7 @@ oisst_daily_files <- function() {
 #' @importFrom stringr str_detect str_replace
 #' @importFrom tibble tibble
 oisst_monthly_files <- function() {
-  files <- dplyr::filter(get_raw_raad_filenames(),
+  files <- dplyr::filter(get_raad_filenames(),
                          stringr::str_detect(.data$file,
                                              "ftp.cdc.noaa.gov/Datasets/noaa.oisst.v2/sst.mnmean.nc"))
 
@@ -79,7 +79,7 @@ oisst_monthly_files <- function() {
 #' @examples
 #' oisst_daily_files()
 ghrsst_daily_files <- function () {
-  files <- dplyr::filter(get_raw_raad_filenames(),
+  files <- dplyr::filter(get_raad_filenames(),
                          stringr::str_detect(.data$file, "ghrsst"))
   files <- dplyr::filter(files, grepl("JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*\\.nc$", .data$file))
   if (nrow(files) < 1)

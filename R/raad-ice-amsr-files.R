@@ -12,7 +12,7 @@
 #' @examples
 #' amsr_daily_files()
 amsr_daily_files <- function() {
-  files <- dplyr::filter(get_raw_raad_filenames(),
+  files <- dplyr::filter(get_raad_filenames(),
                          stringr::str_detect(.data$file, "s6250"))
 
   files <- dplyr::filter(files, stringr::str_detect(.data$file, "hdf$"))
