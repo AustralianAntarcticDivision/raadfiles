@@ -14,7 +14,7 @@ rema_100m_files(filled = TRUE, ...)
 
 rema_200m_files()
 
-rema_1km_files()
+rema_1km_files(filled = TRUE, ...)
 
 rema_8m_files(...)
 }
