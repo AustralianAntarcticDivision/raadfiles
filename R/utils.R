@@ -34,13 +34,32 @@ remove_leading_slash <- function(x) {
     "/rdsi/PUBLIC/raad/data" )
 }
 
-get_raadfiles_data_roots <- function() {
+#' Raadfile administration tools
+#'
+#' Administration tools for managing a data library.
+#'
+#' `get_raad_data_roots` returns the current list of visible root directories
+#'
+#' `get_raad_filenames` returns the entire list of all files found in visible root directories
+#'
+#' `set_raad_filenames` runs the system to update the file listing and refresh it
+#'
+#' `set_raad_data_roots` set data root paths, default use is to apply the strings input as the exlusive set
+#' @export
+#' @rdname raad-min
+get_raad_data_roots <- function() {
   getOption("raadfiles.data.roots")
 }
 get_raw_raad_filenames <- function() {
   .Deprecated("get_raad_filenames")
   get_raad_filenames()
 }
+get_raadfiles_data_roots <- function() {
+  .Deprecated("get_raad_data_roots")
+  get_raad_data_roots()
+}
+#' @export
+#' @rdname raad-min
 get_raad_filenames <- function() {
   out <- getOption("raadfiles.filename.database" )
   if (is.null(out) || nrow(out) < 1) {
@@ -55,7 +74,18 @@ get_raad_filenames <- function() {
   }
   out
 }
-set_raadfile_data_roots <- function(..., use_known_candidates = FALSE, replace_existing = TRUE) {
+set_raadfile_data_roots <- function(..., replace_existing = TRUE, use_known_candidates = FALSE) {
+  .Deprecated("set_raad_data_roots")
+  set_raad_data_roots(..., use_known_candidates = use_known_candidates, replace_existing = replace_existing)
+}
+#' @param ... input file paths to set
+#'
+#' @param replace_existing replace existing paths, defaults to TRUE
+#' @param use_known_candidates apply internal logic for known candidates (for internal use at raad-hq), defaults to FALSE
+#'
+#' @export
+#' @rdname raad-min
+set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidates = FALSE) {
   inputs <- validate_input_paths(...)
   if (use_known_candidates) {
     inputs <- c(inputs, validate_possible_paths())
@@ -63,7 +93,7 @@ set_raadfile_data_roots <- function(..., use_known_candidates = FALSE, replace_e
   if (!replace_existing) {
 
     ## get existing, there may be a pre-load hook for this
-    existing <- get_raadfiles_data_roots()
+    existing <- get_raad_data_roots()
     inputs <- c(inputs, existing)
   }
   inputs <- unique(inputs)
@@ -85,8 +115,10 @@ set_raw_raad_filenames <- function() {
   .Deprecated("set_raad_filenames")
   set_raad_filenames()
 }
+#' @export
+#' @rdname raad-min
 set_raad_filenames <- function() {
-  raadfiles.data.roots <- get_raadfiles_data_roots()
+  raadfiles.data.roots <- get_raad_data_roots()
 
   raadfiles.data.filedbs <- file.path(raadfiles.data.roots, ".raad_admin/file_db.rds")
   raadfiles.data.filedbs <- raadfiles.data.filedbs[file.exists(raadfiles.data.filedbs)]
@@ -107,14 +139,16 @@ set_raad_filenames <- function() {
 
 run_this_function_to_build_raad_cache <- function() {
 
-  roots <- get_raadfiles_data_roots()
+  roots <- get_raad_data_roots()
   if (length(roots) < 1) {warning("no raad data root directories found")}
   cat(sprintf("Scanning %i root folders for cache listing.\n", length(roots)))
   for (i in seq_along(roots)) {
     adminpath <- file.path(roots[i], ".raad_admin")
     dir.create(adminpath, showWarnings = FALSE)
     dbpath <- file.path(adminpath, "file_db.rds")
-    filenames <- as.character(fs::dir_ls(roots[i], all = TRUE, recursive = TRUE))
+    filenames <- as.character(fs::dir_ls(roots[i], all = TRUE, recursive = TRUE,
+                     ## no directory, FIFO, socket, character_device or block_device
+                                         type = c("file", "symlink")))
     if (is.null(filenames)) {
       files <- tibble::tibble(root = character(0), file = character(0))
 
@@ -129,7 +163,7 @@ run_this_function_to_build_raad_cache <- function() {
     saveRDS(files, dbpath, compress = "xz")
   }
   ## trigger update now
-  set_raw_raad_filenames()
+  set_raad_filenames()
 }
 
 validate_input_paths <- function(...) {
@@ -149,7 +183,6 @@ validate_input_paths <- function(...) {
 validate_possible_paths <- function() {
   possibles <- .possiblepaths()
   possibles <- possibles[file.exists(possibles)]
-  ##unname(unlist(lapply(possibles, function(pss) grep("/data.*$", fs::dir_ls(pss), value = TRUE))))
   possibles
 }
 
