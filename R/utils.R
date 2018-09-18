@@ -38,7 +38,21 @@ get_raadfiles_data_roots <- function() {
   getOption("raadfiles.data.roots")
 }
 get_raw_raad_filenames <- function() {
+  .Deprecated("get_raad_filenames")
+  get_raad_filenames()
+}
+get_raad_filenames <- function() {
   out <- getOption("raadfiles.filename.database" )
+  if (is.null(out) || nrow(out) < 1) {
+    roots <-  get_raadfiles_data_roots()
+    mess <- "no files found in the 'raadfiles.filename.database'"
+    if (is.null(roots)) {
+      mess <- paste0(mess, "\nand no root directories found, try setting 'set_raadfiles_data_roots()'.")
+
+    }
+    mess <- paste0(mess, "\nSee installation instructions.")
+    stop(mess)
+  }
   out
 }
 set_raadfile_data_roots <- function(..., use_known_candidates = FALSE, replace_existing = TRUE) {
@@ -68,6 +82,10 @@ set_raadfile_data_roots <- function(..., use_known_candidates = FALSE, replace_e
   invisible(raad_ok)
 }
 set_raw_raad_filenames <- function() {
+  .Deprecated("set_raad_filenames")
+  set_raad_filenames()
+}
+set_raad_filenames <- function() {
   raadfiles.data.roots <- get_raadfiles_data_roots()
 
   raadfiles.data.filedbs <- file.path(raadfiles.data.roots, ".raad_admin/file_db.rds")

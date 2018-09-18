@@ -3,7 +3,9 @@
 \name{oisst}
 \alias{oisst}
 \alias{amsr_daily_files}
+\alias{oisst}
 \alias{oisst_daily_files}
+\alias{oisst}
 \alias{oisst_monthly_files}
 \title{AMSR daily  sea-ice concentration}
 \usage{
