@@ -179,7 +179,7 @@ run_this_function_to_build_raad_cache <- function() {
 
   roots <- get_raad_data_roots()
   if (length(roots) < 1) {warning("no raad data root directories found")}
-  tok1 <- c("directory", "directories")[(nrow(files) > 1)+1]
+  tok1 <- c("directory", "directories")[(length(roots) > 1)+1]
   cat(sprintf("Scanning %i root %s for cache listing.\n", length(roots), tok1))
   for (i in seq_along(roots)) {
     adminpath <- file.path(roots[i], ".raad_admin")
