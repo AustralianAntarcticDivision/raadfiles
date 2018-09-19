@@ -4,6 +4,7 @@
 \alias{get_raad_data_roots}
 \alias{get_raad_filenames}
 \alias{set_raad_data_roots}
+\alias{raad_filedb_path}
 \alias{set_raad_filenames}
 \title{Raadfile administration tools}
 \usage{
@@ -13,6 +14,8 @@ get_raad_filenames()
 
 set_raad_data_roots(..., replace_existing = TRUE,
   use_known_candidates = FALSE)
+
+raad_filedb_path(...)
 
 set_raad_filenames(clobber = FALSE)
 }
@@ -35,5 +38,7 @@ Administration tools for managing a data library.
 
 `set_raad_filenames` runs the system to update the file listing and refresh it
 
-`set_raad_data_roots` set data root paths, default use is to apply the strings input as the exlusive set
+`set_raad_data_roots` set data root paths, default use is to apply the strings input as the exclusive set
+
+`raad_filedb_path` return the path to the database of file names for each input directory
 }
