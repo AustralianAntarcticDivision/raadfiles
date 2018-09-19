@@ -44,7 +44,10 @@ remove_leading_slash <- function(x) {
 #'
 #' `set_raad_filenames` runs the system to update the file listing and refresh it
 #'
-#' `set_raad_data_roots` set data root paths, default use is to apply the strings input as the exlusive set
+#' `set_raad_data_roots` set data root paths, default use is to apply the strings input as the exclusive set
+#'
+#' `raad_filedb_path` return the path to the database of file names for each input directory
+#' 
 #' @export
 #' @rdname raad-admin
 get_raad_data_roots <- function() {
@@ -110,6 +113,16 @@ set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidat
   }
   invisible(raad_ok)
 }
+
+
+## function that returns the path to the file_db file
+## this is used by raadtools::set_data_roots, so is exported
+#' @export
+#' @rdname raad-admin
+raad_filedb_path <- function(...) {
+    file.path(list(...), ".raad_admin/file_db.rds")
+}
+
 set_raw_raad_filenames <- function() {
   .Deprecated("set_raad_filenames")
   set_raad_filenames()
@@ -120,7 +133,7 @@ set_raw_raad_filenames <- function() {
 set_raad_filenames <- function(clobber = FALSE) {
   raadfiles.data.roots <- get_raad_data_roots()
 
-  raadfiles.data.filedbs <- file.path(raadfiles.data.roots, ".raad_admin/file_db.rds")
+  raadfiles.data.filedbs <- raad_filedb_path(raadfiles.data.roots)
   raadfiles.data.filedbs <- raadfiles.data.filedbs[file.exists(raadfiles.data.filedbs)]
   if (length(raadfiles.data.filedbs) < 1) {
     warning("no file cache found")
@@ -194,9 +207,9 @@ run_this_function_to_build_raad_cache <- function() {
   tok1 <- c("directory", "directories")[(length(roots) > 1)+1]
   cat(sprintf("Scanning %i root %s for cache listing.\n", length(roots), tok1))
   for (i in seq_along(roots)) {
-    adminpath <- file.path(roots[i], ".raad_admin")
+    adminpath <- dirname(raad_filedb_path(roots[i]))
     dir.create(adminpath, showWarnings = FALSE)
-    dbpath <- file.path(adminpath, "file_db.rds")
+    dbpath <- raad_filedb_path(roots[i])
     filenames <- as.character(fs::dir_ls(roots[i], all = TRUE, recursive = TRUE,
                      ## no directory, FIFO, socket, character_device or block_device
                                          type = c("file", "symlink")))
