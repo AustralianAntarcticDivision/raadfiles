@@ -129,14 +129,34 @@ set_raad_filenames <- function() {
   fslist <- lapply(raadfiles.data.filedbs, readRDS)
   for (i in seq_along(fslist)) {
     x <- fslist[[i]]
-    x$root <- raadfiles.data.roots[i]
-    fslist[[i]] <- x
+    #x[["root"]] <- rep(raadfiles.data.roots[i], nrow(x))
+    fslist[[i]][["root"]] <- rep(raadfiles.data.roots[i], nrow(x))
   }
   fs <- dplyr::bind_rows(fslist)
+  ## time stamp it
+  fs <- set_raad_time_stamp(fs)
+  message(sprintf("Uploading raad file cache as at %s (%i files listed) \n", format(attr(fs, "raad_time_stamp")), nrow(fs)))
   options(raadfiles.filename.database = fs)
   invisible(NULL)
 }
 
+#' Set a time stamp on a data frame
+#'
+#' Used by `set_raad_filenames` when uploading the cache to memory.
+#' @param x data frame
+#'
+#' @return x with attribute "raad_time_stamp" set
+#' @export
+#' @aliases get_raad_time_stamp
+set_raad_time_stamp <- function(x) {
+  attr(x, "raad_time_stamp") <- Sys.time()
+  x
+}
+#' @name set_raad_time_stamp
+#' @export
+get_raad_time_stamp <- function() {
+  attr(get_raad_filenames(), "raad_time_stamp")
+}
 run_this_function_to_build_raad_cache <- function() {
 
   roots <- get_raad_data_roots()
