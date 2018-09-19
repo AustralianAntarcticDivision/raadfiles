@@ -79,7 +79,6 @@ set_raadfile_data_roots <- function(..., replace_existing = TRUE, use_known_cand
   set_raad_data_roots(..., use_known_candidates = use_known_candidates, replace_existing = replace_existing)
 }
 #' @param ... input file paths to set
-#'
 #' @param replace_existing replace existing paths, defaults to TRUE
 #' @param use_known_candidates apply internal logic for known candidates (for internal use at raad-hq), defaults to FALSE
 #'
@@ -115,9 +114,10 @@ set_raw_raad_filenames <- function() {
   .Deprecated("set_raad_filenames")
   set_raad_filenames()
 }
+#' @param clobber by default do not ignore existing file cache, set to TRUE to ignore and set
 #' @export
 #' @rdname raad-admin
-set_raad_filenames <- function() {
+set_raad_filenames <- function(clobber = FALSE) {
   raadfiles.data.roots <- get_raad_data_roots()
 
   raadfiles.data.filedbs <- file.path(raadfiles.data.roots, ".raad_admin/file_db.rds")
@@ -126,7 +126,24 @@ set_raad_filenames <- function() {
     warning("no file cache found")
     return(invisible(NULL))
   }
+
+  ## record the db hashes
+  data_dbs <- tibble::tibble(db = raadfiles.data.filedbs, md5 = unlist(lapply(raadfiles.data.filedbs, digest::digest, algo = "md5")))
+
+  if (!clobber) {
+
+  current_dbs <- getOption("raadfiles.database.status")
+  if (!is.null(current_dbs)) {
+    if (nrow(dplyr::distinct(dplyr::inner_join(data_dbs, current_dbs, c("db", "md5")))) == nrow(data_dbs)) {
+      ## no need to update
+      raadf <- get_raad_filenames()
+      message(sprintf("Raad file cache is up to date as at %s (%i files listed) \n", format(attr(raadf, "raad_time_stamp")), nrow(raadf)))
+      return(invisible(NULL))
+    }
+  }
+  }
   fslist <- lapply(raadfiles.data.filedbs, readRDS)
+  ##fslist <- lapply(raadfiles.data.filedbs, fst::read.fst)
   for (i in seq_along(fslist)) {
     x <- fslist[[i]]
     #x[["root"]] <- rep(raadfiles.data.roots[i], nrow(x))
@@ -136,7 +153,8 @@ set_raad_filenames <- function() {
   ## time stamp it
   fs <- set_raad_time_stamp(fs)
   message(sprintf("Uploading raad file cache as at %s (%i files listed) \n", format(attr(fs, "raad_time_stamp")), nrow(fs)))
-  options(raadfiles.filename.database = fs)
+
+  options(raadfiles.filename.database = fs, raadfiles.database.status = data_dbs)
   invisible(NULL)
 }
 
@@ -161,7 +179,8 @@ run_this_function_to_build_raad_cache <- function() {
 
   roots <- get_raad_data_roots()
   if (length(roots) < 1) {warning("no raad data root directories found")}
-  cat(sprintf("Scanning %i root folders for cache listing.\n", length(roots)))
+  tok1 <- c("directory", "directories")[(nrow(files) > 1)+1]
+  cat(sprintf("Scanning %i root %s for cache listing.\n", length(roots), tok1))
   for (i in seq_along(roots)) {
     adminpath <- file.path(roots[i], ".raad_admin")
     dir.create(adminpath, showWarnings = FALSE)
@@ -179,11 +198,13 @@ run_this_function_to_build_raad_cache <- function() {
       files <- tibble::tibble(root = roots[i], file = filenames)
 
     }
-    cat(sprintf("%i. found %i files in %s.\n", i, nrow(files), roots[i]))
+    tok <- c("file", "files")[(nrow(files) > 1)+1]
+    cat(sprintf("%i). Found %i %s in %s.\n", i, nrow(files), tok, roots[i]))
     saveRDS(files, dbpath, compress = "xz")
+    #fst::write.fst(files, dbpath)
   }
   ## trigger update now
-  set_raad_filenames()
+  set_raad_filenames(clobber = TRUE)
 }
 
 validate_input_paths <- function(...) {

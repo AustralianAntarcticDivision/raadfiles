@@ -14,7 +14,7 @@ get_raad_filenames()
 set_raad_data_roots(..., replace_existing = TRUE,
   use_known_candidates = FALSE)
 
-set_raad_filenames()
+set_raad_filenames(clobber = FALSE)
 }
 \arguments{
 \item{...}{input file paths to set}
@@ -22,6 +22,8 @@ set_raad_filenames()
 \item{replace_existing}{replace existing paths, defaults to TRUE}
 
 \item{use_known_candidates}{apply internal logic for known candidates (for internal use at raad-hq), defaults to FALSE}
+
+\item{clobber}{by default do not ignore existing file cache, set to TRUE to ignore and set}
 }
 \description{
 Administration tools for managing a data library.
