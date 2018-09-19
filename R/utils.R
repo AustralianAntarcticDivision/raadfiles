@@ -128,7 +128,8 @@ set_raad_filenames <- function(clobber = FALSE) {
   }
 
   ## record the db hashes
-  data_dbs <- tibble::tibble(db = raadfiles.data.filedbs, md5 = unlist(lapply(raadfiles.data.filedbs, digest::digest, algo = "md5")))
+  data_dbs <- tibble::tibble(db = raadfiles.data.filedbs,
+                             md5 = unlist(lapply(raadfiles.data.filedbs, digest::digest, algo = "md5", file = TRUE)))
 
   if (!clobber) {
 
