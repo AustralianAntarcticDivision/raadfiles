@@ -129,7 +129,8 @@ set_raad_filenames <- function(clobber = FALSE) {
 
   ## record the db hashes
   data_dbs <- tibble::tibble(db = raadfiles.data.filedbs,
-                             md5 = unlist(lapply(raadfiles.data.filedbs, digest::digest, algo = "md5", file = TRUE)))
+                             md5 = unlist(lapply(raadfiles.data.filedbs, digest::digest, algo = "md5", file = TRUE)),
+                             file_ok = TRUE)
 
   if (!clobber) {
 
@@ -143,10 +144,20 @@ set_raad_filenames <- function(clobber = FALSE) {
     }
   }
   }
-  fslist <- lapply(raadfiles.data.filedbs, readRDS)
+  fslist <- vector("list", length(raadfiles.data.filedbs))
+  for (i in seq_along(fslist)) {
+    db <- try(readRDS(raadfiles.data.filedbs[i]), silent = TRUE)
+    if (!inherits(db, "try-error")) {
+      fslist[[i]] <- db
+    } else {
+      warning(sprintf("failure to read '%s': is file corrupt?\n Consider re-running file cache creation. ", raadfiles.data.filedbs[i]))
+      data_dbs$file_ok[i] <- FALSE
+    }
+  }
   ##fslist <- lapply(raadfiles.data.filedbs, fst::read.fst)
   for (i in seq_along(fslist)) {
     x <- fslist[[i]]
+    if (is.null(x)) next;
     #x[["root"]] <- rep(raadfiles.data.roots[i], nrow(x))
     fslist[[i]][["root"]] <- rep(raadfiles.data.roots[i], nrow(x))
   }
