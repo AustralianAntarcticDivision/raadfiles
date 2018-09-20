@@ -120,7 +120,7 @@ set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidat
 #' @export
 #' @rdname raad-admin
 raad_filedb_path <- function(...) {
-    file.path(list(...), ".raad_admin/file_db.rds")
+    file.path(unlist(list(...)), ".raad_admin/file_db.rds")
 }
 
 set_raw_raad_filenames <- function() {
