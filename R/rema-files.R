@@ -70,6 +70,13 @@ rema_8m_files <- function(...) {
   bname <- file.path(dirname(dirname(files$fullname[1])), "rema_mosaic_8m_dem.vrt")
   if (!clobber && file.exists(bname)) stop("file exists: \n'", bname, "'\n use 'clobber = TRUE' to overwrite")
   print(sprintf("Creating mosaic %s", bname))
-  sys <- sprintf("gdalbuildvrt %s %s", bname, paste(files$fullname, collapse = " "))
+
+  ## the file list is long so we have to go via text input_file
+  tfile <- tempfile()
+  err <- try(writeLines(files$fullname, tfile), silent = TRUE)
+  if (inherits(err, "try-error")) stop("cannot create tempfile at ", tfile, "for VRT input list")
+
+  ## we can't get past clobber = FALSE, so set overwrite here
+  sys <- sprintf("gdalbuildvrt -overwrite -input_file_list %s %s", tfile, bname)
   system(sys, intern = TRUE)
 }
