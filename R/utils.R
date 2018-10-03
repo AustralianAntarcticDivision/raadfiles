@@ -47,7 +47,7 @@ remove_leading_slash <- function(x) {
 #' `set_raad_data_roots` set data root paths, default use is to apply the strings input as the exclusive set
 #'
 #' `raad_filedb_path` return the path to the database of file names for each input directory
-#' 
+#'
 #' @export
 #' @rdname raad-admin
 get_raad_data_roots <- function() {
@@ -66,7 +66,7 @@ get_raadfiles_data_roots <- function() {
 get_raad_filenames <- function() {
   out <- getOption("raadfiles.filename.database" )
   if (is.null(out) || nrow(out) < 1) {
-    roots <-  get_raadfiles_data_roots()
+    roots <-  get_raad_data_roots()
     mess <- "no files found in the 'raadfiles.filename.database'"
     if (is.null(roots)) {
       mess <- paste0(mess, "\nand no root directories found, try setting 'set_raadfiles_data_roots()'.")
