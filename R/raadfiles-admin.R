@@ -97,11 +97,14 @@ get_raad_filenames <- function() {
     roots <-  get_raad_data_roots()
     mess <- "no files found in the 'raadfiles.filename.database'"
     if (is.null(roots)) {
-      mess <- paste0(mess, "\nand no root directories found, try setting 'set_raadfiles_data_roots()'.")
-
+      mess <- paste0(mess, "\nand no root directories found.")
+      if (isTRUE(getOption("raadfiles.file.cache.disable"))) {
+        mess <- paste0(mess, "\n\noption(raadfiles.file.cache.disable) is TRUE, maybe you want to unset that?")
+      }
+      message(mess)
+      return(tibble::tibble(root = character(0), file = character(0)))
     }
-    mess <- paste0(mess, "\nSee installation instructions.")
-    stop(mess)
+
   }
   if (file_refresh > 0 && runif(1, 0, 1) > (1 - file_refresh)) {
     set_raad_filenames()
