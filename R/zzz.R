@@ -13,11 +13,12 @@
     return(invisible())
   }
   ## this logic says "data roots list is >=1 and I've set the file list/s found to the in-mem cache
-  raad_path_was_set <- set_raad_data_roots(use_known_candidates = TRUE, replace_existing = FALSE)
+  raad_path_was_set <- set_raad_data_roots(use_known_candidates = TRUE,
+                                           replace_existing = FALSE, verbose = FALSE)
   if (raad_path_was_set) {
     set_raad_filenames(clobber = TRUE)  ## clobber at start-up, why not
   } else {
-    warning("no existing file cache found")
+    message("No existing file cache found, see help('raadfiles-admin') for setting up")
   }
   invisible()
 }

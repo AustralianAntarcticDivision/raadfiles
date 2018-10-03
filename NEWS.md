@@ -1,6 +1,10 @@
 # 0.1.0
 
-* 'raadfiles' now uses a new approach to file cache management, so easier to use from scratch, relevant files are in `raad-admin`. 
+* 'raadfiles' now uses a new approach to file cache management, so easier to use from scratch, relevant topics are in `raadfiles-admin`. New
+ functions include getters and setters for the file cache, as well as options to control whether the file cache is loaded, and how often 
+ it is refreshed. 
+ 
+* Internal function `run_this_function_to_build_raad_cache` is now deprecated, please use the newly exported `run_build_raad_cache`. 
 
 * New `rema_8m_files`, `rema_100m_files`, `rema_200m_files`, and `rema_1km_files` for the Reference Elevation Model of Antarctica (REMA) topography. 
 
