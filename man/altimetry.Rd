@@ -17,11 +17,16 @@ tibble data frame of file names
 tibble data frame of file names
 }
 \description{
-From Copernicus
+Sea Surface Height measured by Altimetry and derived variables. SSALTO/DUACS Near-Real-Time Level-4
+sea surface height and derived variables measured by multi-satellite altimetry observations over
+Global Ocean.
 
 WOA09 incomplete function
 }
 \details{
+In 2018/2019 the file servers migrated to 'my.cmems-du.au' and 'nrt.cmems-du.eu' from 'ftp.sltac.cls.fr', but
+the files and file name scheme remained unchanged so no net effect (so far that we are aware of).
+
 Current returns all NetCDF files, without any date.
 }
 \examples{

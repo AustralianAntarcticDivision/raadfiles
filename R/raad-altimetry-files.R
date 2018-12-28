@@ -1,7 +1,12 @@
 #' Altimetry products
 #'
-#' From Copernicus
 #'
+#' Sea Surface Height measured by Altimetry and derived variables. SSALTO/DUACS Near-Real-Time Level-4
+#' sea surface height and derived variables measured by multi-satellite altimetry observations over
+#' Global Ocean.
+#'
+#' In 2018/2019 the file servers migrated to 'my.cmems-du.au' and 'nrt.cmems-du.eu' from 'ftp.sltac.cls.fr', but
+#' the files and file name scheme remained unchanged so no net effect (so far that we are aware of).
 #' @return tibble data frame of file names
 #' @importFrom dplyr arrange distinct filter mutate
 #' @importFrom rlang .data
