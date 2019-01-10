@@ -104,6 +104,15 @@
 
 #' @examples
 #' thelist_files()
+#'
+#' ## to get statewide sets, find the individual groups first and pick one
+#' grps <- raadfiles:::thelist_groups()
+#' print(grps)
+#' #read_all <- function(pattern) {
+#' #files <- thelist_files(format = "shp", pattern = pattern)
+#' #do.call(rbind, lapply(files$fullname,  sf::read_sf))
+#' #}
+#' #x <- read_all(sample(grps, 1))
 thelist_files <- function(format = c("gdb", "tab", "shp", "asc"),
                           pattern = NULL
 ) {
@@ -170,5 +179,5 @@ thelist_groups <- function(x, ...) {
   munips <- sprintf("_%s", thelist_munips())
  for (i in seq_along(munips)) groups0 <- gsub(munips[i], "", groups0)
 
-  gsub("^list_", "", unique(groups0))
+  sort(gsub("^list_", "", unique(groups0)))
 }
