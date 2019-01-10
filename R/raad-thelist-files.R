@@ -149,3 +149,26 @@ thelist_files <- function(format = c("gdb", "tab", "shp", "asc"),
    #                      file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
   dplyr::arrange(files)
 }
+
+thelist_munips <- function(x, ...) {
+  patt <- "list_10m_contours_"
+  files <- thelist_files(format  = "tab", pattern = patt) %>%
+    dplyr::filter(stringr::str_detect(fullname, "^(?!.*statewide).*$"))
+  gsub("\\.tab$", "", gsub(patt, "", basename(files$fullname)))
+}
+
+## find unique layers, these are 'pattern's for thelist_files
+## that individually should be a complete statewide set
+thelist_groups <- function(x, ...) {
+  files <- thelist_files(format  = "tab", pattern = "list_")
+  statewide <-  files %>%
+    dplyr::filter(stringr::str_detect(basename(fullname), "statewide"))
+  files <- files %>%
+    dplyr::filter(stringr::str_detect(fullname, "^(?!.*statewide).*$"))
+  ## statewide is one set of groups, now we have to strip out municipalities
+  groups0 <- gsub("\\.tab", "", basename(c(statewide$fullname, files$fullname)))
+  munips <- sprintf("_%s", thelist_munips())
+ for (i in seq_along(munips)) groups0 <- gsub(munips[i], "", groups0)
+
+  gsub("^list_", "", unique(groups0))
+}
