@@ -112,4 +112,13 @@ Arguments are used to pattern match on different aspects of the file name so tha
 }
 \examples{
 thelist_files()
+
+## to get statewide sets, find the individual groups first and pick one
+grps <- raadfiles:::thelist_groups()
+print(grps)
+#read_all <- function(pattern) {
+#files <- thelist_files(format = "shp", pattern = pattern)
+#do.call(rbind, lapply(files$fullname,  sf::read_sf))
+#}
+#x <- read_all(sample(grps, 1))
 }
