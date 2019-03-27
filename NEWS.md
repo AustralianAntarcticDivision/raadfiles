@@ -1,6 +1,10 @@
-# 
+# dev
 
-* fsle files
+* New function `srtm_files`.  
+
+* New function for SMAP salinity files. 
+
+* New function for fsle files
 
 # 0.1.0
 
