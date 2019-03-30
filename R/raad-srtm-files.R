@@ -9,6 +9,8 @@
 #' @importFrom rlang .data
 #' @name srtm
 #' @aliases srtm
+#' @return data frame with `fullname` file path, `x`, `y` tile column and row indices, `lon`, `lat`
+#' a longitude and latitude for each tile, `root` the data file root path
 #' @export
 #' @importFrom stringr str_detect str_extract str_replace
 #' @examples
@@ -24,5 +26,9 @@ srtm_files <- function() {
   ## datadir <- get_raad_datadir()
   tile <- do.call(rbind, lapply(strsplit(basename(files$fullname), "_"), function(bs) as.integer(gsub("\\.tif$", "", bs[c(2, 3)]))))
   files[c("x", "y")] <- tile
-  dplyr::select(files,  .data$fullname, .data$x, .data$y, .data$root)
+
+  ## lon lat values
+  r <- raster::raster(raster::extent(-180, 180, -60, 60), res = 5)
+  files[c("lon", "lat")] <- raster::xyFromCell(r, raster::cellFromRowCol(r, files$y, files$x))
+  dplyr::select(files,  .data$fullname, .data$x, .data$y, .data$lon, .data$lat, .data$root)
 }
