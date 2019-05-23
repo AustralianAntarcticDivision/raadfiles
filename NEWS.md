@@ -1,4 +1,4 @@
-# dev
+# raadfiles 0.1.2
 
 * New GEBCO 2019 function `gebco19_files()`. 
 
@@ -6,7 +6,7 @@
 
 * New function for SMAP salinity files. 
 
-* New function for fsle files
+* New function for `fsle files()`. 
 
 # 0.1.0
 
