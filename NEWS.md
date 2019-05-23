@@ -1,5 +1,7 @@
 # dev
 
+* New GEBCO 2019 function `gebco19_files()`. 
+
 * New function `srtm_files`.  
 
 * New function for SMAP salinity files. 

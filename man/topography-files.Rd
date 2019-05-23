@@ -2,7 +2,7 @@
 % Please edit documentation in R/topography-files.R
 \name{topography}
 \alias{topography}
-\alias{gebco14_files}
+\alias{gebco19_files}
 \alias{gebco08_files}
 \alias{ramp_files}
 \alias{ibcso_files}
@@ -27,7 +27,7 @@
 \alias{macquarie100m_58S_files}
 \title{Topographic data files}
 \usage{
-gebco14_files(all = FALSE, ...)
+gebco19_files(all = FALSE, ...)
 
 gebco08_files(all = FALSE, ...)
 
