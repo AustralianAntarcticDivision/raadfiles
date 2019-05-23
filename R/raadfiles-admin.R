@@ -134,13 +134,20 @@ set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidat
     inputs <- c(inputs, existing)
   }
   inputs <- unique(inputs)
+  ## find out last modified time of each DB cache
+  mtimes <- format(file.info(file.path(inputs, ".raad_admin", "file_db.rds"))[,"mtime"])
 
+  if (any(is.na(mtimes))) mtimes[is.na(mtimes)] <- ""
+  maxchar <- max(nchar(inputs) + nchar(mtimes))
+  padding_n <- maxchar - nchar(inputs) - nchar(mtimes)
+  padding <- unlist(lapply(padding_n, function(x) paste(rep(" ", x + 4), collapse = "")))
   raad_ok <- FALSE
   if (length(inputs) > 0) raad_ok <- TRUE
   if (raad_ok) {
     options(raadfiles.data.roots = inputs)
     cat("global option 'raadfiles.data.roots' set:\n'")
-    cat(paste(inputs, collapse = "\n "))
+    deets <- paste(inputs, padding, mtimes, sep = "")
+    cat(paste(deets, collapse = "\n "))
     cat("'\n")
 
   } else {
