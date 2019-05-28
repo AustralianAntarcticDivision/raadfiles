@@ -1,5 +1,7 @@
 # raadfiles 0.1.2
 
+* New SEAPODYM function `seapodym_weekly_files()`, from the private collection only. 
+
 * New GEBCO 2019 function `gebco19_files()`. 
 
 * New function `srtm_files`.  
