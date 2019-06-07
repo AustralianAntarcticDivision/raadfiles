@@ -45,6 +45,10 @@ gebco19_files <- function(all = FALSE, ...) {
   pattern <- if (all) "www.bodc.ac.uk/.*/GEBCO_15SEC/zip" else "www.bodc.ac.uk/.*/GEBCO_15SEC/zip/GEBCO_2019.nc$"
   topo_files_generic(pattern)
 }
+
+#' @name topography
+#' @rdname topography-files
+#' @export
 gebco14_files <- function(all = FALSE, ...) {
   pattern <- if (all) "www.bodc.ac.uk/gebco/" else "www.bodc.ac.uk/.*/GEBCO_2014_2D.nc$"
   topo_files_generic(pattern)

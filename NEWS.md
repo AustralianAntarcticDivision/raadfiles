@@ -1,3 +1,7 @@
+# raadfiles 0.1.2.9001
+
+* Fix export of `gebco_14_files()`. 
+
 # raadfiles 0.1.2
 
 * New SEAPODYM function `seapodym_weekly_files()`, from the private collection only. 

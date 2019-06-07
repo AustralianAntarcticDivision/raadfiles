@@ -3,6 +3,7 @@
 \name{topography}
 \alias{topography}
 \alias{gebco19_files}
+\alias{gebco14_files}
 \alias{gebco08_files}
 \alias{ramp_files}
 \alias{ibcso_files}
@@ -28,6 +29,8 @@
 \title{Topographic data files}
 \usage{
 gebco19_files(all = FALSE, ...)
+
+gebco14_files(all = FALSE, ...)
 
 gebco08_files(all = FALSE, ...)
 
