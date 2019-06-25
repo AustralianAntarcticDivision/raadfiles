@@ -1,4 +1,6 @@
-# raadfiles 0.1.2.9001
+# raadfiles 0.1.2.9003
+
+* New `all` argument to `get_raad_filenames()`, for internal use. 
 
 * Fix export of `gebco_14_files()`. 
 
@@ -8,7 +10,7 @@
 
 * New GEBCO 2019 function `gebco19_files()`. 
 
-* New function `srtm_files`.  
+* New function `srtm_files()`.  
 
 * New function for SMAP salinity files. 
 

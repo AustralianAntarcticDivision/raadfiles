@@ -88,9 +88,11 @@ get_raadfiles_data_roots <- function() {
   .Deprecated("get_raad_data_roots")
   get_raad_data_roots()
 }
+#' @param all if `TRUE` include 'data_deprecated', expert-use only
+#'
 #' @export
 #' @rdname raadfiles-admin
-get_raad_filenames <- function() {
+get_raad_filenames <- function(all = FALSE) {
   out <- getOption("raadfiles.filename.database" )
   file_refresh <- getOption("raadfiles.file.refresh.threshold")
   if (is.null(out) || nrow(out) < 1) {
@@ -109,6 +111,13 @@ get_raad_filenames <- function() {
   if (file_refresh > 0 && runif(1, 0, 1) > (1 - file_refresh)) {
     set_raad_filenames()
   }
+  if (!all) {
+    ## trim out specific files
+    out <- dplyr::filter(out, !stringr::str_detect(root, "/data_deprecated"))
+    out <- dplyr::filter(out, !stringr::str_detect(root, "PRIVATE/raad/data"))
+
+  }
+
   out
 }
 set_raadfile_data_roots <- function(..., replace_existing = TRUE, use_known_candidates = FALSE) {
