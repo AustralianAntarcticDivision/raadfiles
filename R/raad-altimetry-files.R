@@ -24,7 +24,7 @@ altimetry_currents_polar_files <- function(hemisphere = "south") {
   ff <- split(files, grepl("polar_v", files$fullname))
   files <- ff[[1]] %>% dplyr::rename(ufullname = .data$fullname) %>% dplyr::inner_join(ff[[2]] %>%
                                                                                    dplyr::rename(vfullname = .data$fullname), "date") %>%
-    dplyr::select(.data$date, .data$ufullname, .data$vfullname, .data$root)
+    dplyr::select(.data$date, .data$ufullname, .data$vfullname)
 
   dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date)   %>%
     set_dt_utc()
