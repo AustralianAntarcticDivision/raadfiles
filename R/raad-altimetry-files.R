@@ -1,3 +1,37 @@
+#' Derived altimetry products
+#'
+#' A polar-transformed copy of the 'u' and 'v' components of surface currents from [altimetry_daily_files].
+#'
+#'  Only available for the southern hemisphere.
+#'  @param hemisphere south only for now
+#'  @export
+#'  @examples
+#' altimetry_currents_polar_files()
+altimetry_currents_polar_files <- function(hemisphere = "south") {
+  files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file, "aad.gov.au/currents/polar"))
+  files <- dplyr::filter(files, stringr::str_detect(.data$file, "grd$"))  ## faster without the .
+
+  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root,
+                              date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
+                                                        "%Y%m%d"),tz = "GMT"))
+
+  if (nrow(files) < 1)
+    stop("no files found")
+
+  files <- dplyr::transmute(files, date = .data$date, fullname= .data$fullname, root = .data$root)
+  bad <- is.na(files$date)
+
+  ff <- split(files, grepl("polar_v", files$fullname))
+  files <- ff[[1]] %>% dplyr::rename(ufullname = .data$fullname) %>% dplyr::inner_join(ff[[2]] %>%
+                                                                                   dplyr::rename(vfullname = .data$fullname)) %>%
+    dplyr::select(.data$date, .data$ufullname, .data$vfullname, .data$root)
+
+  dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date)   %>%
+    set_dt_utc()
+}
+
+
+
 #' Altimetry products
 #'
 #'

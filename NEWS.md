@@ -1,4 +1,6 @@
-# raadfiles 0.1.2.9003
+# raadfiles 0.1.2.9004
+
+* New `altimetry_currents_polar_files()` for local derived product. 
 
 * New `all` argument to `get_raad_filenames()`, for internal use. 
 
