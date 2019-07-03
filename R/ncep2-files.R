@@ -18,7 +18,7 @@ ncep2_uwnd_6hr_files <- function() {
 
   if (nrow(files) < 1)
     stop("no files found")
-  files <- dplyr::transmute(files, date = ISOdate(as.integer(stringr::str_extract(basename(fullname), "[0-9]{4}")), 1, 1),
+  files <- dplyr::transmute(files, date = ISOdate(as.integer(stringr::str_extract(basename(fullname), "[0-9]{4}")), 1, 1, 0, 0, 0, tz = "UTC"),
                          fullname = .data$fullname, root = .data$root)
   dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date) %>%
     set_dt_utc()

@@ -1,4 +1,6 @@
-# raadfiles 0.1.2.9004
+# raadfiles 0.1.2.9005
+
+* Fix ncep2 files to use base time at midnight UTC (so we can speed up raadtools getting the time for each band). 
 
 * New `altimetry_currents_polar_files()` for local derived product. 
 
