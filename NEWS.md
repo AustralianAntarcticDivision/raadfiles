@@ -1,4 +1,6 @@
-# raadfiles 0.1.2.9005
+# raadfiles 0.1.2.9015
+
+* Use memoization on all files functions. 
 
 * Fix ncep2 files to use base time at midnight UTC (so we can speed up raadtools getting the time for each band). 
 
