@@ -67,7 +67,7 @@
 #' @references \url{http://www.cls.fr}, \url{http://www.seapodym.eu}
 #' @export
 seapodym_weekly_files <- function() {
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "cmems-global-reanalysis-bio-001-033-weekly-extract"))
+  files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file, "cmems-global-reanalysis-bio-001-033-weekly-extract"))
   files <- dplyr::filter(files, grepl(".*\\.nc$",
                                       .data$file))
 
