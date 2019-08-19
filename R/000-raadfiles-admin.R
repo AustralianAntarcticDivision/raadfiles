@@ -269,7 +269,7 @@ run_build_raad_cache <- function() {
     adminpath <- dirname(raad_filedb_path(roots[i]))
     dir.create(adminpath, showWarnings = FALSE)
     dbpath <- raad_filedb_path(roots[i])
-    filenames <- as.character(fs::dir_ls(roots[i], all = TRUE, recursive = TRUE,
+    filenames <- as.character(fs::dir_ls(roots[i], all = TRUE, recurse = TRUE,
                                          ## no directory, FIFO, socket, character_device or block_device
                                          type = c("file", "symlink")))
     if (is.null(filenames)) {

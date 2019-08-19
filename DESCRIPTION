@@ -15,7 +15,7 @@ Imports:
     RNetCDF,
     stringr,
     tibble,
-    fs,
+    fs (>= 1.3.0),
     memoise
 License: GPL-3
 Encoding: UTF-8
