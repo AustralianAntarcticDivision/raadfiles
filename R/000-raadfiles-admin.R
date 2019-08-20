@@ -143,6 +143,7 @@ set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidat
     inputs <- c(inputs, existing)
   }
   inputs <- unique(inputs)
+  if (length(inputs) < 1) inputs <- ""
   ## find out last modified time of each DB cache
   mtimes <- format(file.info(file.path(inputs, ".raad_admin", "file_db.rds"))[,"mtime"])
 
