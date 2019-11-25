@@ -11,9 +11,10 @@ altimetry_currents_polar_files(hemisphere = "south")
 }
 \description{
 A polar-transformed copy of the 'u' and 'v' components of surface currents from [altimetry_daily_files].
+Only available for the southern hemisphere.
 }
 \details{
-Only available for the southern hemisphere.
+The code that creates these derived files is at [raad-deriv](https://github.com/AustralianAntarcticDivision/raad-deriv).
 }
 \examples{
 altimetry_currents_polar_files()
