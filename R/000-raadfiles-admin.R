@@ -2,16 +2,31 @@
 .possiblepaths <- function() {
   c(
     "/Volumes/files/data",
-    "/mnt/AADC/Scientific_Data/Data/gridded_new/data",
-    "/mnt/AADC/Scientific_Data/Data/gridded_new/data_local",
-    "/mnt/AADC/Scientific_Data/Data/gridded_new/data_staging",
-    "/mnt/AADC/Scientific_Data/Data/gridded_new/data_deprecated",
-    "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data",
-    "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_local",
-    "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_staging",
-    "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_deprecated",
+
+    ## new paths 2020-01-20
+    "/mnt/Ecological_Informatics/data/gridded/data",
+    "/mnt/Ecological_Informatics/data/gridded/data_local",
+    "/mnt/Ecological_Informatics/data/gridded/data_staging",
+    "/mnt/Ecological_Informatics/data/gridded/data_deprecated",
+    "//aad.gov.au/files/Ecological_Informatics/data/gridded/data",
+    "//aad.gov.au/files/Ecological_Informatics/data/gridded/data_local",
+    "//aad.gov.au/files/Ecological_Informatics/data/gridded/data_deprecated",
+
+    ## old paths 2020-01-20
+    # "/mnt/AADC/Scientific_Data/Data/gridded_new/data",
+    # "/mnt/AADC/Scientific_Data/Data/gridded_new/data_local",
+    # "/mnt/AADC/Scientific_Data/Data/gridded_new/data_staging",
+    # "/mnt/AADC/Scientific_Data/Data/gridded_new/data_deprecated",
+    # "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data",
+    # "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_local",
+    # "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_staging",
+    # "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_deprecated",
+
     "/mnt/raad",
-    "/rdsi/PRIVATE/raad/data",    "/rdsi/PRIVATE/raad/data_local",     "/rdsi/PRIVATE/raad/data_staging", "/rdsi/PRIVATE/raad/data_deprecated",
+    "/rdsi/PRIVATE/raad/data",
+    "/rdsi/PRIVATE/raad/data_local",
+    "/rdsi/PRIVATE/raad/data_staging",
+    "/rdsi/PRIVATE/raad/data_deprecated",
     "/rdsi/PUBLIC/raad/data" )
 }
 

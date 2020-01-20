@@ -1,3 +1,8 @@
+# raadfiles 0.1.3
+
+* Use new paths at hq. 
+
+
 # raadfiles 0.1.2.9015
 
 * Use memoization on all files functions. 
