@@ -208,8 +208,10 @@ set_raad_filenames <- function(clobber = FALSE) {
   }
 
   ## record the db hashes
+  ## to avoid https://github.com/eddelbuettel/digest/issues/13
+  ## ignore the erroneous status from file.access(, 4)
   data_dbs <- tibble::tibble(db = raadfiles.data.filedbs,
-                             md5 = unlist(lapply(raadfiles.data.filedbs, digest::digest, algo = "md5", file = TRUE)),
+                             md5 = unlist(lapply(raadfiles.data.filedbs, digest::digest, algo = "md5", file = TRUE, errormode = "silent")),
                              file_ok = TRUE)
 
   if (!clobber) {
