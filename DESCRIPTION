@@ -1,6 +1,6 @@
 Package: raadfiles
 Title: File Database Management for 'raadtools'
-Version: 0.1.3.9001
+Version: 0.1.3.9002
 Authors@R: c(
    person("Michael D.","Sumner", role = c("aut", "cre"), email = "michael.sumner@aad.gov.au"), 
    person("Ben", "Raymond", role = "ctb")
@@ -20,5 +20,5 @@ Imports:
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Suggests: testthat

@@ -1,3 +1,8 @@
+# raadfiles dev
+
+* Add MODIS "cafe" files in `cafe_monthly_files()`. 
+
+
 # raadfiles 0.1.3
 
 * Use new paths at hq. 

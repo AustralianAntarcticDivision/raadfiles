@@ -14,8 +14,12 @@ get_raad_data_roots()
 
 get_raad_filenames(all = FALSE)
 
-set_raad_data_roots(..., replace_existing = TRUE,
-  use_known_candidates = FALSE, verbose = TRUE)
+set_raad_data_roots(
+  ...,
+  replace_existing = TRUE,
+  use_known_candidates = FALSE,
+  verbose = TRUE
+)
 
 raad_filedb_path(...)
 
@@ -59,6 +63,7 @@ available files from the global in-memory option `getOption("raadfiles.filename.
 this will also trigger a re-read of the file listing from the root directories. To avoid this trigger either use `getOption("raadfiles.filename.database")`
 directly to get the in-memory file list, or set `options(raadfiles.file.refresh.threshold = 0)` to prevent the trigger. (Set it to 1 to force it always
 to be read, also controlled by `set_raad_filenames(clobber = TRUE)`).
+
 
 There is a family of functions and global options used for administration.
 }

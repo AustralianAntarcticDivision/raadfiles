@@ -4,8 +4,7 @@
 \alias{argo_files}
 \title{Argo files.}
 \usage{
-argo_files(type = c("prof", "meta", "traj", "tech", "Mprof"),
-  dac = NULL)
+argo_files(type = c("prof", "meta", "traj", "tech", "Mprof"), dac = NULL)
 }
 \arguments{
 \item{type}{file type, i.e. prof, meta, traj, tech}
