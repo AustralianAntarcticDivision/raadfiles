@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* New function `sose_monthly_files()` for Southern Ocean State Estimate (SOSE). 
+
 * Add MODIS "cafe" files in `cafe_monthly_files()`. 
 
 
