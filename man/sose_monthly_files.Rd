@@ -4,9 +4,11 @@
 \alias{sose_monthly_files}
 \title{Southern Ocean State Estimate files}
 \usage{
-sose_monthly_files(iteration = "")
+sose_monthly_files(varname = "", iteration = "")
 }
 \arguments{
+\item{varname}{default is '' which is the first available, set to 'all' to return all file names without date expansion}
+
 \item{iteration}{default is '' which finds latest available, see details}
 }
 \value{
@@ -17,6 +19,9 @@ Files from Ocean State Estimation at Scripps for the Southern Ocean 'SOSE'.
 }
 \details{
 Iteration provided is latest available, otherwise this argument will be used to match with file names.
+
+Dates in the files are extracted and expanded out for every time step, it's assumed this will be used in raadtools
+along with a 'level' argument to return a time step or time series.
 }
 \examples{
 sose_monthly_files()
