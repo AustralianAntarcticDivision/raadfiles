@@ -49,5 +49,5 @@ sose_monthly_files <- function(varname = "", iteration = "") {
   unit <- RNetCDF::att.get.nc(nc, "time", "units")
   cal <- RNetCDF::utcal.nc(unit, dates)
   dates <- ISOdatetime(cal[,1], cal[,2], cal[,3], cal[,4], cal[,5], cal[,6])
-  tibble::tibble(fullname = files$fullname[1], date = dates)
+  tibble::tibble(fullname = files$fullname[1], date = dates, band = 1:length(dates))
 }
