@@ -24,5 +24,5 @@
 #' @examples
 #' geoid_files()
 geoid_files <- function(all = FALSE, ...) {
- .geoid_all_files(all = FALSE) %>% dplyr::filter(stringr::str_detect(.data$fullname, pat))
+ .geoid_all_files(all = FALSE)
 }
