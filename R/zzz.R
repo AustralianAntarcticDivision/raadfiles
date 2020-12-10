@@ -21,7 +21,7 @@
     message("No existing file cache found, see help('raadfiles-admin') for setting up")
   }
   tm <- 3600
-  ##writeLines(sprintf("%s <<- memoise::memoize(%s,  ~memoise::timeout(tm))", fun, fun))
+
   altimetry_currents_polar_files <<- memoise::memoize(altimetry_currents_polar_files,  ~memoise::timeout(tm))
   altimetry_daily_files <<- memoise::memoize(altimetry_daily_files,  ~memoise::timeout(tm))
   amps_d1files <<- memoise::memoize(amps_d1files,  ~memoise::timeout(tm))
@@ -31,6 +31,8 @@
   amsr_daily_files <<- memoise::memoize(amsr_daily_files,  ~memoise::timeout(tm))
   argo_files <<- memoise::memoize(argo_files,  ~memoise::timeout(tm))
   bom_tmax_daily_files <<- memoise::memoize(bom_tmax_daily_files,  ~memoise::timeout(tm))
+  cafe_monthly_files <<-   memoise::memoize(cafe_monthly_files,  ~memoise::timeout(tm))
+  cersat_daily_files <<- memoise::memoize(cersat_daily_files,  ~memoise::timeout(tm))
   cmip5_files <<- memoise::memoize(cmip5_files,  ~memoise::timeout(tm))
   cryosat2_files <<- memoise::memoize(cryosat2_files,  ~memoise::timeout(tm))
   etopo1_files <<- memoise::memoize(etopo1_files,  ~memoise::timeout(tm))
@@ -39,6 +41,7 @@
   gebco08_files <<- memoise::memoize(gebco08_files,  ~memoise::timeout(tm))
   gebco14_files <<- memoise::memoize(gebco14_files,  ~memoise::timeout(tm))
   gebco19_files <<- memoise::memoize(gebco19_files,  ~memoise::timeout(tm))
+  geoid_files <<-   memoise::memoize(geoid_files,  ~memoise::timeout(tm))
   george_v_terre_adelie_1000m_files <<- memoise::memoize(george_v_terre_adelie_1000m_files,  ~memoise::timeout(tm))
   george_v_terre_adelie_100m_files <<- memoise::memoize(george_v_terre_adelie_100m_files,  ~memoise::timeout(tm))
   george_v_terre_adelie_250m_files <<- memoise::memoize(george_v_terre_adelie_250m_files,  ~memoise::timeout(tm))

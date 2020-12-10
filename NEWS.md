@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Add CERSAT 12.5 km ice files `cersat_daily_files()`. 
+
 * New function `geoid_files()` for Earth Gravitation Model. 
 
 * New function `sose_monthly_files()` for Southern Ocean State Estimate (SOSE). 
