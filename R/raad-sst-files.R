@@ -26,8 +26,16 @@
 #' oisst_daily_files()
 oisst_daily_files <- function() {
   files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "avhrr"))
- files <- dplyr::filter(files, grepl("^.*www.ncei.noaa.gov.*sea-surface-temperature-optimum-interpolation.*avhrr-only.*\\.nc$",
-                                      .data$file))
+  #files <- dplyr::filter(files, grepl("^.*www.ncei.noaa.gov.*sea-surface-temperature-optimum-interpolation.*avhrr-only.*\\.nc$", .data$file))
+
+  # https://github.com/AustralianAntarcticDivision/raadfiles/issues/21
+  # OI daily SST files updating now, the path has changed.
+  # Previous version (v2) was under the path /www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/access/avhrr-only/
+  #
+  #   That is moving to /www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2/access/avhrr-only/ BUT only goes to Apr 2020.
+  # Superseded by v2.1 which is under the path /www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/
+    files <- dplyr::filter(files,     grepl("^.*www.ncei.noaa.gov.*sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/.*\\.nc$", .data$file))
+
   files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
 
   if (nrow(files) < 1)

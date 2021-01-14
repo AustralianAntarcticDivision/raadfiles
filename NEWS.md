@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Updated path to OISST files https://github.com/AustralianAntarcticDivision/raadfiles/issues/21. 
+
 * Add CERSAT 12.5 km ice files `cersat_daily_files()`. 
 
 * New function `geoid_files()` for Earth Gravitation Model. 
