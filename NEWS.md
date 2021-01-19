@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* New function `polarview_files()` for Polarview images in JPEG or the tarball GeoTIFFs. 
+
 * Updated path to OISST files https://github.com/AustralianAntarcticDivision/raadfiles/issues/21. 
 
 * Add CERSAT 12.5 km ice files `cersat_daily_files()`. 

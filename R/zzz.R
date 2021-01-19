@@ -68,6 +68,8 @@
   nsidc_south_monthly_files <<- memoise::memoize(nsidc_south_monthly_files,  ~memoise::timeout(tm))
   oisst_daily_files <<- memoise::memoize(oisst_daily_files,  ~memoise::timeout(tm))
   oisst_monthly_files <<- memoise::memoize(oisst_monthly_files,  ~memoise::timeout(tm))
+  polarview_files <<- memoise::memoize(polarview_files,  ~memoise::timeout(tm))
+
   raad_filedb_path <<- memoise::memoize(raad_filedb_path,  ~memoise::timeout(tm))
   ramp_files <<- memoise::memoize(ramp_files,  ~memoise::timeout(tm))
   rema_100m_files <<- memoise::memoize(rema_100m_files,  ~memoise::timeout(tm))
