@@ -33,3 +33,46 @@ polarview_files <- function(type = c("jpeg", "tarball")) {
     dplyr::select(.data$date, .data$fullname, .data$root) %>%
     set_dt_utc()
 }
+
+polarview_tifname <- function(x) {
+  gsub("\\.tar\\.gz$", "", basename(x))
+}
+#' @keywords internal
+#' @noRd
+#' @examples
+#' files <- polarview_files(type = "jpeg")
+#' tarball <- polarview_jpeg_tarball(files$fullname[20:24])
+#'
+#' tarball <- na.omit(tarball)
+#' ## must be valid tarball paths here (not missing)
+#' polarview_get_geotransform(tarball)
+polarview_get_geotransform <- function(x) {
+
+  tfwname <- gsub("tif$", "tfw", polarview_tifname(x))
+
+  out <- vector("list", length(x))
+  for (i in seq_along(x)) {
+    system(sprintf("tar -zxvf %s %s", x[i], tfwname[i]))
+    out[[i]] <- readLines(tfwname[i])
+    file.remove(tfwname[i])
+  }
+  out
+}
+
+polarview_jpeg_tarball <- function(jpeg) {
+  ## we have a jpeg path
+  #files <- polarview_files(type = "jpeg"); jpeg <- files$fullname[20]
+
+  patt <- gsub("\\.jpg$", "", basename(jpeg))
+  tfiles <- polarview_files(type = "tarball")
+  ## return corresponding tarball (or NA)
+  out <- rep(NA_character_, length(jpeg))
+  for (i in seq_along(out)) {
+    val <- grep(patt[i], tfiles$fullname, value = TRUE)
+    if (length(val) < 1) {
+      val <- NA_character_
+    }
+    out[i] <- val
+  }
+  out
+}
