@@ -5,7 +5,6 @@
 #' @return tibble data frame of file names
 #' @importFrom dplyr arrange distinct filter mutate transmute
 #' @importFrom rlang .data
-#' @name oisst
 #' @export
 #' @importFrom stringr str_detect str_extract
 #' @export
