@@ -1,3 +1,15 @@
+sose_iters <- function() {
+  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "sose.ucsd.edu"))
+  files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*sose.ucsd.edu.*monthly.*nc$"))
+  unique(stringr::str_extract(files$file, "ITER[0-9][0-9][0-9]"))
+}
+
+sose_vars <- function() {
+  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "sose.ucsd.edu"))
+  files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*sose.ucsd.edu.*monthly.*nc$"))
+  sort(unique(gsub("\\.nc$", "", unlist(lapply(strsplit(files$file, "_"), tail, 1L)))))
+}
+
 #' Southern Ocean State Estimate files
 #'
 #' Files from Ocean State Estimation at Scripps for the Southern Ocean 'SOSE'.
