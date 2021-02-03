@@ -85,7 +85,7 @@ oisst_monthly_files <- function() {
 #' @export
 #' @importFrom stringr str_detect str_extract str_replace
 #' @examples
-#' oisst_daily_files()
+#' ghrsst_daily_files()
 ghrsst_daily_files <- function () {
   files <- dplyr::filter(get_raad_filenames(),
                          stringr::str_detect(.data$file, "ghrsst"))

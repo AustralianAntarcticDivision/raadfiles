@@ -4,7 +4,6 @@
 #' @param type file type, i.e. prof, meta, traj, tech
 #' @param dac data acqusition centre e.g.* "aoml", "bodc", "coriolis", "csio", "csiro", "incois", all returned if not specified
 #' @export
-#' @references [https://www.aviso.altimetry.fr/en/data/products/value-added-products/fsle-finite-size-lyapunov-exponents.html]( Finite-Size Lyapunov Exponents)
 argo_files <- function(type = c("prof", "meta", "traj", "tech", "Mprof"), dac = NULL) {
   type <- match.arg(type)
   files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "usgodae"))

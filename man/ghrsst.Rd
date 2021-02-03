@@ -14,5 +14,5 @@ tibble data frame of file names
 The Group for High Resolution Sea Surface Temperature (GHRSST) files.
 }
 \examples{
-oisst_daily_files()
+ghrsst_daily_files()
 }

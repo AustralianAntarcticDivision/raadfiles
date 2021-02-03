@@ -14,6 +14,3 @@ argo_files(type = c("prof", "meta", "traj", "tech", "Mprof"), dac = NULL)
 \description{
 ARGO
 }
-\references{
-[https://www.aviso.altimetry.fr/en/data/products/value-added-products/fsle-finite-size-lyapunov-exponents.html]( Finite-Size Lyapunov Exponents)
-}
