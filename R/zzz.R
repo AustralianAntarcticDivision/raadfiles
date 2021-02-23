@@ -37,6 +37,8 @@
   cryosat2_files <<- memoise::memoize(cryosat2_files,  ~memoise::timeout(tm))
   etopo1_files <<- memoise::memoize(etopo1_files,  ~memoise::timeout(tm))
   etopo2_files <<- memoise::memoize(etopo2_files,  ~memoise::timeout(tm))
+  fasticefiles <<- memoise::memoize(fasticefiles,  ~memoise::timeout(tm))
+
   fsle_files <<- memoise::memoize(fsle_files,  ~memoise::timeout(tm))
   gebco08_files <<- memoise::memoize(gebco08_files,  ~memoise::timeout(tm))
   gebco14_files <<- memoise::memoize(gebco14_files,  ~memoise::timeout(tm))
