@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Move to using 'circum_fast_ice' files. 
+
 * Now `fasticefiles()` moved here from raadtools. 
 
 * New function `polarview_files()` for Polarview images in JPEG or the tarball GeoTIFFs. 
