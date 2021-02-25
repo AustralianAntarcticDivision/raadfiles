@@ -49,10 +49,17 @@ fasticefiles <- function(product = c("circum_fast_ice", "binary_fast_ice"), mask
     files <- dplyr::filter(files,
                   stringr::str_detect(.data$file, "AAS_4116_Fraser_fastice_circumantarctic.*nc$"))
 
-    files <-  mutate(files,
-            date = as.POSIXct(as.Date(sprintf("%s-01-01", stringr::str_extract(basename(.data$file), "[0-9]{4}"))), tz = "UTC"))
+
+    ## we must expand to the internal band/date
+
+    on.exit(sink(NULL), add = TRUE)
+    sink(tempfile())
+    time <- lapply(file.path(files$root, files$file), function(x) raster::getZ(raster::brick(x)))
+    files <- files[rep(seq_len(nrow(files)), lengths(time)), ]
+    files$date <- as.POSIXct(as.Date("1970-01-01") + unlist(time), tz = "UTC")
+    files$band <- unlist(lapply(lengths(time), seq_len))
 
     return(tibble::tibble(fullname = file.path(files$root, files$file),
-                          date = files$date))
+                          date = files$date, band = files$band))
   }
 }
