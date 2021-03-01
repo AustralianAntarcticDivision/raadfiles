@@ -148,7 +148,13 @@ lakesuperior_files <- function(all = FALSE, ...)  {
 #' @name topography
 #' @rdname topography-files
 kerguelen_files <- function(all = FALSE, ...) {
-  pattern <- if (all) "ftt.jcu.edu.au" else "ftt.jcu.edu.au/.*/kerg_dem.grd$"
+  ## updated 2021-03-01
+  #pattern <- if (all) "ftt.jcu.edu.au" else "ftt.jcu.edu.au/.*/kerg_dem.grd$"
+  if (all) {
+    pattern <- "d28rz98at9flks.cloudfront.net/71552"
+  } else {
+    pattern <- "d28rz98at9flks.cloudfront.net/71552/.*kerg100_28mar/w001001.adf"
+  }
   topo_files_generic(pattern)
 }
 #' @export
