@@ -6,6 +6,7 @@
 #' @references F. Reiser, S. Willmes, G. Heinemann (2020): A new algorithm for daily sea ice lead identification in the Arctic and
 #'  Antarctic winter from thermal-infrared satellite imagery.
 #' @export
+#' @name leads
 #' @examples
 #' iceclim_south_leadsfiles()
 #' iceclim_north_leadsfiles()
@@ -18,6 +19,8 @@ iceclim_south_leadsfiles <- function(all = FALSE) {
   }
   tibble::tibble(fullname = file.path(files$root, files$file))
 }
+#' @export
+#' @name leads
 iceclim_north_leadsfiles <- function(all = FALSE) {
   files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file, "store.pangaea.de"))
 
