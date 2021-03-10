@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Add leads files from Reiser et al, new functions `iceclim_north_leadsfiles()` `iceclim_south_leadsfiles()`. 
+
 * Move to using 'circum_fast_ice' files. 
 
 * Now `fasticefiles()` moved here from raadtools. 
