@@ -56,6 +56,8 @@
   ibcso_digital_chart_files <<- memoise::memoize(ibcso_digital_chart_files,  ~memoise::timeout(tm))
   ibcso_files <<- memoise::memoize(ibcso_files,  ~memoise::timeout(tm))
   ibcso_sid_files <<- memoise::memoize(ibcso_sid_files,  ~memoise::timeout(tm))
+  iceclim_south_leadsfiles <<- memoise::memoize(iceclim_south_leadsfiles,  ~memoise::timeout(tm))
+  iceclim_north_leadsfiles <<- memoise::memoize(iceclim_north_leadsfiles,  ~memoise::timeout(tm))
   kerguelen_files <<- memoise::memoize(kerguelen_files,  ~memoise::timeout(tm))
   lakesuperior_files <<- memoise::memoize(lakesuperior_files,  ~memoise::timeout(tm))
   macquarie100m_57S_files <<- memoise::memoize(macquarie100m_57S_files,  ~memoise::timeout(tm))
