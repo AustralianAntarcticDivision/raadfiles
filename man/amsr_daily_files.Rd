@@ -2,8 +2,17 @@
 % Please edit documentation in R/raad-ice-amsr-files.R
 \name{amsr_daily_files}
 \alias{amsr_daily_files}
+\alias{amsr2_3k_daily_files}
+\alias{amsre_daily_files}
+\alias{amsr2_daily_files}
 \title{AMSR daily  sea-ice concentration}
 \usage{
+amsr2_3k_daily_files()
+
+amsre_daily_files()
+
+amsr2_daily_files()
+
 amsr_daily_files()
 }
 \value{
@@ -12,6 +21,21 @@ tibble data frame of file names
 \description{
 Sea ice concentration files at 6.25 km resolution, southern hemisphere.
 }
+\details{
+`amsre_daily_files()` returns HDF files
+
+`amsr2_daily_files()` returns TIF files
+
+`amsr2_3k_daily_files()` returns TIF files
+
+`amsr_daily_files()` returns HDF files
+
+The HDF files require flipping about the y-axis, and setting the polar extent and the crs (projection)
+metadata. The TIF files don't require this, they are completely oriented and metadata-complete.
+}
 \examples{
+
+
+## this combines amsr2 (2012-) and amsre (2002-2011)
 amsr_daily_files()
 }

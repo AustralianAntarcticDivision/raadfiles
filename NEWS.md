@@ -1,5 +1,9 @@
 # raadfiles dev
 
+* New functions `amsre_daily_files()`, `amsr2_daily_files()`, `amsr2_3k_daily_files()` to round out
+ AMSRE and AMSR2 support. The original function `amsr_daily_files()` provides a mix of AMSRE and AMSR2
+ 6.25km files to give a full temporal coverage (2002- current), but are different products. 
+
 * Add leads files from Reiser et al, new functions `iceclim_north_leadsfiles()` `iceclim_south_leadsfiles()`. 
 
 * Move to using 'circum_fast_ice' files. 
