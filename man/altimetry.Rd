@@ -5,10 +5,13 @@
 \alias{altimetry_daily_files}
 \title{Altimetry products}
 \usage{
-altimetry_daily_files()
+altimetry_daily_files(all = FALSE)
+}
+\arguments{
+\item{all}{return all files or only the final processing (NRT is included either way)}
 }
 \value{
-tibble data frame of file names
+tibble data frame of file names, data 'date', and 'processing_date'
 }
 \description{
 Sea Surface Height measured by Altimetry and derived variables. SSALTO/DUACS Near-Real-Time Level-4
@@ -16,8 +19,12 @@ sea surface height and derived variables measured by multi-satellite altimetry o
 Global Ocean.
 }
 \details{
-In 2018/2019 the file servers migrated to 'my.cmems-du.au' and 'nrt.cmems-du.eu' from 'ftp.sltac.cls.fr', but
+In 2018/2019 the file servers migrated to 'my.cmems-du.au' and 'nrt.cmems-du.eu' (NRT) from 'ftp.sltac.cls.fr', but
 the files and file name scheme remained unchanged so no net effect (so far that we are aware of).
+
+There are NRT (near-real-time) and final processed files, identifiable from the root domain and in the filename '^nrt_'. Both
+are returned by this function. The `all` argument can be set to `TRUE` to include all NRT files, which has overlapping processing dates
+that are ultimately consolidated into the daily sequence.
 }
 \examples{
 altimetry_daily_files()
