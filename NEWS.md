@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Move to REMA 1.1 (not 8m yet). 
+
 * New functions `amsre_daily_files()`, `amsr2_daily_files()`, `amsr2_3k_daily_files()` to round out
  AMSRE and AMSR2 support. The original function `amsr_daily_files()` provides a mix of AMSRE and AMSR2
  6.25km files to give a full temporal coverage (2002- current), but are different products. 

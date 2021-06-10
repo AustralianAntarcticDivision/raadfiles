@@ -13,8 +13,8 @@ rema_tile_files <- function(all = FALSE, ...) {
 }
 #' @name rema_8m_files
 #' @export
-rema_100m_files <- function(filled = TRUE, ...) {
-  pat <- if (filled) "v1.1.*100m_dem.*filled" else "v1.1.*100m_dem"
+rema_100m_files <- function( ...) {
+  pat <-  "v1.1.*100m_dem"
   files <- .rema_all_files() %>% dplyr::filter(stringr::str_detect(.data$fullname, pat))
 
   if (nrow(files) < 1)

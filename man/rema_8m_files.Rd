@@ -12,7 +12,7 @@ rema_tile_files(all = FALSE, ...)
 
 rema_100m_files(filled = TRUE, ...)
 
-rema_200m_files()
+rema_200m_files(filled = TRUE, ...)
 
 rema_1km_files(filled = TRUE, ...)
 
