@@ -187,7 +187,7 @@ set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidat
 #' @export
 #' @rdname raadfiles-admin
 raad_filedb_path <- function(...) {
-  file.path(unlist(list(...)), ".raad_admin/file_db.rds")
+  file.path(unlist(list(...)), ".raad_admin/file_db.tab")
 }
 
 set_raw_raad_filenames <- function() {
@@ -228,15 +228,18 @@ set_raad_filenames <- function(clobber = FALSE) {
     }
   }
   fslist <- vector("list", length(raadfiles.data.filedbs))
+  file_ok <- data_dbs$file_ok
   for (i in seq_along(fslist)) {
-    db <- try(readRDS(raadfiles.data.filedbs[i]), silent = TRUE)
+    db <- try(vroom::vroom(raadfiles.data.filedbs[i], col_types = c(root = "c", file = "c")), silent = TRUE)
     if (!inherits(db, "try-error")) {
       fslist[[i]] <- db
     } else {
       warning(sprintf("failure to read '%s': is file corrupt?\n Consider re-running file cache creation. ", raadfiles.data.filedbs[i]))
-      data_dbs$file_ok[i] <- FALSE
+      file_ok[i] <- FALSE
     }
   }
+  data_dbs[["file_ok"]] <- file_ok
+
   ##fslist <- lapply(raadfiles.data.filedbs, fst::read.fst)
   for (i in seq_along(fslist)) {
     x <- fslist[[i]]
@@ -244,6 +247,7 @@ set_raad_filenames <- function(clobber = FALSE) {
     #x[["root"]] <- rep(raadfiles.data.roots[i], nrow(x))
     fslist[[i]][["root"]] <- rep(raadfiles.data.roots[i], nrow(x))
   }
+
   fs <- dplyr::bind_rows(fslist)
   ## time stamp it
   fs <- set_raad_time_stamp(fs)
@@ -302,7 +306,8 @@ run_build_raad_cache <- function() {
     }
     tok <- c("file", "files")[(nrow(files) > 1)+1]
     cat(sprintf("%i). Found %i %s in %s.\n", i, nrow(files), tok, roots[i]))
-    saveRDS(files, dbpath, compress = "xz")
+    vroom::vroom_write(files, dbpath)
+    #saveRDS(files, dbpath, compress = "xz")
     #fst::write.fst(files, dbpath)
   }
   ## trigger update now
