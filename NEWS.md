@@ -2,7 +2,7 @@
 
 * Slight speedup for package load by using text file and vroom and read/write the file database. 
 
-* Move to REMA 1.1 (not 8m yet). 
+* Move to REMA 1.1, 8m, 100m, 200m. 
 
 * New functions `amsre_daily_files()`, `amsr2_daily_files()`, `amsr2_3k_daily_files()` to round out
  AMSRE and AMSR2 support. The original function `amsr_daily_files()` provides a mix of AMSRE and AMSR2

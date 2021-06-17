@@ -56,7 +56,8 @@ rema_1km_files <- function(filled = TRUE, ...) {
 #' rema_8m_files()
 #' rema_100m_files(filled = TRUE)
 rema_8m_files <- function(...) {
-  pat <- "8m_dem.tif$"
+  pat <- "v1.1.*8m_dem.tif$"
+
   files <- .rema_all_files() %>% dplyr::filter(stringr::str_detect(.data$fullname, pat))
   if (nrow(files) < 1)
     stop("no files found")
