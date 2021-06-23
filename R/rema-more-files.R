@@ -111,26 +111,32 @@ rema_8m_dem_files <- function() {
   rema_8m_files()
 }
 
+# "/rdsi/PRIVATE/raad2/data_local/aad.gov.au/rema/processing/v1.1/8m/09_38/09_38_8m_filled_geoid.tif"
 #' @name rema-files
 #' @export
 rema_8m_dem_geoid_files <- function() {
-  stop("these don't exist yet")
+  pat <- ".*8m_filled_geoid.*tif$"
+  .rema_file_filter(pat)
+
 }
 
 #' @name rema-files
 #' @export
 rema_8m_slope_files <- function() {
-  stop("these don't exist yet")
+  pat <- ".*8m_slope.*tif$"
+  .rema_file_filter(pat)
 }
 #' @name rema-files
 #' @export
 rema_8m_aspect_files <- function() {
-  stop("these don't exist yet")
+  pat <- ".*8m_aspect.*tif$"
+  .rema_file_filter(pat)
 }
 #' @name rema-files
 #' @export
 rema_8m_rugosity_files <- function() {
-  stop("these don't exist yet")
+  pat <- ".*8m_rugosity.*tif$"
+  .rema_file_filter(pat)
 }
 
 #
