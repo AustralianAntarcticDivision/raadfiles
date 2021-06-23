@@ -1,14 +1,13 @@
 .rema_all_files <- function(all = FALSE, ...) {
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file,
-                                                                       "data.pgc.umn.edu"))
-  if (!all) files <- dplyr::filter(files, grepl("tif$", .data$file))
+  files <- dplyr::filter(get_raad_filenames(all = all), stringr::str_detect(.data$file,
+                                                                            "data.pgc.umn.edu"))
   files <- dplyr::transmute(files,fullname = file.path(.data$root, .data$file), root = .data$root)
   files
 }
 #' @name rema_8m_files
 #' @export
 rema_tile_files <- function(all = FALSE, ...) {
-  pat <- if (all) "Tile_index_" else "Tile_Index_Rel1.shp$"
+  pat <- if (all) "Tile_Index_" else "Tile_Index_Rel1.shp$"
   .rema_all_files(all = TRUE) %>% dplyr::filter(stringr::str_detect(.data$fullname, pat))
 }
 #' @name rema_8m_files

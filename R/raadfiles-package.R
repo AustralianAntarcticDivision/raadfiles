@@ -8,5 +8,10 @@
 #' @name raadfiles-package
 #' @aliases raadfiles
 #' @docType package
-
 NULL
+
+#' Rema tile polygons
+#'
+#' @name rema_tiles_polygons
+#' @docType data
+'rema_tiles_polygons'
