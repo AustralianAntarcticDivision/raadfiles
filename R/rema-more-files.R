@@ -54,20 +54,27 @@ rema_200m_dem_geoid_files <- function() {
 #' @name rema-files
 #' @export
 rema_200m_slope_files <- function() {
- pat <- ".*200m_slope.*tif$"
+ pat <- ".*/200m/.*200m_slope.*tif$"
  .rema_file_filter(pat)
 
 }
 #' @name rema-files
 #' @export
 rema_200m_aspect_files <- function() {
-  pat <- ".*200m_aspect.*tif$"
+  pat <- ".*/200m/.*200m_aspect.*tif$"
   .rema_file_filter(pat)
 }
 #' @name rema-files
 #' @export
 rema_200m_rugosity_files <- function() {
-  pat <- ".*200m_rugosity.*tif$"
+  pat <- ".*/200m/.*200m_rugosity.*tif$"
+  .rema_file_filter(pat)
+}
+
+#' @name rema-files
+#' @export
+rema_200m_rock_files <- function() {
+  pat <- ".*/200m/.*200m_rock.*tif$"
   .rema_file_filter(pat)
 }
 
@@ -80,7 +87,7 @@ rema_100m_dem_files <- function() {
 #' @name rema-files
 #' @export
 rema_100m_dem_geoid_files <- function() {
-  pat <- ".*100m_filled_geoid.*tif$"
+  pat <- ".*/100m/.*100m_filled_geoid.*tif$"
   .rema_file_filter(pat)
 
 }
@@ -88,23 +95,30 @@ rema_100m_dem_geoid_files <- function() {
 #' @name rema-files
 #' @export
 rema_100m_slope_files <- function() {
-  pat <- ".*100m_slope.*tif$"
+  pat <- ".*/100m/.*100m_slope.*tif$"
   .rema_file_filter(pat)
 }
 #' @name rema-files
 #' @export
 rema_100m_aspect_files <- function() {
-  pat <- ".*100m_aspect.*tif$"
+  pat <- ".*/100m/.*100m_aspect.*tif$"
   .rema_file_filter(pat)
 }
 
 #' @name rema-files
 #' @export
 rema_100m_rugosity_files <- function() {
-  pat <- ".*100m_rugosity.*tif$"
+  pat <- ".*/100m/.*100m_rugosity.*tif$"
   .rema_file_filter(pat)
 }
 
+
+#' @name rema-files
+#' @export
+rema_100m_rock_files <- function() {
+  pat <- ".*/100m/.*100m_rock.*tif$"
+  .rema_file_filter(pat)
+}
 #' @name rema-files
 #' @export
 rema_8m_dem_files <- function() {
@@ -115,7 +129,7 @@ rema_8m_dem_files <- function() {
 #' @name rema-files
 #' @export
 rema_8m_dem_geoid_files <- function() {
-  pat <- ".*8m_filled_geoid.*tif$"
+  pat <- ".*/8m/.*8m_filled_geoid.*tif$"
   .rema_file_filter(pat)
 
 }
@@ -123,19 +137,25 @@ rema_8m_dem_geoid_files <- function() {
 #' @name rema-files
 #' @export
 rema_8m_slope_files <- function() {
-  pat <- ".*8m_slope.*tif$"
+  pat <- ".*/8m/.*8m_slope.*tif$"
   .rema_file_filter(pat)
 }
 #' @name rema-files
 #' @export
 rema_8m_aspect_files <- function() {
-  pat <- ".*8m_aspect.*tif$"
+  pat <- ".*/8m/.*8m_aspect.*tif$"
   .rema_file_filter(pat)
 }
 #' @name rema-files
 #' @export
 rema_8m_rugosity_files <- function() {
-  pat <- ".*8m_rugosity.*tif$"
+  pat <- ".*/8m/.*8m_rugosity.*tif$"
+  .rema_file_filter(pat)
+}
+#' @name rema-files
+#' @export
+rema_8m_rock_files <- function() {
+  pat <- ".*/8m/.*8m_rock.*tif$"
   .rema_file_filter(pat)
 }
 
