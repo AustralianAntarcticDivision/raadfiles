@@ -108,12 +108,12 @@ get_raadfiles_data_roots <- function() {
 #' @export
 #' @rdname raadfiles-admin
 get_raad_filenames <- function(all = FALSE) {
-  out <- getOption("raadfiles.filename.database" )
+  out <- getOption("raadfiles.filename.database")
   file_refresh <- getOption("raadfiles.file.refresh.threshold")
   if (is.null(out) || nrow(out) < 1) {
     roots <-  get_raad_data_roots()
     mess <- "no files found in the 'raadfiles.filename.database'"
-    if (is.null(roots)) {
+    if (is.null(roots) || !any(nzchar(roots))) {
       mess <- paste0(mess, "\nand no root directories found.")
       if (isTRUE(getOption("raadfiles.file.cache.disable"))) {
         mess <- paste0(mess, "\n\noption(raadfiles.file.cache.disable) is TRUE, maybe you want to unset that?")
