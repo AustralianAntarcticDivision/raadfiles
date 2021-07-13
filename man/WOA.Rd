@@ -23,5 +23,7 @@ WOA find files
 Current returns all NetCDF files, without any date information, there's a mix of variables month/year climatologies.
 }
 \examples{
-woa13_files()
+\dontrun{
+  woa13_files()
+}
 }
