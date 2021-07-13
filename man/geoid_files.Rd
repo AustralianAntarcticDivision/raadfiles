@@ -8,6 +8,8 @@ geoid_files(all = FALSE, ...)
 }
 \arguments{
 \item{all}{return all files, or just the core grid files for GDAL? './w001001.adf'}
+
+\item{...}{: additional parameters, currently ignored}
 }
 \value{
 data frame of file paths

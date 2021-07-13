@@ -46,7 +46,9 @@ rema_1km_files <- function(filled = TRUE, ...) {
 #' 'rema_8m_files' returns the base level 8 GeoTIFF files, there are 1516 files at 8m resolution.
 #' @references \url{https://www.pgc.umn.edu/tag/rema/}
 #' @param filled return 'filled' variant if available
-#' @param ...
+#' @param all for \code{rema_tile_files}, return all or just \code{*.shp} files; for other functions, if `TRUE` include 'data_deprecated', expert-use only
+#' @param x pattern to detect
+#' @param ... additional parameters, currently ignored
 #'
 #' @return data frame of file names
 #' @export

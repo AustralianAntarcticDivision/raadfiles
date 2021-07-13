@@ -128,8 +128,8 @@ get_raad_filenames <- function(all = FALSE) {
   }
   if (!all) {
     ## trim out specific files
-    out <- dplyr::filter(out, !stringr::str_detect(root, "/data_deprecated"))
-    out <- dplyr::filter(out, !stringr::str_detect(root, "PRIVATE/raad/data"))
+    out <- dplyr::filter(out, !stringr::str_detect(.data$root, "/data_deprecated"))
+    out <- dplyr::filter(out, !stringr::str_detect(.data$root, "PRIVATE/raad/data"))
 
   }
 
@@ -142,6 +142,7 @@ set_raadfile_data_roots <- function(..., replace_existing = TRUE, use_known_cand
 #' @param ... input file paths to set
 #' @param replace_existing replace existing paths, defaults to TRUE
 #' @param use_known_candidates apply internal logic for known candidates (for internal use at raad-hq), defaults to FALSE
+#' @param verbose issue warnings?
 #'
 #' @export
 #' @rdname raadfiles-admin

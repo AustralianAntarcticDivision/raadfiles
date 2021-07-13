@@ -36,6 +36,8 @@ run_build_raad_cache()
 
 \item{use_known_candidates}{apply internal logic for known candidates (for internal use at raad-hq), defaults to FALSE}
 
+\item{verbose}{issue warnings?}
+
 \item{clobber}{by default do not ignore existing file cache, set to TRUE to ignore and set}
 }
 \description{

@@ -3,6 +3,7 @@
 #' Average Lead-Frequency for the polar oceans for winter months November-April 2002/03-2018/19 based on daily lead
 #' composites as derived from MOD/MYD-29 IST 5 min granules.
 #'
+#' @param all return all files, or just the core grid files (*.nc)?
 #' @references F. Reiser, S. Willmes, G. Heinemann (2020): A new algorithm for daily sea ice lead identification in the Arctic and
 #'  Antarctic winter from thermal-infrared satellite imagery.
 #' @export

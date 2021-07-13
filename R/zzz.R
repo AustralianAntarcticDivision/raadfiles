@@ -9,7 +9,7 @@
     options(raadfiles.file.refresh.threshold = file_refresh)  ## 0 for never, 1 for every time
   }
   if (isTRUE(run_on_load)) {
-    message("raadfiles in admin-mode, no file list loaded")
+    packageStartupMessage("raadfiles in admin-mode, no file list loaded")
     return(invisible())
   }
   ## this logic says "data roots list is >=1 and I've set the file list/s found to the in-mem cache
@@ -18,7 +18,7 @@
   if (raad_path_was_set) {
     set_raad_filenames(clobber = TRUE)  ## clobber at start-up, why not
   } else {
-    message("No existing file cache found, see help('raadfiles-admin') for setting up")
+    packageStartupMessage("No existing file cache found, see help('raadfiles-admin') for setting up")
   }
   tm <- 3600
 

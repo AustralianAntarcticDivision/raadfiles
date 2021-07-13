@@ -10,6 +10,9 @@ iceclim_south_leadsfiles(all = FALSE)
 
 iceclim_north_leadsfiles(all = FALSE)
 }
+\arguments{
+\item{all}{return all files, or just the core grid files (*.nc)?}
+}
 \description{
 Average Lead-Frequency for the polar oceans for winter months November-April 2002/03-2018/19 based on daily lead
 composites as derived from MOD/MYD-29 IST 5 min granules.

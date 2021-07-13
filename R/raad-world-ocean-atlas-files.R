@@ -11,7 +11,7 @@
 #' @export
 #' @importFrom stringr str_detect str_extract str_replace
 #' @examples
-#' woa13_daily_files()
+#' woa13_files()
 woa13_files <- function() {
   ## https://github.com/AustralianAntarcticDivision/raadtools/issues/53#issuecomment-311489621
   files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "data.nodc.noaa.gov/woa/WOA13/DATAv2"))

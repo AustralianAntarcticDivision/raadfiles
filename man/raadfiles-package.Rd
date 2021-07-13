@@ -2,9 +2,10 @@
 % Please edit documentation in R/raadfiles-package.R
 \docType{package}
 \name{raadfiles-package}
-\alias{raadfiles}
 \alias{raadfiles-package}
-\title{raadfiles: File Database Management for 'raadtools'}
+\alias{_PACKAGE}
+\alias{raadfiles}
+\title{Manage files used provided by bowerbird/raadtools.}
 \description{
 Tools for managing collections of files for the 'raad' family.
 }

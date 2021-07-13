@@ -18,6 +18,7 @@
 #' continuous surface of geoid undulation values where each 2.5-minute raster cell derives its value from the original
 #' pre-computed geoid undulation point value located at the SW corner of each cell.
 #' @param all return all files, or just the core grid files for GDAL? './w001001.adf'
+#' @param ... : additional parameters, currently ignored
 #' @name geoid_files
 #' @return data frame of file paths
 #' @export

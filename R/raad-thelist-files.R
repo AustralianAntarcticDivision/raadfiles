@@ -162,7 +162,7 @@ thelist_files <- function(format = c("gdb", "tab", "shp", "asc"),
 thelist_munips <- function(x, ...) {
   patt <- "list_10m_contours_"
   files <- thelist_files(format  = "tab", pattern = patt) %>%
-    dplyr::filter(stringr::str_detect(fullname, "^(?!.*statewide).*$"))
+    dplyr::filter(stringr::str_detect(.data$fullname, "^(?!.*statewide).*$"))
   gsub("\\.tab$", "", gsub(patt, "", basename(files$fullname)))
 }
 
@@ -171,9 +171,9 @@ thelist_munips <- function(x, ...) {
 thelist_groups <- function(x, ...) {
   files <- thelist_files(format  = "tab", pattern = "list_")
   statewide <-  files %>%
-    dplyr::filter(stringr::str_detect(basename(fullname), "statewide"))
+    dplyr::filter(stringr::str_detect(basename(.data$fullname), "statewide"))
   files <- files %>%
-    dplyr::filter(stringr::str_detect(fullname, "^(?!.*statewide).*$"))
+    dplyr::filter(stringr::str_detect(.data$fullname, "^(?!.*statewide).*$"))
   ## statewide is one set of groups, now we have to strip out municipalities
   groups0 <- gsub("\\.tab", "", basename(c(statewide$fullname, files$fullname)))
   munips <- sprintf("_%s", thelist_munips())

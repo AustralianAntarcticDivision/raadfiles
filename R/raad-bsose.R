@@ -1,3 +1,5 @@
+#' @importFrom utils tail
+
 sose_iters <- function() {
   files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "sose.ucsd.edu"))
   files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*sose.ucsd.edu.*monthly.*nc$"))
@@ -47,7 +49,7 @@ sose_monthly_files <- function(varname = "", iteration = "") {
     if (varname == "") {
       files <- files[1L, ]
     } else {
-      files <- dplyr::filter(files, stringr::str_detect(fullname, varname))
+      files <- dplyr::filter(files, stringr::str_detect(.data$fullname, varname))
     }
   }
 
