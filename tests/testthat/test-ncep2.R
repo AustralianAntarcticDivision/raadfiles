@@ -1,6 +1,7 @@
 context("ncep2")
 
 test_that("NCEP2 files good", {
+ skip_if_not(any(nzchar(raadfiles::get_raad_data_roots())))
  uwnd <- ncep2_uwnd_6hr_files()
  uwnd %>% expect_s3_class("tbl_df") %>% expect_named(c("date", "fullname", "root"))
  expect_true(inherits(uwnd$date, "POSIXct"))

@@ -1,6 +1,7 @@
 context("file cache")
 test_that("raadtools config works", {
   skip_if_not(Sys.info()[["nodename"]] == "raadsync2")
+  skip_if_not(any(nzchar(raadfiles::get_raad_data_roots())))
   # oldpath <- getOption("default.datadir")
   # expect_true(file.exists(oldpath))
 
