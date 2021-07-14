@@ -33,5 +33,7 @@ the equivalent of 'ncdump -h' output.
 Optimally Interpolated version 2 SST moved from 'eclipse.ncdc.noaa.gov', to 'www.ncei.noaa.gov' at the end of 2017. Version 2 was superseded by version 2.1 during 2020.
 }
 \examples{
-oisst_daily_files()
+\dontrun{
+  oisst_daily_files()
+}
 }

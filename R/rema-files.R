@@ -54,8 +54,10 @@ rema_1km_files <- function(filled = TRUE, ...) {
 #' @export
 #' @aliases rema_100m_files rema_200m_files rema_1km_files rema_tile_files
 #' @examples
-#' rema_8m_files()
-#' rema_100m_files(filled = TRUE)
+#' \dontrun{
+#'   rema_8m_files()
+#'   rema_100m_files(filled = TRUE)
+#' }
 rema_8m_files <- function(...) {
   pat <- "v1.1.*8m_dem.tif$"
 

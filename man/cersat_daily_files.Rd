@@ -13,5 +13,7 @@ tibble data frame of file names
 Sea ice concentration files at 12.5 km resolution, southern hemisphere.
 }
 \examples{
-cersat_daily_files()
+\dontrun{
+  cersat_daily_files()
+}
 }

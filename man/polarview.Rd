@@ -20,7 +20,8 @@ Imagery from www.polarview.aq
 The JPEGs are simple images, the GeoTIFFs are 16-bit integers (haven't explored further)
 }
 \examples{
-files <- polarview_files()
-tiffiles <- polarview_files(type = "tarball")
-
+\dontrun{
+  files <- polarview_files()
+  tiffiles <- polarview_files(type = "tarball")
+}
 }

@@ -11,9 +11,10 @@
 #' @param type jpeg or tarball
 #' @importFrom stringr str_detect str_extract str_replace
 #' @examples
-#' files <- polarview_files()
-#' tiffiles <- polarview_files(type = "tarball")
-#'
+#' \dontrun{
+#'   files <- polarview_files()
+#'   tiffiles <- polarview_files(type = "tarball")
+#' }
 polarview_files <- function(type = c("jpeg", "tarball")) {
   files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "www.polarview.aq/images"))
   type <- match.arg(type)
@@ -40,12 +41,14 @@ polarview_tifname <- function(x) {
 #' @keywords internal
 #' @noRd
 #' @examples
-#' files <- polarview_files(type = "jpeg")
-#' tarball <- polarview_jpeg_tarball(files$fullname[20:24])
+#' \dontrun{
+#'   files <- polarview_files(type = "jpeg")
+#'   tarball <- polarview_jpeg_tarball(files$fullname[20:24])
 #'
-#' tarball <- na.omit(tarball)
-#' ## must be valid tarball paths here (not missing)
-#' polarview_get_geotransform(tarball)
+#'   tarball <- na.omit(tarball)
+#'   ## must be valid tarball paths here (not missing)
+#'   polarview_get_geotransform(tarball)
+#' }
 polarview_get_geotransform <- function(x) {
 
   tfwname <- gsub("tif$", "tfw", polarview_tifname(x))

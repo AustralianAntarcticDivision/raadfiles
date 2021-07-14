@@ -29,8 +29,10 @@ Antarctic Mesoscale Prediction System GRIB files.
 `amps_files` returns all the files, `amps_model_files` returns the files with date set from the file name, `amps_d1files` and `amps_d2files` return only the 30km and 10 km resolution grids respectively.
 }
 \examples{
-amps_files()
-amps_model_files()
-amps_d1files()
-amps_d2files()
+\dontrun{
+  amps_files()
+  amps_model_files()
+  amps_d1files()
+  amps_d2files()
+}
 }

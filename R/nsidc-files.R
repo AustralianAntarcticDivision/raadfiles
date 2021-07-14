@@ -10,12 +10,14 @@
 #' @importFrom stringr str_detect str_extract str_replace
 #' @export
 #' @examples
-#' nsidc_south_monthly_files()
-#' nsidc_north_monthly_files()
-#' nsidc_monthly_files()
-#' nsidc_south_daily_files()
-#' nsidc_north_daily_files()
-#' nsidc_daily_files()
+#' \dontrun{
+#'   nsidc_south_monthly_files()
+#'   nsidc_north_monthly_files()
+#'   nsidc_monthly_files()
+#'   nsidc_south_daily_files()
+#'   nsidc_north_daily_files()
+#'   nsidc_daily_files()
+#' }
 nsidc_south_monthly_files <- function() {
   files <-    dplyr::filter(nsidc_monthly_files(), stringr::str_detect(fullname, "south"))
     ## arrange and distinct to resolve versions

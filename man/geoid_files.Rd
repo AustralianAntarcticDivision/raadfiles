@@ -25,5 +25,7 @@ continuous surface of geoid undulation values where each 2.5-minute raster cell 
 pre-computed geoid undulation point value located at the SW corner of each cell.
 }
 \examples{
-geoid_files()
+\dontrun{
+  geoid_files()
+}
 }

@@ -18,8 +18,10 @@ Average Lead-Frequency for the polar oceans for winter months November-April 200
 composites as derived from MOD/MYD-29 IST 5 min granules.
 }
 \examples{
-iceclim_south_leadsfiles()
-iceclim_north_leadsfiles()
+\dontrun{
+  iceclim_south_leadsfiles()
+  iceclim_north_leadsfiles()
+}
 }
 \references{
 F. Reiser, S. Willmes, G. Heinemann (2020): A new algorithm for daily sea ice lead identification in the Arctic and

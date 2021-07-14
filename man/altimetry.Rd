@@ -27,5 +27,7 @@ are returned by this function. The `all` argument can be set to `TRUE` to includ
 that are ultimately consolidated into the daily sequence.
 }
 \examples{
-altimetry_daily_files()
+\dontrun{
+  altimetry_daily_files()
+}
 }

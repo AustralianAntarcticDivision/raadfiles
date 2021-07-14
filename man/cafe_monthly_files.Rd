@@ -13,5 +13,7 @@ data frame of file names and date, 'date', 'fullname'
 'Cafe' MODIS files
 }
 \examples{
-cafe_monthly_files()
+\dontrun{
+  cafe_monthly_files()
+}
 }

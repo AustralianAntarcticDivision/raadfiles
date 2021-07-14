@@ -23,7 +23,9 @@
 #' @return data frame of file paths
 #' @export
 #' @examples
-#' geoid_files()
+#' \dontrun{
+#'   geoid_files()
+#' }
 geoid_files <- function(all = FALSE, ...) {
  .geoid_all_files(all = FALSE)
 }

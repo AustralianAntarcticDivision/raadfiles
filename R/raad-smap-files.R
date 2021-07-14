@@ -10,7 +10,9 @@
 #' @export
 #' @importFrom stringr str_detect str_extract str_replace
 #' @examples
-#' smap_daily_files()
+#' \dontrun{
+#'   smap_daily_files()
+#' }
 smap_8day_files <- function() {
   #ftp://podaac-ftp.jpl.nasa.gov/allData/smap/L3/RSS/V3/8day_running/SCI/40KM/2015/272/
 

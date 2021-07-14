@@ -17,5 +17,7 @@ Only available for the southern hemisphere.
 The code that creates these derived files is at [raad-deriv](https://github.com/AustralianAntarcticDivision/raad-deriv).
 }
 \examples{
-altimetry_currents_polar_files()
+\dontrun{
+  altimetry_currents_polar_files()
+}
 }

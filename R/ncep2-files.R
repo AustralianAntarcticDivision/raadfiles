@@ -9,8 +9,10 @@
 #' @export
 #' @importFrom stringr str_extract str_replace
 #' @examples
-#' ncep2_uwnd_6hr_files()
-#' ncep2_vwnd_6hr_files()
+#' \dontrun{
+#'   ncep2_uwnd_6hr_files()
+#'   ncep2_vwnd_6hr_files()
+#' }
 ncep2_uwnd_6hr_files <- function() {
   files <- ncep2_6hr_files()
   files <- dplyr::filter(files, grepl("^.*uwnd.*gauss.*\\.nc$", .data$file))

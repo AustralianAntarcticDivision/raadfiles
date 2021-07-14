@@ -126,5 +126,7 @@ George V Terre Adelie, Kerguelen, Macquarie 100m
 }
 
 \examples{
-gebco14_files()
+\dontrun{
+  gebco14_files()
+}
 }

@@ -9,8 +9,10 @@
 #' @export
 #' @name leads
 #' @examples
-#' iceclim_south_leadsfiles()
-#' iceclim_north_leadsfiles()
+#' \dontrun{
+#'   iceclim_south_leadsfiles()
+#'   iceclim_north_leadsfiles()
+#' }
 iceclim_south_leadsfiles <- function(all = FALSE) {
   files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file, "store.pangaea.de"))
 

@@ -14,7 +14,9 @@
 #' @export
 #' @importFrom stringr str_detect str_extract str_replace
 #' @examples
-#' srtm_files()
+#' \dontrun{
+#'   srtm_files()
+#' }
 srtm_files <- function() {
   files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "srtm.csi.cgiar.org"))
   files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*\\.tif$"))

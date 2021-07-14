@@ -27,7 +27,9 @@ sose_vars <- function() {
 #' @export
 #' @references http://sose.ucsd.edu/
 #' @examples
-#' sose_monthly_files()
+#' \dontrun{
+#'   sose_monthly_files()
+#' }
 sose_monthly_files <- function(varname = "", iteration = "") {
   files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "sose.ucsd.edu"))
   files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*sose.ucsd.edu.*monthly.*nc$"))

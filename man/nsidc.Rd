@@ -29,10 +29,12 @@ tibble data frame of file names
 Sea ice concentration files.
 }
 \examples{
-nsidc_south_monthly_files()
-nsidc_north_monthly_files()
-nsidc_monthly_files()
-nsidc_south_daily_files()
-nsidc_north_daily_files()
-nsidc_daily_files()
+\dontrun{
+  nsidc_south_monthly_files()
+  nsidc_north_monthly_files()
+  nsidc_monthly_files()
+  nsidc_south_daily_files()
+  nsidc_north_daily_files()
+  nsidc_daily_files()
+}
 }

@@ -15,5 +15,7 @@ tibble data frame of file names, with columns `fullname` and `date`
 Remote Sensing Systems SMAP Level 3 Sea Surface Salinity Standard Mapped Image 8day running
 }
 \examples{
-smap_daily_files()
+\dontrun{
+  smap_daily_files()
+}
 }

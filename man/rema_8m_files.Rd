@@ -97,8 +97,10 @@ Return files for various products from REMA Release 1
 'rema_8m_files' returns the base level 8 GeoTIFF files, there are 1516 files at 8m resolution.
 }
 \examples{
-rema_8m_files()
-rema_100m_files(filled = TRUE)
+\dontrun{
+  rema_8m_files()
+  rema_100m_files(filled = TRUE)
+}
 }
 \references{
 \url{https://www.pgc.umn.edu/tag/rema/}

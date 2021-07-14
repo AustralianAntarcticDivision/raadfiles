@@ -6,7 +6,9 @@
 #' @export
 #'
 #' @examples
-#' cafe_monthly_files()
+#' \dontrun{
+#'   cafe_monthly_files()
+#' }
 cafe_monthly_files <- function() {
   files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "cafe.modis.r2018"))
   files <- dplyr::filter(files, grepl("^.*orca.science.oregonstate.edu.*/cafe.*\\.hdf$",

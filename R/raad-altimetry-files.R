@@ -7,7 +7,9 @@
 #' @param hemisphere south only for now
 #' @export
 #' @examples
-#' altimetry_currents_polar_files()
+#' \dontrun{
+#'   altimetry_currents_polar_files()
+#' }
 altimetry_currents_polar_files <- function(hemisphere = "south") {
   files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file, "aad.gov.au/currents/polar"))
   files <- dplyr::filter(files, stringr::str_detect(.data$file, "grd$"))  ## faster without the .
@@ -56,16 +58,18 @@ altimetry_currents_polar_files <- function(hemisphere = "south") {
 #' @export
 #' @importFrom stringr str_detect str_extract str_replace
 #' @examples
-#' altimetry_daily_files()
+#' \dontrun{
+#'   altimetry_daily_files()
+#' }
 altimetry_daily_files <- function(all = FALSE) {
-#  SSH etc now come from Copernicus, in a different format. Files
-#  reside under
-#  ftp.sltac.cls.fr/Core/SEALEVEL_GLO_PHY_L4_NRT_OBSERVATIONS_008_046
-#  for near-real-time data and under
-#  ftp.sltac.cls.fr/Core/SEALEVEL_GLO_PHY_L4_REP_OBSERVATIONS_008_047
-#  for reprocessed data.
-#  Each nc file now contains all the variables for that day (sla, mdt, uv)
-# (The new collection is syncing now - 23-Jun-2017)
+  ##  SSH etc now come from Copernicus, in a different format. Files
+  ##  reside under
+  ##  ftp.sltac.cls.fr/Core/SEALEVEL_GLO_PHY_L4_NRT_OBSERVATIONS_008_046
+  ##  for near-real-time data and under
+  ##  ftp.sltac.cls.fr/Core/SEALEVEL_GLO_PHY_L4_REP_OBSERVATIONS_008_047
+  ##  for reprocessed data.
+  ##  Each nc file now contains all the variables for that day (sla, mdt, uv)
+  ## (The new collection is syncing now - 23-Jun-2017)
 
   files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "SEALEVEL_GLO_PHY_L4"))
   files <- dplyr::filter(files, stringr::str_detect(.data$file, "nc$"))  ## faster without the .

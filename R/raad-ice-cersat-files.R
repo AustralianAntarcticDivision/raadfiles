@@ -9,7 +9,9 @@
 #' @importFrom stringr str_detect str_extract
 #' @export
 #' @examples
-#' cersat_daily_files()
+#' \dontrun{
+#'   cersat_daily_files()
+#' }
 cersat_daily_files <- function() {
   files <- dplyr::filter(get_raad_filenames(),
                          stringr::str_detect(.data$file, "ifremer"))

@@ -9,10 +9,12 @@
 #' @param ... reserved, unused
 #' @export
 #' @examples
-#' amps_files()
-#' amps_model_files()
-#' amps_d1files()
-#' amps_d2files()
+#' \dontrun{
+#'   amps_files()
+#'   amps_model_files()
+#'   amps_d1files()
+#'   amps_d2files()
+#' }
 amps_files <- function() {
 
   files <- dplyr::filter(get_raad_filenames(),

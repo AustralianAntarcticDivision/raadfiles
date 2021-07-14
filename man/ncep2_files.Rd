@@ -17,6 +17,8 @@ tibble data frame of file names
 NCEP2 six-hourly reanalysis2 gaussian grid
 }
 \examples{
-ncep2_uwnd_6hr_files()
-ncep2_vwnd_6hr_files()
+\dontrun{
+  ncep2_uwnd_6hr_files()
+  ncep2_vwnd_6hr_files()
+}
 }

@@ -81,10 +81,10 @@ amsr2_daily_files <- function() {
 #' @importFrom stringr str_detect str_extract
 #' @export
 #' @examples
-#'
-#'
-#' ## this combines amsr2 (2012-) and amsre (2002-2011)
-#' amsr_daily_files()
+#' \dontrun{
+#'   ## this combines amsr2 (2012-) and amsre (2002-2011)
+#'   amsr_daily_files()
+#' }
 amsr_daily_files <- function() {
   files <- dplyr::filter(get_raad_filenames(),
                          stringr::str_detect(.data$file, "s6250"))

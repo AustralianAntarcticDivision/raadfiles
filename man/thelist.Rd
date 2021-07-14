@@ -111,14 +111,16 @@ txt is probably just xml, probably only relevant to GDAL and ESRI  list_fmp_data
 Arguments are used to pattern match on different aspects of the file name so that anything can be pulled out.
 }
 \examples{
-thelist_files()
+\dontrun{
+  thelist_files()
 
-## to get statewide sets, find the individual groups first and pick one
-grps <- raadfiles:::thelist_groups()
-print(grps)
-#read_all <- function(pattern) {
-#files <- thelist_files(format = "shp", pattern = pattern)
-#do.call(rbind, lapply(files$fullname,  sf::read_sf))
-#}
-#x <- read_all(sample(grps, 1))
+  ## to get statewide sets, find the individual groups first and pick one
+  grps <- raadfiles:::thelist_groups()
+  print(grps)
+  #read_all <- function(pattern) {
+  #files <- thelist_files(format = "shp", pattern = pattern)
+  #do.call(rbind, lapply(files$fullname,  sf::read_sf))
+  #}
+  #x <- read_all(sample(grps, 1))
+}
 }

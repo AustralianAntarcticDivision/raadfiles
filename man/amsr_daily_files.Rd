@@ -34,8 +34,8 @@ The HDF files require flipping about the y-axis, and setting the polar extent an
 metadata. The TIF files don't require this, they are completely oriented and metadata-complete.
 }
 \examples{
-
-
-## this combines amsr2 (2012-) and amsre (2002-2011)
-amsr_daily_files()
+\dontrun{
+  ## this combines amsr2 (2012-) and amsre (2002-2011)
+  amsr_daily_files()
+}
 }

@@ -20,7 +20,9 @@ SRTM 90m Digital Elevation Database v4.1
 DOI: 0.1080/13658810601169899
 }
 \examples{
-srtm_files()
+\dontrun{
+  srtm_files()
+}
 }
 \references{
 [https://cgiarcsi.community/data/srtm-90m-digital-elevation-database-v4-1/]

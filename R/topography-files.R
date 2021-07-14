@@ -39,7 +39,9 @@ topo_files_generic <- function(pattern, ...) {
 #' @export
 #'
 #' @examples
-#' gebco14_files()
+#' \dontrun{
+#'   gebco14_files()
+#' }
 gebco19_files <- function(all = FALSE, ...) {
 
   pattern <- if (all) "www.bodc.ac.uk/.*/GEBCO_15SEC/zip" else "www.bodc.ac.uk/.*/GEBCO_15SEC/zip/GEBCO_2019.nc$"

@@ -103,19 +103,19 @@
 #' @export
 
 #' @examples
-#' thelist_files()
+#' \dontrun{
+#'   thelist_files()
 #'
-#' ## to get statewide sets, find the individual groups first and pick one
-#' grps <- raadfiles:::thelist_groups()
-#' print(grps)
-#' #read_all <- function(pattern) {
-#' #files <- thelist_files(format = "shp", pattern = pattern)
-#' #do.call(rbind, lapply(files$fullname,  sf::read_sf))
-#' #}
-#' #x <- read_all(sample(grps, 1))
-thelist_files <- function(format = c("gdb", "tab", "shp", "asc"),
-                          pattern = NULL
-) {
+#'   ## to get statewide sets, find the individual groups first and pick one
+#'   grps <- raadfiles:::thelist_groups()
+#'   print(grps)
+#'   #read_all <- function(pattern) {
+#'   #files <- thelist_files(format = "shp", pattern = pattern)
+#'   #do.call(rbind, lapply(files$fullname,  sf::read_sf))
+#'   #}
+#'   #x <- read_all(sample(grps, 1))
+#' }
+thelist_files <- function(format = c("gdb", "tab", "shp", "asc"), pattern = NULL) {
   files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "listdata.thelist.tas.gov.au"))
   # unique(unlist(lapply(strsplit(files$file, "\\."), tail, 1)))
   # [1] "cpg"            "DAT"            "dbf"            "gdbindexes"     "gdbtable"       "gdbtablx"
