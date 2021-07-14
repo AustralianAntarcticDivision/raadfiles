@@ -26,6 +26,9 @@
 
 }
 
+## to suppress check error
+globalVariables("rema_tiles_polygons")
+
 #' @name rema_8m_files
 #' @export
 rema_8m_tiles <- function() {
