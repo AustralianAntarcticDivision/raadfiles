@@ -73,6 +73,8 @@
 #' this is probably why gdb/, though note that for raster /anything-next-to.adf
 #' does work
 #'
+#' all will give every thelist file
+#'
 #' tab is that glorious ancient format
 #'
 #' gdb is a newcomer format, recently reverse engineered by Even
@@ -89,7 +91,11 @@
 #'
 #' csv is something else e.g. list_fmp_data.csv
 #'
-#' txt is probably just xml, probably only relevant to GDAL and ESRI  list_fmp_data_statewide.txt.xml
+#' xml,txt is probably just xml, probably only relevant to GDAL and ESRI  list_fmp_data_statewide.txt.xml
+#'
+#' lyr - style files?
+#'
+#' zip - unpackage zips
 #'
 #' Arguments are used to pattern match on different aspects of the file name so that anything can be pulled out.
 #' @param format is used to targe tspecific formats see Details
@@ -115,7 +121,7 @@
 #'   #}
 #'   #x <- read_all(sample(grps, 1))
 #' }
-thelist_files <- function(format = c("gdb", "tab", "shp", "asc"), pattern = NULL) {
+thelist_files <- function(format = c("gdb", "tab", "shp", "asc", "xml", "lyr", "dbf", "zip", "all"), pattern = NULL) {
   files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "listdata.thelist.tas.gov.au"))
   # unique(unlist(lapply(strsplit(files$file, "\\."), tail, 1)))
   # [1] "cpg"            "DAT"            "dbf"            "gdbindexes"     "gdbtable"       "gdbtablx"
@@ -134,10 +140,10 @@ thelist_files <- function(format = c("gdb", "tab", "shp", "asc"), pattern = NULL
 
   #if (!is.null(type)) files <- dplyr::filter(files, grepl(type, file))
   if (!is.null(pattern)) files <- dplyr::filter(files, grepl(pattern, .data$file))
-  if (is.null(format) || is.na(format) || nchar(format) == 0) {
 
-  } else {
-    format <- match.arg(format)
+  format <- match.arg(format)
+
+  if (!format == "all") {
     if (format == "gdb") {
       files <- dplyr::filter(files, grepl("gdb$", dirname(.data$file)))
       files <- dplyr::mutate(files, file = dirname(.data$file)) %>% distinct(.data$root, .data$file)

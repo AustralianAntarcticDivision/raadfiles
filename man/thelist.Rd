@@ -5,7 +5,10 @@
 \alias{thelist_files}
 \title{TheList}
 \usage{
-thelist_files(format = c("gdb", "tab", "shp", "asc"), pattern = NULL)
+thelist_files(
+  format = c("gdb", "tab", "shp", "asc", "xml", "lyr", "dbf", "zip", "all"),
+  pattern = NULL
+)
 }
 \arguments{
 \item{format}{is used to targe tspecific formats see Details}
@@ -90,6 +93,8 @@ resolves layer names in the same folder but you can give it the path name,
 this is probably why gdb/, though note that for raster /anything-next-to.adf
 does work
 
+all will give every thelist file
+
 tab is that glorious ancient format
 
 gdb is a newcomer format, recently reverse engineered by Even
@@ -106,7 +111,11 @@ interesting commerical initiatives in general geospatial data)
 
 csv is something else e.g. list_fmp_data.csv
 
-txt is probably just xml, probably only relevant to GDAL and ESRI  list_fmp_data_statewide.txt.xml
+xml,txt is probably just xml, probably only relevant to GDAL and ESRI  list_fmp_data_statewide.txt.xml
+
+lyr - style files?
+
+zip - unpackage zips
 
 Arguments are used to pattern match on different aspects of the file name so that anything can be pulled out.
 }

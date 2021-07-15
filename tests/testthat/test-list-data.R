@@ -3,7 +3,7 @@ context("list-data")
 test_that("list files found", {
   skip_on_travis()  ## we need bowerbird
   skip_if_not(!is.null(get_raad_data_roots()))
-  thelist_files(format = "")  %>%   expect_named(c("fullname", "root")) ## get all files
+  thelist_files(format = "all")  %>%   expect_named(c("fullname", "root")) ## get all files
   thelist_files(format = "tab", pattern = "tab$")  %>% expect_s3_class("tbl_df") ## those kind
   parcels <- thelist_files(pattern = "parcel")
   cparcels <- thelist_files(pattern = "parcels_c")
