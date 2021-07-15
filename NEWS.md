@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Consistency fixes for load up configuration, see https://github.com/AustralianAntarcticDivision/raadfiles/issues/23. 
+
 * New REMA functions, and data set for the polygons. WIP
 
 * Slight speedup for package load by using text file and vroom and read/write the file database. 

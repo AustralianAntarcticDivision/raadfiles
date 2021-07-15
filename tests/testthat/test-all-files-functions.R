@@ -3,7 +3,7 @@
 # files_funs_names <- grep("files$", ls("package:raadfiles"), value = TRUE)
 #
 # # test_that("all files functions work", {
-# #     skip_if_not(any(nzchar(raadfiles::get_raad_data_roots())))
+# #      skip_if_not(!is.null(get_raad_data_roots()))
 # #   for (i in seq_along(files_funs_names)) {
 # #     get_fun <- get(files_funs_names[i])
 # #     d <- try(get_fun())

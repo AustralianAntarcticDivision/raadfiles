@@ -93,7 +93,11 @@
 #' @aliases raadfiles-admin get_raad_filenames set_raad_data_roots   raad_filedb_path set_raad_filenames run_build_raad_cache
 #'
 get_raad_data_roots <- function() {
-  getOption("raadfiles.data.roots")
+  out <- getOption("raadfiles.data.roots")
+  out <- out[nzchar(out)]  ## ensure that it's NULL, or non empty string/s
+  if (anyNA(out)) out <- out[!is.na(out)]
+  if (length(out) < 1) out <- NULL
+  out
 }
 get_raw_raad_filenames <- function() {
   .Deprecated("get_raad_filenames")
@@ -168,7 +172,8 @@ set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidat
   padding_n <- maxchar - nchar(inputs) - nchar(mtimes)
   padding <- unlist(lapply(padding_n, function(x) paste(rep(" ", x + 4), collapse = "")))
   raad_ok <- FALSE
-  if (length(inputs) > 0) raad_ok <- TRUE
+  inputs <- inputs[nzchar(inputs)]
+  if (length(inputs) > 0)  raad_ok <- TRUE
   if (raad_ok) {
     options(raadfiles.data.roots = inputs)
     cat("global option 'raadfiles.data.roots' set:\n'")
@@ -245,7 +250,7 @@ set_raad_filenames <- function(clobber = FALSE) {
   for (i in seq_along(fslist)) {
     x <- fslist[[i]]
     if (is.null(x)) next;
-    #x[["root"]] <- rep(raadfiles.data.roots[i], nrow(x))
+
     fslist[[i]][["root"]] <- rep(raadfiles.data.roots[i], nrow(x))
   }
 
