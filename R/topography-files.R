@@ -45,9 +45,17 @@ topo_files_generic <- function(pattern, ...) {
 gebco19_files <- function(all = FALSE, ...) {
 
   #pattern <- if (all) "www.bodc.ac.uk/.*/GEBCO_15SEC/zip" else "www.bodc.ac.uk/.*/GEBCO_15SEC/zip/GEBCO_2019.nc$"
-  pattern <- if (all) "www.bodc.ac.uk/.*/GEBCO_15SEC/zip" else ".*aad.gov.au/gebco/GEBCO_2019.tif$"
-
-  topo_files_generic(pattern)
+  pattern <- if (all) {
+    out <- topo_files_generic("www.bodc.ac.uk/.*/GEBCO_15SEC/zip")
+  } else {
+    ## doing filter(str_detect()) on this file is insanely slow?
+    files <- get_raad_filenames(all = TRUE)
+    files <- files[grep("data_local", files$root), ]
+    idx <- files$file == "aad.gov.au/gebco/GEBCO_2019.tif"
+    out <- files[which(idx)[1L], ]
+    out <- dplyr::transmute(out, fullname = file.path(root, file), root)
+  }
+  out
 }
 
 #' @name topography

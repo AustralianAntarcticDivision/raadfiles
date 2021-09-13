@@ -51,8 +51,8 @@
 #' used or loaded. This is typically done when calling `run_build_raad_cache()` in a cron task.
 #'
 #' Every raadfiles file collection function (e.g. `oisst_daily_files`) will run `get_raad_filenames` to obtain the full raw list of
-#' available files from the global in-memory option `getOption("raadfiles.filename.database")` and there is a low threshold probability that
-#' this will also trigger a re-read of the file listing from the root directories. To avoid this trigger either use `getOption("raadfiles.filename.database")`
+#' available files from the global in-memory option `getOption("raadfiles.env")$raadfiles.filename.database` and there is a low threshold probability that
+#' this will also trigger a re-read of the file listing from the root directories. To avoid this trigger either use that directly
 #' directly to get the in-memory file list, or set `options(raadfiles.file.refresh.threshold = 0)` to prevent the trigger. (Set it to 1 to force it always
 #' to be read, also controlled by `set_raad_filenames(clobber = TRUE)`).
 #'
@@ -84,7 +84,7 @@
 #' Options used internally, and subject to control by adminstrator options and the running of admin functions (they may not be set).
 #'
 #' \tabular{ll}{
-#'  \code{raadfiles.filename.database} \tab the data frame of all file names from the data roots \cr
+#'  \code{raadfiles.env} \tab an environment with the data frame of all file names from the data roots in a object named 'raadfiles.filename.database' \cr
 #'  \code{raadfiles.database.status} \tab a status record of the in-memory filename database (timestamp) \cr
 #'  }
 #'
@@ -112,9 +112,15 @@ get_raadfiles_data_roots <- function() {
 #' @export
 #' @rdname raadfiles-admin
 get_raad_filenames <- function(all = FALSE) {
-  out <- getOption("raadfiles.filename.database")
+  #out <- getOption("raadfiles.filename.database")
+  out <- getOption("raadfiles.env")$raadfiles.filename.database
+  ## weird trick to avoid multiple invalidations of the vroom df
+  junk <- raadfiles.env[["raadfiles.filename.database"]][1, ]
+  #assign("raadfiles.filename.database", out, envir = raadfiles.env)
+  #out <- get("raadfiles.filename.database", envir = env0)
+
   file_refresh <- getOption("raadfiles.file.refresh.threshold")
-  if (is.null(out) || nrow(out) < 1) {
+  if (is.null(out) || dim(out)[1L] < 1) {
     roots <-  get_raad_data_roots()
     mess <- "no files found in the 'raadfiles.filename.database'"
     if (is.null(roots) || !any(nzchar(roots))) {
@@ -143,6 +149,9 @@ set_raadfile_data_roots <- function(..., replace_existing = TRUE, use_known_cand
   .Deprecated("set_raad_data_roots")
   set_raad_data_roots(..., use_known_candidates = use_known_candidates, replace_existing = replace_existing)
 }
+
+pad4 <- function(x) paste(rep(" ", x + 4), collapse = "")
+
 #' @param ... input file paths to set
 #' @param replace_existing replace existing paths, defaults to TRUE
 #' @param use_known_candidates apply internal logic for known candidates (for internal use at raad-hq), defaults to FALSE
@@ -170,7 +179,8 @@ set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidat
   if (any(is.na(mtimes))) mtimes[is.na(mtimes)] <- ""
   maxchar <- max(nchar(inputs) + nchar(mtimes))
   padding_n <- maxchar - nchar(inputs) - nchar(mtimes)
-  padding <- unlist(lapply(padding_n, function(x) paste(rep(" ", x + 4), collapse = "")))
+
+  padding <- unlist(lapply(padding_n, pad4))
   raad_ok <- FALSE
   inputs <- inputs[nzchar(inputs)]
   if (length(inputs) > 0)  raad_ok <- TRUE
@@ -217,49 +227,68 @@ set_raad_filenames <- function(clobber = FALSE) {
   ## to avoid https://github.com/eddelbuettel/digest/issues/13
   ## ignore the erroneous status from file.access(, 4)
   data_dbs <- tibble::tibble(db = raadfiles.data.filedbs,
-                             md5 = unlist(lapply(raadfiles.data.filedbs, digest::digest, algo = "md5", file = TRUE, errormode = "silent")),
+                             md5 = unlist(lapply(raadfiles.data.filedbs, digest::digest, algo = "md5", file = TRUE, errormode = "silent"), use.names = FALSE),
                              file_ok = TRUE)
+
 
   if (!clobber) {
 
     current_dbs <- getOption("raadfiles.database.status")
     if (!is.null(current_dbs)) {
-      if (nrow(dplyr::distinct(dplyr::inner_join(data_dbs, current_dbs, c("db", "md5")))) == nrow(data_dbs)) {
+      if (dim(dplyr::distinct(dplyr::inner_join(data_dbs, current_dbs, c("db", "md5"))))[1L] == dim(data_dbs)[1L]) {
         ## no need to update
         ## don't run get_raad_filenames logic here, because that calls this function with threshold prob
-        raadf <- getOption("raadfiles.filename.database" )
-        message(sprintf("Raad file cache is up to date as at %s (%i files listed) \n", format(attr(raadf, "raad_time_stamp")), nrow(raadf)))
+        #raadf <- getOption("raadfiles.filename.database" )
+        #raadf <- get("raadfiles.filename.database", envir = env0)
+        raadf <- getOption("raadfiles.env")$raadfiles.filename.database
+        message(sprintf("Raad file cache is up to date as at %s (%i files listed) \n", format(attr(raadf, "raad_time_stamp")), dim(raadf)[1L]))
         return(invisible(NULL))
       }
     }
   }
-  fslist <- vector("list", length(raadfiles.data.filedbs))
-  file_ok <- data_dbs$file_ok
-  for (i in seq_along(fslist)) {
-    db <- try(vroom::vroom(raadfiles.data.filedbs[i], col_types = c(root = "c", file = "c")), silent = TRUE)
-    if (!inherits(db, "try-error")) {
-      fslist[[i]] <- db
-    } else {
-      warning(sprintf("failure to read '%s': is file corrupt?\n Consider re-running file cache creation. ", raadfiles.data.filedbs[i]))
-      file_ok[i] <- FALSE
-    }
-  }
-  data_dbs[["file_ok"]] <- file_ok
 
-  ##fslist <- lapply(raadfiles.data.filedbs, fst::read.fst)
-  for (i in seq_along(fslist)) {
-    x <- fslist[[i]]
-    if (is.null(x)) next;
+  cltypes <- vroom::cols(root = vroom::col_character(), file = vroom::col_character())
+  ## ---------------------------------------------------
+  ## August 2021: removing all this in favour one big vroom slurp, this means the vroom df does not get materialize
+  ## on package load, it exists in an environment 'raadfiles.env' in options()
+  # fslist <- vector("list", length(raadfiles.data.filedbs))
+  # file_ok <- data_dbs$file_ok
+  # for (i in seq_along(fslist)) {
+  #   db <- try(vroom::vroom(raadfiles.data.filedbs[i], col_types = cltypes, progress = FALSE), silent = TRUE)
+  #   if (!inherits(db, "try-error")) {
+  #      fslist[[i]] <- db
+  #   } else {
+  #     warning(sprintf("failure to read '%s': is file corrupt?\n Consider re-running file cache creation. ", raadfiles.data.filedbs[i]))
+  #     file_ok[i] <- FALSE
+  #   }
+  # }
+  # data_dbs[["file_ok"]] <- file_ok
+  # for (i in seq_along(fslist)) {
+  #   nr <- dim(fslist[[i]])[1L]
+  #   if (nr < 1) {
+  #     ## nothing
+  #   } else {
+  #     fslist[[i]][["root"]] <- rep(raadfiles.data.roots[i], nr)
+  #   }
+  # }
+  # fs <- dplyr::bind_rows(fslist)
+  ## --------------------------------
 
-    fslist[[i]][["root"]] <- rep(raadfiles.data.roots[i], nrow(x))
-  }
+  ##rdb <<- raadfiles.data.filedbs
+  fs <- vroom::vroom(raadfiles.data.filedbs, col_types = cltypes, progress = FALSE)
+  #fs <- tibble::as_tibble(fst::read_fst("/perm_storage/home/mdsumner/bigfile.fst"))
+  #fs <- vroom::vroom("/perm_storage/home/mdsumner/bigfile.tab", col_types = cltypes, progress = FALSE)
+  data_dbs$file_ok <- TRUE #file_ok
+  #fs <- do.call(rbind, fslist)
 
-  fs <- dplyr::bind_rows(fslist)
+
   ## time stamp it
   fs <- set_raad_time_stamp(fs)
-  message(sprintf("Uploading raad file cache as at %s (%i files listed) \n", format(attr(fs, "raad_time_stamp")), nrow(fs)))
+  message(sprintf("Uploading raad file cache as at %s (%i files listed) \n", format(attr(fs, "raad_time_stamp")), dim(fs)[1L]))
 
-  options(raadfiles.filename.database = fs, raadfiles.database.status = data_dbs)
+  #options(raadfiles.filename.database = fs, raadfiles.database.status = data_dbs)
+  assign("raadfiles.filename.database", fs, envir = raadfiles.env)
+  options(raadfiles.database.status = data_dbs, raadfiles.env = raadfiles.env)
   invisible(NULL)
 }
 
@@ -310,8 +339,8 @@ run_build_raad_cache <- function() {
       files <- tibble::tibble(root = roots[i], file = filenames)
 
     }
-    tok <- c("file", "files")[(nrow(files) > 1)+1]
-    cat(sprintf("%i). Found %i %s in %s.\n", i, nrow(files), tok, roots[i]))
+    tok <- c("file", "files")[(dim(files)[1L] > 1)+1]
+    cat(sprintf("%i). Found %i %s in %s.\n", i, dim(files)[1L], tok, roots[i]))
     vroom::vroom_write(files, dbpath)
     #saveRDS(files, dbpath, compress = "xz")
     #fst::write.fst(files, dbpath)

@@ -1,3 +1,4 @@
+raadfiles.env <- new.env(FALSE, parent=globalenv())
 
 env0 <- new.env(FALSE, parent=globalenv())
 assign("message2", NULL, envir = env0)
@@ -16,7 +17,7 @@ assign("message1", NULL, envir = env0)
 }
 #' @importFrom tibble tibble
 .onLoad <- function(libname, pkgname) {
-  en0 <- environment()
+
   run_on_load <- getOption("raadfiles.file.cache.disable")
   file_refresh <- getOption("raadfiles.file.refresh.threshold")
   if (is.null(file_refresh)) {
@@ -32,12 +33,12 @@ assign("message1", NULL, envir = env0)
   raad_path_was_set <- set_raad_data_roots(use_known_candidates = TRUE,
                                            replace_existing = FALSE, verbose = FALSE)
   if (raad_path_was_set) {
-    set_raad_filenames(clobber = TRUE)  ## clobber at start-up, why not
+    set_raad_filenames(clobber = FALSE)  ## clobber at start-up, why not
   } else {
     assign("message2", "No existing file cache found, see help('raadfiles-admin') for setting up", envir = env0)
     #packageStartupMessage("No existing file cache found, see help('raadfiles-admin') for setting up")
   }
-  tm <- 3600
+  tm <- 24 * 3600
 
   altimetry_currents_polar_files <<- memoise::memoize(altimetry_currents_polar_files,  ~memoise::timeout(tm))
   altimetry_daily_files <<- memoise::memoize(altimetry_daily_files,  ~memoise::timeout(tm))
@@ -66,7 +67,7 @@ assign("message1", NULL, envir = env0)
   george_v_terre_adelie_250m_files <<- memoise::memoize(george_v_terre_adelie_250m_files,  ~memoise::timeout(tm))
   george_v_terre_adelie_500m_files <<- memoise::memoize(george_v_terre_adelie_500m_files,  ~memoise::timeout(tm))
   #get_raad_data_roots <<- memoise::memoize(get_raad_data_roots,  ~memoise::timeout(tm))
-  get_raad_filenames <<- memoise::memoize(get_raad_filenames,  ~memoise::timeout(tm))
+  #get_raad_filenames <<- memoise::memoize(get_raad_filenames,  ~memoise::timeout(tm))
   ghrsst_daily_files <<- memoise::memoize(ghrsst_daily_files,  ~memoise::timeout(tm))
   ibcso_background_files <<- memoise::memoize(ibcso_background_files,  ~memoise::timeout(tm))
   ibcso_bed_files <<- memoise::memoize(ibcso_bed_files,  ~memoise::timeout(tm))

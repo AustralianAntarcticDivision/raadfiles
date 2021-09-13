@@ -61,8 +61,8 @@ will be done as the package loads. To disable this automatic behaviour use `opti
 used or loaded. This is typically done when calling `run_build_raad_cache()` in a cron task.
 
 Every raadfiles file collection function (e.g. `oisst_daily_files`) will run `get_raad_filenames` to obtain the full raw list of
-available files from the global in-memory option `getOption("raadfiles.filename.database")` and there is a low threshold probability that
-this will also trigger a re-read of the file listing from the root directories. To avoid this trigger either use `getOption("raadfiles.filename.database")`
+available files from the global in-memory option `getOption("raadfiles.env")$raadfiles.filename.database` and there is a low threshold probability that
+this will also trigger a re-read of the file listing from the root directories. To avoid this trigger either use that directly
 directly to get the in-memory file list, or set `options(raadfiles.file.refresh.threshold = 0)` to prevent the trigger. (Set it to 1 to force it always
 to be read, also controlled by `set_raad_filenames(clobber = TRUE)`).
 
@@ -96,7 +96,7 @@ There is a family of functions and global options used for administration.
 Options used internally, and subject to control by adminstrator options and the running of admin functions (they may not be set).
 
 \tabular{ll}{
- \code{raadfiles.filename.database} \tab the data frame of all file names from the data roots \cr
+ \code{raadfiles.env} \tab an environment with the data frame of all file names from the data roots in a object named 'raadfiles.filename.database' \cr
  \code{raadfiles.database.status} \tab a status record of the in-memory filename database (timestamp) \cr
  }
 }

@@ -1,5 +1,11 @@
 # raadfiles dev
 
+## BREAKING CHANGES
+
+* The file list is now in an environment `options("raadfiles.env")$raadfiles.filename.database` which makes package load a few seconds faster. 
+
+## NEW FEATURES
+
 * Consistency fixes for load up configuration, see https://github.com/AustralianAntarcticDivision/raadfiles/issues/23. 
 
 * New REMA functions, and data set for the polygons. WIP
