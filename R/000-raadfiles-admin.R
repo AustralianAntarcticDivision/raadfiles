@@ -275,7 +275,13 @@ set_raad_filenames <- function(clobber = FALSE) {
   ## --------------------------------
 
   ##rdb <<- raadfiles.data.filedbs
-  fs <- vroom::vroom(raadfiles.data.filedbs, col_types = cltypes, progress = FALSE)
+  fs <- vroom::vroom(raadfiles.data.filedbs, col_types = cltypes, progress = FALSE, id = ".file_id")
+  ##fs[[".file_id"]] <- match(fs[[".file_id"]], raadfiles.data.filedbs)
+  ## fix break of this, because root re-mapping no occurring on (e.g. Windows) from e4b630882eee94ef843588500bd9dce9a07f6437
+  fs[["root"]] <- raadfiles.data.roots[match(fs[[".file_id"]], raadfiles.data.filedbs)]
+  fs[[".file_id"]] <- NULL
+
+
   #fs <- tibble::as_tibble(fst::read_fst("/perm_storage/home/mdsumner/bigfile.fst"))
   #fs <- vroom::vroom("/perm_storage/home/mdsumner/bigfile.tab", col_types = cltypes, progress = FALSE)
   data_dbs$file_ok <- TRUE #file_ok
