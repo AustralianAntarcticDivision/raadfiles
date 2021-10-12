@@ -6,7 +6,7 @@ test_that("raadtools config works", {
   # oldpath <- getOption("default.datadir")
   # expect_true(file.exists(oldpath))
 
-  db <- getOption("raadfiles.filename.database")
+  db <- get_raad_filenames()
   db %>% expect_s3_class("tbl_df") %>% expect_named(c("root", "file"))
 
   cfapath <- getOption("cfafiles.default.data.directory")
