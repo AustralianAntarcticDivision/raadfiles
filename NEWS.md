@@ -6,6 +6,8 @@
 
 ## NEW FEATURES
 
+* Altimetry Antarctic files. 
+
 * Consistency fixes for load up configuration, see https://github.com/AustralianAntarcticDivision/raadfiles/issues/23. 
 
 * New REMA functions, and data set for the polygons. WIP
