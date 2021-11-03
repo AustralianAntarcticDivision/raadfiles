@@ -4,7 +4,7 @@
 #' @export
 #'
 #' @examples
-raadfiles::altimetry_antarctica_files <- function() {
+#raadfiles::altimetry_antarctica_files <- function() {
   # File ftp-access.aviso.altimetry.fr/duacs-experimental/dt-phy-grids/altimetry_antarctic/version_01_00/dt_antarctic_multimission_sea_level_uv_20130401_20190731.nc (NC_FORMAT_NETCDF4):
   #
   #   6 variables (excluding dimension variables):
@@ -93,20 +93,20 @@ raadfiles::altimetry_antarctica_files <- function() {
   # history: Tue May 18 14:42:38 2021: ncrename -d v,y dt_antarctic_multimission_sea_level_uv_20130401_20193107.nc
   # Tue May 18 14:42:29 2021: ncrename -d u,x dt_antarctic_multimission_sea_level_uv_20130401_20193107.nc
   # Created on 2021-05-10 14:26:13Z by ANTARCTIC_OCEAN_PROTOTYPE
-  ftp-access.aviso.altimetry.fr/duacs-experimental/dt-phy-grids/altimetry_antarctic
-
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "ftp-access.aviso.altimetry.fr"))
-  files <- dplyr::filter(files,     grepl("duacs-experimental/dt-phy-grids/altimetry_antarctic.*nc", .data$file))
-
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
-
-  if (nrow(files) < 1)
-    stop("no files found")
-  ## datadir <- get_raad_datadir()
-  files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
-                                                          "%Y%m%d"),tz = "UTC"))
-  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)  %>%
-    dplyr::select(.data$date, .data$fullname, .data$root) %>%
-    set_dt_utc()
-
-}
+#   ftp-access.aviso.altimetry.fr/duacs-experimental/dt-phy-grids/altimetry_antarctic
+#
+#   files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "ftp-access.aviso.altimetry.fr"))
+#   files <- dplyr::filter(files,     grepl("duacs-experimental/dt-phy-grids/altimetry_antarctic.*nc", .data$file))
+#
+#   files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
+#
+#   if (nrow(files) < 1)
+#     stop("no files found")
+#   ## datadir <- get_raad_datadir()
+#   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
+#                                                           "%Y%m%d"),tz = "UTC"))
+#   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)  %>%
+#     dplyr::select(.data$date, .data$fullname, .data$root) %>%
+#     set_dt_utc()
+#
+# }
