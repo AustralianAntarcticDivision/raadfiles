@@ -217,7 +217,7 @@ set_raad_filenames <- function(clobber = FALSE) {
   raadfiles.data.roots <- get_raad_data_roots()
 
   raadfiles.data.filedbs <- raad_filedb_path(raadfiles.data.roots)
-  raadfiles.data.filedbs <- raadfiles.data.filedbs[file.exists(raadfiles.data.filedbs)]
+  raadfiles.data.filedbs <- raadfiles.data.filedbs[which(file.exists(raadfiles.data.filedbs) & file.size(raadfiles.data.filedbs) > 0)]
   if (length(raadfiles.data.filedbs) < 1) {
     warning("no file cache found")
     return(invisible(NULL))
