@@ -2,6 +2,7 @@
 #'
 #' @importFrom digest digest
 #' @importFrom memoise memoize
+#' @importFrom stats runif
 #' @importFrom vroom vroom
 #' @seealso raadfiles-admin
 #' @name raadfiles-package
