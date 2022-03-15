@@ -6,6 +6,8 @@
 
 ## NEW FEATURES
 
+* Files functions now check there are no zero-size files, emitting a message to tell maintainers ( this is done  along with setting the timezone). 
+
 * Altimetry Antarctic files. 
 
 * Consistency fixes for load up configuration, see https://github.com/AustralianAntarcticDivision/raadfiles/issues/23. 
