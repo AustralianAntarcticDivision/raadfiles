@@ -6,6 +6,8 @@
 
 ## NEW FEATURES
 
+* New function `gebco21_files()` for GEBCO 2021. 
+
 * New function `ccmp_6hourly_files()` RSS CCMP_RT V2.1 derived surface winds (Level 3.0). 
 
 * Files functions now check there are no zero-size files, emitting a message to tell maintainers ( this is done  along with setting the timezone). 

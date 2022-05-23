@@ -20,7 +20,7 @@ topo_files_generic <- function(pattern, ...) {
 #' wrappers for handling raw binary files.
 #'
 #' @section GEBCO General Bathymetric Chart of the Oceans:
-#' Two versions 2008 and 2014.
+#' Versions 2008, 2014, 2019, 2021.
 #' @section IBCSO International Bathymetric Chart of the Southern Ocean:
 #' 'is' ('is_PS71' tif, or grd), 'background_hq', 'bed' ('bed_PS71'), 'digital_chart', 'sid' ('sid_PS71')
 #' @section ETOPO:
@@ -40,8 +40,25 @@ topo_files_generic <- function(pattern, ...) {
 #'
 #' @examples
 #' \dontrun{
-#'   gebco14_files()
+#'   gebco21_files()
 #' }
+#'
+gebco21_files <- function(all = FALSE, ...) {
+  pattern <- if (all) {
+    out <- topo_files_generic("www.bodc.ac.uk/.*gebco/gebco_2021/zip")
+  } else {
+    ## doing filter(str_detect()) on this file is insanely slow?
+    files <- get_raad_filenames(all = TRUE)
+    files <- files[grep("www.bodc.ac.uk", files$file), ]
+    idx <- files$file == "gebco/gebco_2021_tid/zip/GEBCO_2021.nc"
+    out <- files[which(idx)[1L], ]
+    out <- dplyr::transmute(out, fullname = file.path(root, file), root)
+  }
+  out
+}
+#' @name topography
+#' @rdname topography-files
+#' @export
 gebco19_files <- function(all = FALSE, ...) {
 
   #pattern <- if (all) "www.bodc.ac.uk/.*/GEBCO_15SEC/zip" else "www.bodc.ac.uk/.*/GEBCO_15SEC/zip/GEBCO_2019.nc$"
