@@ -45,7 +45,7 @@ topo_files_generic <- function(pattern, ...) {
 #'
 gebco21_files <- function(all = FALSE, ...) {
  if (all) {
-    out <- topo_files_generic("www.bodc.ac.uk/.*gebco/gebco_2021/zip")
+    out <- topo_files_generic("www.bodc.ac.uk/.*gebco/gebco_2021.*")
   } else {
     files <- get_raad_filenames(all = TRUE)
     files <- dplyr::filter(files, stringr::str_detect(.data$file, "gebco"))
@@ -59,16 +59,15 @@ gebco21_files <- function(all = FALSE, ...) {
 #' @rdname topography-files
 #' @export
 gebco19_files <- function(all = FALSE, ...) {
-
-  #pattern <- if (all) "www.bodc.ac.uk/.*/GEBCO_15SEC/zip" else "www.bodc.ac.uk/.*/GEBCO_15SEC/zip/GEBCO_2019.nc$"
-  pattern <- if (all) {
-    out <- topo_files_generic("www.bodc.ac.uk/.*/GEBCO_15SEC/zip")
+if (all) {
+    out <- topo_files_generic("www.bodc.ac.uk/.*/GEBCO_15SEC.*")
   } else {
-    ## doing filter(str_detect()) on this file is insanely slow?
+
     files <- get_raad_filenames(all = TRUE)
-    files <- files[grep("data_local", files$root), ]
-    idx <- files$file == "aad.gov.au/gebco/GEBCO_2019.tif"
-    out <- files[which(idx)[1L], ]
+    files <- dplyr::filter(files, stringr::str_detect(.data$root, "data_local"))
+    idx <- grep("aad.gov.au/gebco/GEBCO_2019.tif", files$file)
+
+    out <- files[idx[1L], , drop = FALSE]
     out <- dplyr::transmute(out, fullname = file.path(root, file), root)
   }
   out
@@ -79,14 +78,18 @@ gebco19_files <- function(all = FALSE, ...) {
 #' @export
 gebco14_files <- function(all = FALSE, ...) {
   pattern <- if (all) "www.bodc.ac.uk/gebco/" else "www.bodc.ac.uk/.*/GEBCO_2014_2D.nc$"
-  topo_files_generic(pattern)
+  out <- topo_files_generic(pattern)
+  if (!all) out <- out[1L, , drop = FALSE]
+  out
 }
 #' @export
 #' @name topography
 #' @rdname topography-files
 gebco08_files <- function(all = FALSE, ...) {
   pattern <- if (all) "www.bodc.ac.uk/gebco/" else "www.bodc.ac.uk/.*/GRIDONE_2D.nc$"
-  topo_files_generic(pattern)
+ out <- topo_files_generic(pattern)
+  if (!all) out <- out[1L, , drop = FALSE]
+ out
 }
 
 #' @export
