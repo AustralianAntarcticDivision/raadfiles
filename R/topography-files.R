@@ -44,14 +44,13 @@ topo_files_generic <- function(pattern, ...) {
 #' }
 #'
 gebco21_files <- function(all = FALSE, ...) {
-  pattern <- if (all) {
+ if (all) {
     out <- topo_files_generic("www.bodc.ac.uk/.*gebco/gebco_2021/zip")
   } else {
-    ## doing filter(str_detect()) on this file is insanely slow?
     files <- get_raad_filenames(all = TRUE)
-    files <- files[grep("www.bodc.ac.uk", files$file), ]
-    idx <- files$file == "gebco/gebco_2021_tid/zip/GEBCO_2021.nc"
-    out <- files[which(idx)[1L], ]
+    files <- dplyr::filter(files, stringr::str_detect(.data$file, "gebco"))
+    idx <- grep("gebco/gebco_2021/zip/GEBCO_2021.nc", files$file)
+    out <- files[idx[1L], , drop = FALSE]
     out <- dplyr::transmute(out, fullname = file.path(root, file), root)
   }
   out
