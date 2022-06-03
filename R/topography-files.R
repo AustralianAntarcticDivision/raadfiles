@@ -49,7 +49,9 @@ gebco21_files <- function(all = FALSE, ...) {
   } else {
     files <- get_raad_filenames(all = TRUE)
     files <- dplyr::filter(files, stringr::str_detect(.data$file, "gebco"))
-    idx <- grep("gebco/gebco_2021/zip/GEBCO_2021.nc", files$file)
+    idx <- grep("gebco/GEBCO_2021.tif", files$file)
+    if (length(idx) < 1) stop("no gebco 2021 file found")
+    #idx <- grep("gebco/gebco_2021/zip/GEBCO_2021.nc", files$file)
     out <- files[idx[1L], , drop = FALSE]
     out <- dplyr::transmute(out, fullname = file.path(root, file), root)
   }
