@@ -29,7 +29,7 @@ ccmp_6hourly_files <- function() {
   files <- get_raad_filenames()
   ##  RSS_smap_SSS_L3_8day_running_40km_2016_079_FNL_v03.0.nc
   files <- dplyr::filter(files, stringr::str_detect(.data$file, "remss.com"))
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "ccmp/v02.1.NRT.*CCMP_RT_Wind_Analysis"))
+  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "ccmp/.*CCMP.*_Wind_Analysis"))
   files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*\\.nc$"))
 
   files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
@@ -39,6 +39,7 @@ ccmp_6hourly_files <- function() {
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
                                                           "%Y%m%d"),tz = "UTC"))
 
+  files <- dplyr::filter(files, !is.na(.data$date))
 files <- dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)  %>%
     dplyr::select(.data$date, .data$fullname, .data$root) %>%
     raadfiles:::set_dt_utc()

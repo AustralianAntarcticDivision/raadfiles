@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Fixed CCMP files, we were missing files prior to 2015 because of an assumption about file naming. 
+
 ## BREAKING CHANGES
 
 * The file list is now in an environment `options("raadfiles.env")$raadfiles.filename.database` which makes package load a few seconds faster. 
