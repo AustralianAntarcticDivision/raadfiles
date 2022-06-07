@@ -40,8 +40,12 @@ ccmp_6hourly_files <- function() {
                                                           "%Y%m%d"),tz = "UTC"))
 
   files <- dplyr::filter(files, !is.na(.data$date))
-files <- dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)  %>%
+
+  ## put all NRT last before distinct by date
+  files$nrt <- grepl("NRT", files$fullname)
+files <- dplyr::arrange(dplyr::distinct(arrange(files, .data$nrt), .data$date, .keep_all = TRUE), date)  %>%
     dplyr::select(.data$date, .data$fullname, .data$root) %>%
     raadfiles:::set_dt_utc()
+
   files
 }
