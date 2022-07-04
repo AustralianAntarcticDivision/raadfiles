@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* New IBCSO v2 files, for 'ibcso_files', 'ibcso_bed_files', 'ibcso_digital_chart_files' and 'ibcso_rid_files' and 'ibcso_tid_files'.  Older 'background' and 'sid' currently set still to v1, with new functions for 'rid' and 'tid' (we haven't investigated/consolidated details yet). 
+
 * Fixed CCMP files, we were missing files prior to 2015 because of an assumption about file naming. 
 
 ## BREAKING CHANGES

@@ -114,7 +114,8 @@ ramp_files <- function(all = FALSE, ...) {
 #' @name topography
 #' @rdname topography-files
 ibcso_files <- function(all = FALSE, ...) {
-  pattern <- if (all) "hs.pangaea.de/.*/IBCSO.*" else "hs.pangaea.de/.*/ibcso_v1_is.tif$"
+                       ##download.pangaea.de/dataset/937574/files/IBCSO_v2_ice-surface.tif
+  pattern <- if (all) "download.pangaea.de/dataset/937574/files/.*" else ".*download.pangaea.de/dataset/937574/files/IBCSO_v2_ice-surface.tif$"
   topo_files_generic(pattern)
 }
 #' @export
@@ -122,20 +123,35 @@ ibcso_files <- function(all = FALSE, ...) {
 #' @rdname topography-files
 ibcso_background_files <- function(all = FALSE, ...) {
   pattern <- if (all) "hs.pangaea.de/.*/IBCSO.*" else "hs.pangaea.de/.*/ibcso_background_hq.tif$"
+  message("'background' is currently IBCSO v1 (see other 'ibcso_*_files' functions for v2")
   topo_files_generic(pattern)
 }
 #' @export
 #' @name topography
 #' @rdname topography-files
 ibcso_bed_files <- function(all = FALSE, ...) {
-  pattern <- if (all) "hs.pangaea.de/.*/IBCSO.*" else "hs.pangaea.de/.*/ibcso_v1_bed.grd$"
+  pattern <- if (all) "download.pangaea.de/dataset/937574/files/.*" else "download.pangaea.de/dataset/937574/files/IBCSO_v2_bed.tif"
   topo_files_generic(pattern)
 }
 #' @export
 #' @name topography
 #' @rdname topography-files
 ibcso_digital_chart_files <- function(all = FALSE, ...) {
-  pattern <- if (all) "hs.pangaea.de/.*/IBCSO.*" else "hs.pangaea.de/.*/IBCSO_v1_digital_chart_pdfA.pdf$"
+  pattern <- if (all) "download.pangaea.de/dataset/937574/files/.*" else "download.pangaea.de/dataset/937574/files/IBSCO_v2_digital_chart.pdf$"
+  topo_files_generic(pattern)
+}
+#' @export
+#' @name topography
+#' @rdname topography-files
+ibcso_rid_files <- function(all = FALSE, ...) {
+  pattern <- if (all) "download.pangaea.de/dataset/937574/files/.*" else "download.pangaea.de/dataset/937574/files/IBCSO_v2_RID.tif$"
+  topo_files_generic(pattern)
+}
+#' @export
+#' @name topography
+#' @rdname topography-files
+ibcso_tid_files <- function(all = FALSE, ...) {
+  pattern <- if (all) "download.pangaea.de/dataset/937574/files/.*" else "download.pangaea.de/dataset/937574/files/IBCSO_v2_TID.tif$"
   topo_files_generic(pattern)
 }
 #' @export
@@ -143,6 +159,8 @@ ibcso_digital_chart_files <- function(all = FALSE, ...) {
 #' @rdname topography-files
 ibcso_sid_files <- function(all = FALSE, ...) {
   pattern <- if (all) "hs.pangaea.de/.*/IBCSO.*" else "hs.pangaea.de/.*/ibcso_v1_sid.grd$"
+  message("'sid' is currently IBCSO v1 (see other 'ibcso_*_files' ('rid', 'tid') functions for v2")
+
   topo_files_generic(pattern)
 }
 #' @export

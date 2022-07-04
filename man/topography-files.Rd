@@ -11,6 +11,8 @@
 \alias{ibcso_background_files}
 \alias{ibcso_bed_files}
 \alias{ibcso_digital_chart_files}
+\alias{ibcso_rid_files}
+\alias{ibcso_tid_files}
 \alias{ibcso_sid_files}
 \alias{cryosat2_files}
 \alias{etopo1_files}
@@ -46,6 +48,10 @@ ibcso_background_files(all = FALSE, ...)
 ibcso_bed_files(all = FALSE, ...)
 
 ibcso_digital_chart_files(all = FALSE, ...)
+
+ibcso_rid_files(all = FALSE, ...)
+
+ibcso_tid_files(all = FALSE, ...)
 
 ibcso_sid_files(all = FALSE, ...)
 
