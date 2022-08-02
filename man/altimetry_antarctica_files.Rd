@@ -13,5 +13,7 @@ Sea Level Anomaly measured by Altimetry and derived variables
 sla, formal_error, U, V
 }
 \examples{
-aaf <- altimetry_antarctica_files()
+\dontrun{
+  aaf <- altimetry_antarctica_files()
+}
 }

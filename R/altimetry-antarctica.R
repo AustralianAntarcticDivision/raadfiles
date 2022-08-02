@@ -98,7 +98,9 @@
 #' @export
 #'
 #' @examples
-#' aaf <- altimetry_antarctica_files()
+#' \dontrun{
+#'   aaf <- altimetry_antarctica_files()
+#' }
 altimetry_antarctica_files <- function() {
 #  ftp-access.aviso.altimetry.fr/duacs-experimental/dt-phy-grids/altimetry_antarctic
 
