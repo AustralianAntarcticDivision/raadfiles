@@ -66,7 +66,7 @@ rema_8m_files <- function(...) {
     stop("no files found")
   if (nrow(files) < 1516) warning(sprintf("Only a subsample (%i) of the total (1516) 8m mosaic tiles is available. ", nrow(files)))
 
-  files
+  .name_tiles(files)
 }
 
 .write_rema_vrt <- function(product = "dem_8m", clobber = FALSE) {

@@ -122,10 +122,16 @@ rema_100m_rock_files <- function() {
   pat <- ".*/100m/.*100m_rock.*tif$"
   .rema_file_filter(pat)
 }
+
+
+.name_tiles <- function(x) {
+  dplyr::mutate(x, tile = stringr::str_extract(x$fullname, "[0-9]{2}_[0-9]{2}"))
+}
+
 #' @name rema_8m_files
 #' @export
 rema_8m_dem_files <- function() {
-  rema_8m_files()
+  .name_tiles(rema_8m_files() )
 }
 
 # "/rdsi/PRIVATE/raad2/data_local/aad.gov.au/rema/processing/v1.1/8m/09_38/09_38_8m_filled_geoid.tif"
@@ -133,7 +139,7 @@ rema_8m_dem_files <- function() {
 #' @export
 rema_8m_dem_geoid_files <- function() {
   pat <- ".*/8m/.*8m_filled_geoid.*tif$"
-  .rema_file_filter(pat)
+  .name_tiles(.rema_file_filter(pat))
 
 }
 
@@ -141,25 +147,25 @@ rema_8m_dem_geoid_files <- function() {
 #' @export
 rema_8m_slope_files <- function() {
   pat <- ".*/8m/.*8m_slope.*tif$"
-  .rema_file_filter(pat)
+  .name_tiles(.rema_file_filter(pat))
 }
 #' @name rema_8m_files
 #' @export
 rema_8m_aspect_files <- function() {
   pat <- ".*/8m/.*8m_aspect.*tif$"
-  .rema_file_filter(pat)
+  .name_tiles(.rema_file_filter(pat))
 }
 #' @name rema_8m_files
 #' @export
 rema_8m_rugosity_files <- function() {
   pat <- ".*/8m/.*8m_rugosity.*tif$"
-  .rema_file_filter(pat)
+  .name_tiles(.rema_file_filter(pat))
 }
 #' @name rema_8m_files
 #' @export
 rema_8m_rock_files <- function() {
   pat <- ".*/8m/.*8m_rock.*tif$"
-  .rema_file_filter(pat)
+  .name_tiles(.rema_file_filter(pat))
 }
 
 #
