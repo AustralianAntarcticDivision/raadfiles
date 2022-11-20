@@ -12,5 +12,5 @@ test_that("file stamps are sensible", {
   if (nrow(s) > 1) expect_gt(min(dts),  27)
   if (nrow(n) > 1) expect_gt(min(dtn),  27)
 
-  expect_true(nrow(a) > (nrow(n) + nrow(s)))
+  expect_true(nrow(a) == (nrow(n) + nrow(s)))
 })

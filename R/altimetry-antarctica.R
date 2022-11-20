@@ -103,12 +103,10 @@
 #' }
 altimetry_antarctica_files <- function() {
 #  ftp-access.aviso.altimetry.fr/duacs-experimental/dt-phy-grids/altimetry_antarctic
-
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "ftp-access.aviso.altimetry.fr"))
-  files <- dplyr::filter(files,     grepl("duacs-experimental/dt-phy-grids/altimetry_antarctic.*nc", .data$file))
-
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
-
+pattern <- c("ftp-access.aviso.altimetry.fr",
+               "duacs-experimental/dt-phy-grids/altimetry_antarctic.*nc"
+               )
+  files <- .find_files_generic(pattern)
   if (nrow(files) < 1)
     stop("no files found")
   ## datadir <- get_raad_datadir()

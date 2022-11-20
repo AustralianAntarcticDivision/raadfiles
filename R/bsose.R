@@ -1,14 +1,15 @@
 #' @importFrom utils tail
 
 sose_iters <- function() {
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "sose.ucsd.edu"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*sose.ucsd.edu.*monthly.*nc$"))
+  pattern <- c("sose.ucsd.edu", ".*sose.ucsd.edu.*monthly.*nc$")
+  files <- .find_files_generic(pattern)
   unique(stringr::str_extract(files$file, "ITER[0-9][0-9][0-9]"))
 }
 
 sose_vars <- function() {
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "sose.ucsd.edu"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*sose.ucsd.edu.*monthly.*nc$"))
+  pattern <- c("sose.ucsd.edu", ".*sose.ucsd.edu.*monthly.*nc$")
+  files <- .find_files_generic(pattern)
+
   sort(unique(gsub("\\.nc$", "", unlist(lapply(strsplit(files$file, "_"), tail, 1L)))))
 }
 
@@ -31,19 +32,19 @@ sose_vars <- function() {
 #'   sose_monthly_files()
 #' }
 sose_monthly_files <- function(varname = "", iteration = "") {
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "sose.ucsd.edu"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*sose.ucsd.edu.*monthly.*nc$"))
-  iters_available <- unique(stringr::str_extract(files$file, "ITER[0-9][0-9][0-9]"))
+  pattern <- c("sose.ucsd.edu", ".*sose.ucsd.edu.*monthly.*nc$")
+  files <- .find_files_generic(pattern)
+
+  iters_available <- unique(stringr::str_extract(files$fullname, "ITER[0-9][0-9][0-9]"))
 
   if (iteration == "") {
-    files <- dplyr::filter(files, stringr::str_detect(file, max(iters_available)))
+    files <- dplyr::filter(files, stringr::str_detect(fullname, max(iters_available)))
   } else {
     if (!iteration %in% iters_available) {
       stop(sprintf('cannot find iteration %s', iteration))
     }
-    files <- dplyr::filter(files, stringr::str_detect(file, iteration))
+    files <- dplyr::filter(files, stringr::str_detect(fullname, iteration))
   }
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
 
   if (varname == "all") {
     return(files)

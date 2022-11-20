@@ -14,22 +14,18 @@
 #'   iceclim_north_leadsfiles()
 #' }
 iceclim_south_leadsfiles <- function(all = FALSE) {
-  files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file, "store.pangaea.de"))
-
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "ReiserF-etal_2020/Antarctic_Relleads"))
+  pattern <- c("store.pangaea.de", "ReiserF-etal_2020/Antarctic_Relleads")
   if (!all) {
-    files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*nc$"))
+    pattern <- c(pattern, ".*nc$")
   }
-  tibble::tibble(fullname = file.path(files$root, files$file))
+  .find_files_generic(pattern)
 }
 #' @export
 #' @name leads
 iceclim_north_leadsfiles <- function(all = FALSE) {
-  files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file, "store.pangaea.de"))
-
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "ReiserF-etal_2020/Arctic_Relleads"))
+  pattern <- c("store.pangaea.de", "ReiserF-etal_2020/Arctic_Relleads")
   if (!all) {
-    files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*nc$"))
+    pattern <- c(pattern, ".*nc$")
   }
-  tibble::tibble(fullname = file.path(files$root, files$file))
+  .find_files_generic(pattern)
 }

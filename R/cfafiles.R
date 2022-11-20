@@ -1,3 +1,5 @@
+# these are non-raad, old Climate Futures collection experiment
+
 #' BOM tmax daily fils
 #'
 #' Data is daily but arranged in monthly files.
@@ -11,6 +13,7 @@ bom_tmax_daily_files <- function() {
 
   files <-   dplyr::filter(files, stringr::str_detect(.data$file, "tmax_day.*\\.nc$"))
   files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
+
 
   if (nrow(files) < 1)
     stop("no files found")
@@ -61,3 +64,37 @@ get_raw_cfa_filenames <- function() {
 get_cfa_datadir <- function() {
   getOption("cfafiles.default.data.directory")
 }
+
+
+
+
+
+#' CMIP5 files
+#'
+#' Currently in dev-test mode, using a very small subset until we get specifications.
+#' @return data frame of file names
+#' @export
+cmip5_files <-
+  function() {
+    files <- get_raw_cfa_filenames()
+    files <-  dplyr::filter(files,
+                            stringr::str_detect(.data$file, "ccam/C96-5k_ACCESS1-0_rcp85/200705"))
+
+
+
+    files <- dplyr::filter(files, stringr::str_detect(.data$file, "nc.*"))
+
+    files <-   dplyr::transmute(files, file = .data$file, fullname = file.path(.data$root, .data$file))
+    if (nrow(files) < 1)
+      stop("no files found")
+    #files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{6}.nc"),
+    #                                                        "%Y%m"),tz = "GMT"))
+    #dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)
+    files %>%
+      set_dt_utc()
+
+  }
+
+#iles <- cmip5_files()
+#library(tidync)
+#tidync(files$fullname[1])

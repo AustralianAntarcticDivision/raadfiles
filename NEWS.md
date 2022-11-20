@@ -1,5 +1,16 @@
 # raadfiles dev
 
+
+BREAKING CHANGES
+
+* monthly_oisst_files() no longer expands to all date slices and bands. Just one row for one file. 
+
+
+CHANGES
+
+* Big flush of file searching, new internal function .find_files_generic() to replace old style and to make topography file
+find consistent. 
+
 * Now all REMA 8m functions have a 'tile' column with the two element `column_row` index, so we can easily join when
 we've detected the tile/s we want. 
 

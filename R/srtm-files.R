@@ -18,11 +18,8 @@
 #'   srtm_files()
 #' }
 srtm_files <- function() {
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "srtm.csi.cgiar.org"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*\\.tif$"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "srtm_5x5/TIFF/srtm"))
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
-
+pattern <- c("srtm.csi.cgiar.org", ".*\\.tif$", "srtm_5x5/TIFF/srtm")
+  files <- .find_files_generic(pattern)
   if (nrow(files) < 1)
     stop("no smap files found")
   ## datadir <- get_raad_datadir()

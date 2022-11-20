@@ -15,12 +15,10 @@
 #' }
 smap_8day_files <- function() {
   #ftp://podaac-ftp.jpl.nasa.gov/allData/smap/L3/RSS/V3/8day_running/SCI/40KM/2015/272/
-
   ##  RSS_smap_SSS_L3_8day_running_40km_2016_079_FNL_v03.0.nc
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "RSS_smap_SSS_L3_8day_running_40km"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*\\.nc$"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "podaac-ftp.jpl.nasa.gov"))
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
+
+  pattern <- c("RSS_smap_SSS_L3_8day_running_40km", ".*\\.nc$", "podaac-ftp.jpl.nasa.gov")
+  files <- .find_files_generic(pattern)
 
   if (nrow(files) < 1)
     stop("no smap files found")

@@ -16,25 +16,24 @@
 #'   tiffiles <- polarview_files(type = "tarball")
 #' }
 polarview_files <- function(type = c("jpeg", "tarball")) {
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "www.polarview.aq/images"))
-  type <- match.arg(type)
-  patt <- switch(type,
-         tarball = "104_S1geotiff.*tif\\.tar\\.gz$",
-         jpeg = "106_S1jpgsmall.*jpg$")
-  files <- dplyr::filter(files,     grepl(patt, .data$file))
+  pattern <-  "www.polarview.aq/images"
 
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
+  type <- match.arg(type)
+  pattern <- c(pattern, switch(type,
+         tarball = "104_S1geotiff.*tif\\.tar\\.gz$",
+         jpeg = "106_S1jpgsmall.*jpg$"))
+
+  files <- .find_files_generic(pattern)
 
   if (nrow(files) < 1)
     stop("no files found")
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
-                                                          "%Y%m%d"),tz = "GMT"))
+                                                          "%Y%m%d"),tz = "UTC"))
 
   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)  %>%
-    dplyr::select(.data$date, .data$fullname, .data$root) %>%
-    set_dt_utc()
-}
+    dplyr::select(.data$date, .data$fullname, .data$root)
 
+}
 polarview_tifname <- function(x) {
   gsub("\\.tar\\.gz$", "", basename(x))
 }

@@ -1,8 +1,6 @@
 .rema_all_files <- function(all = FALSE, ...) {
-  files <- dplyr::filter(get_raad_filenames(all = all), stringr::str_detect(.data$file,
-                                                                            "data.pgc.umn.edu"))
-  files <- dplyr::transmute(files,fullname = file.path(.data$root, .data$file), root = .data$root)
-  files
+  pattern <- "data.pgc.umn.edu"
+  .find_files_generic(pattern)
 }
 #' @name rema_8m_files
 #' @export

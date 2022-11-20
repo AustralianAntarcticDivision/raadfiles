@@ -31,25 +31,23 @@ fasticefiles <- function(product = c("circum_fast_ice", "binary_fast_ice"), mask
   #pref <- file.path("fastice", "fraser_fastice", product)
   #fs <- list.files(file.path(datadir, pref), pattern = "img$")
   if (product == "binary_fast_ice") {
-    files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file, "data.aad.gov.au"))
-    files <- dplyr::filter(files, stringr::str_detect(.data$file, "file/3656"))
 
-
+    pattern <- c("data.aad.gov.au", "file/3656")
+    files <- .find_files_generic(pattern)
     if (mask) {
-      files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*geo/coastmask.img$"))
-      return(file.path(files$root, files$file))
+      files <- dplyr::filter(files, stringr::str_detect(.data$fullname, ".*geo/coastmask.img$"))
+      return(files$fullname)
     }
-    files <- dplyr::filter(files, stringr::str_detect(.data$file, "sqc.img$"))
 
-    dates <- as.POSIXct(strptime(basename(files$file), "%Y_%j"), tz = "GMT")
-    return(tibble::tibble(date = dates, fullname = file.path(files$root, files$file)))
+    files <- dplyr::filter(files, stringr::str_detect(.data$fullname, "sqc.img$"))
+
+    files$date <- as.POSIXct(strptime(basename(files$fullname), "%Y_%j"), tz = "UTC")
+    return(files)
   }
   if (product == "circum_fast_ice") {
-    files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file, "public.services.aad.gov.au"))
-    files <- dplyr::filter(files,
-                  stringr::str_detect(.data$file, "AAS_4116_Fraser_fastice_circumantarctic.*nc$"))
 
-
+    pattern <- c("public.services.aad.gov.au", "AAS_4116_Fraser_fastice_circumantarctic.*nc$")
+    files <- .find_files_generic(pattern)
     ## we must expand to the internal band/date
 
     on.exit(sink(NULL), add = TRUE)

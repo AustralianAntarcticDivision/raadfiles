@@ -6,10 +6,9 @@
 #' @export
 #' @references [https://www.aviso.altimetry.fr/en/data/products/value-added-products/fsle-finite-size-lyapunov-exponents.html]( Finite-Size Lyapunov Exponents)
 fsle_files <- function() {
-  files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file, "lyapunov"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "fsle"))
 
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
+  pattern <- c("ftp-access.aviso", "lyapunov", ".*nc$")
+  files <- .find_files_generic(pattern)
 
   if (nrow(files) < 1)
     stop("no files found")

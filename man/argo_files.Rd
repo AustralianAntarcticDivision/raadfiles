@@ -12,5 +12,8 @@ argo_files(type = c("prof", "meta", "traj", "tech", "Mprof"), dac = NULL)
 \item{dac}{data acqusition centre e.g.* "aoml", "bodc", "coriolis", "csio", "csiro", "incois", all returned if not specified}
 }
 \description{
-ARGO
+ARGO, by default we have 'profiles', alternatively 'meta' for type
+}
+\details{
+(No traj, tech, or Mprof at this time of writing 2022-11-21)
 }

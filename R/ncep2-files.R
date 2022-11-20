@@ -1,3 +1,6 @@
+##.find_files_generic("ncep.reanalysis2.dailyavgs")
+
+
 #' NCEP2 wind files
 #'
 #' NCEP2 six-hourly reanalysis2 gaussian grid
@@ -14,9 +17,8 @@
 #'   ncep2_vwnd_6hr_files()
 #' }
 ncep2_uwnd_6hr_files <- function() {
-  files <- ncep2_6hr_files()
-  files <- dplyr::filter(files, grepl("^.*uwnd.*gauss.*\\.nc$", .data$file))
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root)
+  pattern <- c("ncep.reanalysis2/gaussian_grid", "^.*uwnd.*gauss.*\\.nc$")
+  files <- .find_files_generic(pattern)
 
   if (nrow(files) < 1)
     stop("no files found")
@@ -29,9 +31,8 @@ ncep2_uwnd_6hr_files <- function() {
 #' @name ncep2_files
 #' @export
 ncep2_vwnd_6hr_files <- function() {
-  files <- ncep2_6hr_files()
-  files <- dplyr::filter(files, grepl("^.*vwnd.*gauss.*\\.nc$", .data$file))
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root)
+  pattern <- c("ncep.reanalysis2/gaussian_grid", "^.*vwnd.*gauss.*\\.nc$")
+  files <- .find_files_generic(pattern)
 
   if (nrow(files) < 1)
     stop("no files found")
@@ -54,9 +55,4 @@ ncep2_vwnd_6hr_files <- function() {
 #5   ncep.reanalysis2.derived
 
 
-ncep2_6hr_files <- function() {
-  dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "ncep.reanalysis2/gaussian_grid"))
-}
-ncep2_dailyavgs_files <- function() {
-  dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "ncep.reanalysis2.dailyavgs"))
-}
+

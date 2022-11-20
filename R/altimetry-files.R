@@ -11,26 +11,26 @@
 #'   altimetry_currents_polar_files()
 #' }
 altimetry_currents_polar_files <- function(hemisphere = "south") {
-  files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file, "aad.gov.au/currents/polar"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "grd$"))  ## faster without the .
 
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root,
+  pattern <- c("aad.gov.au/currents/polar", "grd$", "south_polar")
+
+  files <- .find_files_generic(pattern)
+  files <-   dplyr::transmute(files,
                               date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
-                                                        "%Y%m%d"),tz = "GMT"))
+                                                        "%Y%m%d"),tz = "UTC"),
+                              .data$fullname, .data$root)
+
 
   if (nrow(files) < 1)
     stop("no files found")
 
-  files <- dplyr::transmute(files, date = .data$date, fullname= .data$fullname, root = .data$root)
-  bad <- is.na(files$date)
 
   ff <- split(files, grepl("polar_v", files$fullname))
   files <- ff[[1]] %>% dplyr::rename(ufullname = .data$fullname) %>% dplyr::inner_join(ff[[2]] %>%
                                                                                    dplyr::rename(vfullname = .data$fullname), "date") %>%
     dplyr::select(.data$date, .data$ufullname, .data$vfullname)
 
-  dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date)   %>%
-    set_dt_utc()
+  dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date)
 }
 
 
@@ -71,10 +71,8 @@ altimetry_daily_files <- function(all = FALSE) {
   ##  Each nc file now contains all the variables for that day (sla, mdt, uv)
   ## (The new collection is syncing now - 23-Jun-2017)
 
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "SEALEVEL_GLO_PHY_L4"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "nc$"))  ## faster without the .
-
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root)
+  pattern <- c("SEALEVEL_GLO_PHY_L4", "nc$")
+  files <- .find_files_generic(pattern)
   dates <- stringr::str_extract(basename(files$fullname), "[0-9]{8}_[0-9]{8}")
 
   files$date <- as.POSIXct(as.Date(stringr::str_extract(dates, "[0-9]{8}"),"%Y%m%d"),tz = "UTC")
@@ -82,11 +80,6 @@ altimetry_daily_files <- function(all = FALSE) {
                                                                    "[0-9]{8}"),"%Y%m%d"),tz = "UTC")
 
 
-
-  if (nrow(files) < 1)
-    stop("no files found")
-
-  files <- dplyr::transmute(files, date = .data$date, fullname= .data$fullname, root = .data$root, .data$processing_date)
   bad <- is.na(files$date)
   if (sum(bad) == 1 && which(bad) == nrow(files)) {
     files$date[bad] <- max(files$date, na.rm = TRUE) + 24 * 3600

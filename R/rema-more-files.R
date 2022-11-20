@@ -19,11 +19,9 @@
 # }
 
 .rema_proc_all_files <- function() {
-  files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file,
-                                                                            "aad.gov.au/rema/processing"))
-  files <- dplyr::transmute(files,fullname = file.path(.data$root, .data$file), root = .data$root)
-  files
+  pattern <- "aad.gov.au/rema/processing"
 
+  .find_files_generic(pattern)
 }
 
 ## to suppress check error

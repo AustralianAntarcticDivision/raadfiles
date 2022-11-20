@@ -26,14 +26,8 @@
 ccmp_6hourly_files <- function() {
   #ftp://podaac-ftp.jpl.nasa.gov/allData/smap/L3/RSS/V3/8day_running/SCI/40KM/2015/272/
 
-  files <- get_raad_filenames()
-  ##  RSS_smap_SSS_L3_8day_running_40km_2016_079_FNL_v03.0.nc
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "remss.com"))
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "ccmp/.*CCMP.*_Wind_Analysis"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, ".*\\.nc$"))
-
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
-
+  pattern <- c("remss.com", "ccmp/.*CCMP.*_Wind_Analysis_[0-9]", ".*\\.nc$")
+  files <- .find_files_generic(pattern)
   if (nrow(files) < 1)
     stop("no ccmp files found")
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),

@@ -2,18 +2,12 @@
 #' @name amsr_daily_files
 #' @export
 amsr2_3k_daily_files <- function() {
-  files <- dplyr::filter(get_raad_filenames(),
-                         stringr::str_detect(.data$file, "s3125"))
+  pattern <- c("s3125", "tif$", "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s3125")
 
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "tif$"))
-  f2 <- "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s3125"
+  files <- .find_files_generic(pattern)
+  files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
+  distinct(arrange(files, .data$date), .data$date, .keep_all = TRUE)
 
-  files <- dplyr::filter(files,
-                         stringr::str_detect(.data$file, f2))
-  files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(.data$file, "[0-9]{8}"), "%Y%m%d"), tz = "GMT")) %>%
-    dplyr::transmute(date = .data$date, fullname = file.path(.data$root, .data$file), root = .data$root)
-  files %>% arrange(.data$date) %>% distinct(.data$date, .keep_all = TRUE)   %>%
-    set_dt_utc()
 }
 
 
@@ -22,35 +16,23 @@ amsr2_3k_daily_files <- function() {
 #' @name amsr_daily_files
 #' @export
 amsre_daily_files <- function() {
-  files <- dplyr::filter(get_raad_filenames(),
-                         stringr::str_detect(.data$file, "s6250"))
+ pattern <- c("s6250", "hdf$", "ftp-projects.cen.uni-hamburg.de/seaice/AMSR-E_ASI_IceConc/no_landmask/hdf/s6250/")
 
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "hdf$"))
-  f1 <- "ftp-projects.cen.uni-hamburg.de/seaice/AMSR-E_ASI_IceConc/no_landmask/hdf/s6250/"
+  files <- .find_files_generic(pattern)
+  files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
+  distinct(arrange(files, .data$date), .data$date, .keep_all = TRUE)
 
-  files <- dplyr::filter(files,
-                         stringr::str_detect(.data$file, f1))
-  files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(.data$file, "[0-9]{8}"), "%Y%m%d"), tz = "GMT")) %>%
-    dplyr::transmute(date = .data$date, fullname = file.path(.data$root, .data$file), root = .data$root)
-  files %>% arrange(.data$date) %>% distinct(.data$date, .keep_all = TRUE)   %>%
-    set_dt_utc()
 }
 
 #' @name amsr_daily_files
 #' @export
 amsr2_daily_files <- function() {
-  files <- dplyr::filter(get_raad_filenames(),
-                         stringr::str_detect(.data$file, "s6250"))
+  pattern <- c("s6250", "tif$", "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s6250")
 
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "tif$"))
-  f2 <- "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s6250"
+  files <- .find_files_generic(pattern)
+  files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
+  distinct(arrange(files, .data$date), .data$date, .keep_all = TRUE)
 
-  files <- dplyr::filter(files,
-                         stringr::str_detect(.data$file, f2))
-  files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(.data$file, "[0-9]{8}"), "%Y%m%d"), tz = "GMT")) %>%
-    dplyr::transmute(date = .data$date, fullname = file.path(.data$root, .data$file), root = .data$root)
-  files %>% arrange(.data$date) %>% distinct(.data$date, .keep_all = TRUE)   %>%
-    set_dt_utc()
 }
 
 
@@ -86,22 +68,23 @@ amsr2_daily_files <- function() {
 #'   amsr_daily_files()
 #' }
 amsr_daily_files <- function() {
-  files <- dplyr::filter(get_raad_filenames(),
-                         stringr::str_detect(.data$file, "s6250"))
+  #  ## 2002:2011
+  #    #  f1 <- "ftp-projects.zmaw.de/seaice/AMSR-E_ASI_IceConc/no_landmask/hdf/s6250/"
+  #    ## modified from zmaw.de 2017-06-27 https://github.com/AustralianAntarcticDivision/raadtools/issues/52
+  #    f1 <- "ftp-projects.cen.uni-hamburg.de/seaice/AMSR-E_ASI_IceConc/no_landmask/hdf/s6250/"
+  #    ## 2012:2015+
+  #    f2 <- "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s6250"
 
-  files <- dplyr::filter(files, stringr::str_detect(.data$file, "hdf$"))
-  ## 2002:2011
-    #  f1 <- "ftp-projects.zmaw.de/seaice/AMSR-E_ASI_IceConc/no_landmask/hdf/s6250/"
-    ## modified from zmaw.de 2017-06-27 https://github.com/AustralianAntarcticDivision/raadtools/issues/52
-    f1 <- "ftp-projects.cen.uni-hamburg.de/seaice/AMSR-E_ASI_IceConc/no_landmask/hdf/s6250/"
-    ## 2012:2015+
-    f2 <- "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s6250"
+  pattern <- c("s6250", "hdf$")
+  f1 <- "ftp-projects.cen.uni-hamburg.de/seaice/AMSR-E_ASI_IceConc/no_landmask/hdf/s6250/"
+  f2 <- "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s6250"
 
-    files <- dplyr::filter(files,
-                             stringr::str_detect(.data$file, f1) |
-                             stringr::str_detect(.data$file, f2))
- files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(.data$file, "[0-9]{8}"), "%Y%m%d"), tz = "GMT")) %>%
-   dplyr::transmute(date = .data$date, fullname = file.path(.data$root, .data$file), root = .data$root)
- files %>% arrange(.data$date) %>% distinct(.data$date, .keep_all = TRUE)   %>%
-   set_dt_utc()
+  files <- .find_files_generic(pattern)
+  files <- dplyr::bind_rows(dplyr::filter(files, stringr::str_detect(.data$fullname, f1) |
+                                                  stringr::str_detect(.data$fullname, f2)))
+
+  files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
+  distinct(arrange(files, .data$date), .data$date, .keep_all = TRUE)
+
+
 }

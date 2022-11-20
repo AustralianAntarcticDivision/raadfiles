@@ -1,11 +1,8 @@
 .geoid_all_files <- function(all = FALSE, ...) {
   # earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/GIS/world_geoid
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file,
-                                                                   "earth-info.nga.mil"))
-
-  if (!all) files <- dplyr::filter(files, grepl("w001001\\.adf$", .data$file))
-  files <- dplyr::transmute(files,fullname = file.path(.data$root, .data$file), root = .data$root)
-  files
+  pattern <- "earth-info.nga.mil"
+  if (!all)  pattern <- c(pattern, "w001001\\.adf$")
+  .find_files_generic(pattern)
 }
 
 #' Earth Gravitation Model files

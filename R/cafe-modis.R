@@ -10,10 +10,9 @@
 #'   cafe_monthly_files()
 #' }
 cafe_monthly_files <- function() {
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "cafe.modis.r2018"))
-  files <- dplyr::filter(files, grepl("^.*orca.science.oregonstate.edu.*/cafe.*\\.hdf$",
-                                      .data$file))
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
+
+  pattern <- c("cafe.modis.r2018", "^.*orca.science.oregonstate.edu.*/cafe.*\\.hdf$")
+  files <- .find_files_generic(pattern)
 
   if (nrow(files) < 1)
     stop("no files found")

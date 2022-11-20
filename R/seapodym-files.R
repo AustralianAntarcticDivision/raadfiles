@@ -67,12 +67,8 @@
 #' @references \url{http://www.cls.fr}, \url{http://www.seapodym.eu}
 #' @export
 seapodym_weekly_files <- function() {
-  files <- dplyr::filter(get_raad_filenames(all = TRUE), stringr::str_detect(.data$file, "cmems-global-reanalysis-bio-001-033-weekly-extract"))
-  files <- dplyr::filter(files, grepl(".*\\.nc$",
-                                      .data$file))
-
-  if (nrow(files) < 1) stop("No files found for seapodym, perhaps you don't access to this collection")
-  files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), .data$root)
+  pattern <- "cmems-global-reanalysis-bio-001-033-weekly-extract"
+  files <-   .find_files_generic(pattern)
 
   ## datadir <- get_raad_datadir()
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
