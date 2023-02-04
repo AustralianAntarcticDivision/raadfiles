@@ -11,7 +11,7 @@ read_par <- function (date, time.resolution = "8daily",
                       nobsonly = FALSE,
                       latest = TRUE,
                       returnfiles = FALSE,
-                       inputfiles = NULL) {
+                      inputfiles = NULL,...) {
 
   if (is.null(inputfiles)) {
     files <- par_files(time.resolution = time.resolution)
@@ -19,6 +19,13 @@ read_par <- function (date, time.resolution = "8daily",
     files <- inputfiles
   }
 
+  read_i <- function(file, xlim = NULL, lon180 = FALSE, band = 1L) {
+    x <- raster(file, varname = "par")
+    if (lon180) x <- raadtools:::.rotate(x)
+    if (!is.null(xlim)) x <- crop(x, xlim)
+
+    x
+  }
 
   if (returnfiles)
     return(files)
@@ -28,18 +35,14 @@ read_par <- function (date, time.resolution = "8daily",
 
   nfiles <- nrow(files)
 
-  ## prevent reading more than one unless mag/dironly
-  if (nfiles > 1L) {
-    files <- files[1L,]
-    nfiles <- 1L
-  }
 
   dots <- list(...)
 
+
   op <- options(warn = -1)
   on.exit(options(op))
-  r0 <- stack(lapply(split(files[c("fullname", "band")], 1:nrow(files)),
-                     function(.x) read_par(.x$fullname, xylim = xylim, lon180 = lon180, band = .x$band)), filename = filename)
+  r0 <- raster::stack(lapply(split(files[c("fullname")], 1:nrow(files)),
+                             function(.x) read_i(.x$fullname,xlim = xlim, lon180 = lon180)))
   if (nlayers(r0) == nrow(files)) {
     r0 <- setZ(r0, files$date)
   } else {

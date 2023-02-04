@@ -26,15 +26,12 @@ par_files <- function(time.resolution = "8daily"){
   if (nrow(files) < 1)
     stop("no files found")
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(substr(stringr::str_extract(basename(.data$fullname),
-                                                                                      "[0-9]{8}"),1,8), "%Y%m%d"), tz = "UTC")+4*60*60*24)
+                                                                                      "[0-9]{8}"),1,8), "%Y%m%d"), tz = "UTC"))
   files <- dplyr::filter(files, !is.na(.data$date))
   files <- files[nrow(files):1, ]
   files <- dplyr::arrange(dplyr::distinct(files, .data$date,
                                           .keep_all = TRUE), date) %>% dplyr::select(.data$date,
                                                                                      .data$fullname, .data$root) %>% raadfiles:::set_dt_utc()
 
-  files <- dplyr::slice(files, rep(seq_len(nrow(files)), each = 4L))
-  files[["date"]] <- files[["date"]] + rep(c(0, 6, 12, 15),
-                                           length.out = nrow(files)) * 3600
   files
 }

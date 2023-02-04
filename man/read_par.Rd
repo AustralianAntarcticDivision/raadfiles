@@ -12,7 +12,8 @@ read_par(
   nobsonly = FALSE,
   latest = TRUE,
   returnfiles = FALSE,
-  inputfiles = NULL
+  inputfiles = NULL,
+  ...
 )
 }
 \arguments{
