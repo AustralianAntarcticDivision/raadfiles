@@ -2,7 +2,7 @@
 #' @name amsr_daily_files
 #' @export
 amsr2_3k_daily_files <- function() {
-  pattern <- c("s3125", "tif$", "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s3125")
+  pattern <- c("s3125", "tif$", "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s3125.*Antarctic3125")
 
   files <- .find_files_generic(pattern)
   files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
@@ -27,7 +27,7 @@ amsre_daily_files <- function() {
 #' @name amsr_daily_files
 #' @export
 amsr2_daily_files <- function() {
-  pattern <- c("s6250", "tif$", "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s6250")
+  pattern <- c("s6250", "tif$", "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s6250.*Antarctic/")
 
   files <- .find_files_generic(pattern)
   files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
