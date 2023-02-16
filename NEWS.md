@@ -1,5 +1,6 @@
 # raadfiles dev
 
+* New function 'par_files()' for ocean colour PAR, contributed by Kimberlee Baldry @KimBaldry.  
 
 BREAKING CHANGES
 
