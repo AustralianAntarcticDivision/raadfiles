@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Fix regression in `argo_files()` that was limiting to 'usgodae' from sold old unused code, thanks @KimBaldry and @RaymondBen for troubleshooting. 
+
 * New function 'par_files()' for ocean colour PAR, contributed by Kimberlee Baldry @KimBaldry.  
 
 BREAKING CHANGES

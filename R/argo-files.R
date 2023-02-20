@@ -9,7 +9,7 @@
 argo_files <- function(type = c("prof", "meta", "traj", "tech", "Mprof"), dac = NULL) {
   type <- match.arg(type)
 
-  pattern <- c("usgodae", "nc$", "/argo/")
+  pattern <- c("nc$", "/argo/")
 
   if (!is.null(dac)) {
     pattern <- c(pattern, sprintf("/%s/", dac))
