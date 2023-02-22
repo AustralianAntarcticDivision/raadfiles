@@ -12,18 +12,10 @@
 #' @export
 #' @importFrom stringr str_detect str_extract str_replace
 #' @examples
-
-par_files <- function(time.resolution = "8daily"){
-  files <- get_raad_filenames()
-  files <- dplyr::filter(files, stringr::str_detect(.data$file,
-                                                    "oceandata.sci.gsfc.nasa.gov"))
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file,
-                                                                   "MODISA/Mapped/8Day/4km/par"))
-  files <- dplyr::filter(files, stringr::str_detect(.data$file,
-                                                    ".*\\.nc$"))
-  files <- dplyr::transmute(files, fullname = file.path(.data$root,
-                                                        .data$file), .data$root)
-  if (nrow(files) < 1)
+par_files <- function(time.resolution = "8D"){
+  files <- .find_files_generic(c("oceandata.sci.gsfc.nasa.gov", "MODISA/Mapped", "4km/par.*nc$"),
+                               basefile_pattern =   if (nzchar(time.resolution)) sprintf("\\.%s\\.", time.resolution) else "")
+if (nrow(files) < 1)
     stop("no files found")
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(substr(stringr::str_extract(basename(.data$fullname),
                                                                                       "[0-9]{8}"),1,8), "%Y%m%d"), tz = "UTC"))
