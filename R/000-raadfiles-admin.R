@@ -361,7 +361,7 @@ run_build_raad_cache <- function(test = FALSE) {
     con <- DBI::dbConnect(duckdb::duckdb(), dbdir = duckpath,
                            read_only = FALSE)
     DBI::dbWriteTable(con, "raadfiles", files, overwrite = TRUE)
-    DBI::dbDisconnect(con)
+    DBI::dbDisconnect(con, shutdown = TRUE)
     #saveRDS(files, tabpath, compress = "xz")
     #fst::write.fst(files, tabpath)
   }
