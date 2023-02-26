@@ -23,7 +23,9 @@ Imports:
     dplyr,
     memoise,
     tibble,
-    vroom
+    vroom,
+    DBI,
+    duckdb
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
