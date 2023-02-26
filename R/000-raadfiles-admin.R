@@ -322,16 +322,18 @@ run_this_function_to_build_raad_cache <- function() {
 }
 #' @name raadfiles-admin
 #' @export
-run_build_raad_cache <- function() {
+run_build_raad_cache <- function(test = FALSE) {
 
   roots <- get_raad_data_roots()
   if (length(roots) < 1) {warning("no raad data root directories found")}
   tok1 <- c("directory", "directories")[(length(roots) > 1)+1]
   cat(sprintf("Scanning %i root %s for cache listing.\n", length(roots), tok1))
+
   for (i in seq_along(roots)) {
     adminpath <- dirname(raad_filedb_path(roots[i]))
     dir.create(adminpath, showWarnings = FALSE)
-    dbpath <- raad_filedb_path(roots[i])
+    tabpath <- raad_filedb_path(roots[i])
+    duckpath <- file.path(adminpath, "raad-duckdb.db")
     filenames <- as.character(fs::dir_ls(roots[i], all = TRUE, recurse = TRUE,
                                          ## no directory, FIFO, socket, character_device or block_device
                                          type = c("file", "symlink")))
@@ -347,12 +349,24 @@ run_build_raad_cache <- function() {
     }
     tok <- c("file", "files")[(dim(files)[1L] > 1)+1]
     cat(sprintf("%i). Found %i %s in %s.\n", i, dim(files)[1L], tok, roots[i]))
-    vroom::vroom_write(files, dbpath)
-    #saveRDS(files, dbpath, compress = "xz")
-    #fst::write.fst(files, dbpath)
+
+    if (test) {
+      ## in test mode we can write to local dir (use with caution!)
+      message('writing to local in test mode')
+      tabpath <- sprintf("file_db-%i.tab", i)
+      duckpath <- sprintf("raad-duckdb-%i.db", i)
+    }
+    vroom::vroom_write(files, tabpath)
+
+    con <- DBI::dbConnect(duckdb::duckdb(), dbdir = duckpath,
+                           read_only = FALSE)
+    DBI::dbWriteTable(con, "raadfiles", files, overwrite = TRUE)
+    DBI::dbDisconnect(con)
+    #saveRDS(files, tabpath, compress = "xz")
+    #fst::write.fst(files, tabpath)
   }
   ## trigger update now
-  set_raad_filenames(clobber = TRUE)
+  if (!test) set_raad_filenames(clobber = TRUE) else invisible(NULL)
 }
 
 validate_input_paths <- function(...) {
