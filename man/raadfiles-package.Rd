@@ -18,6 +18,7 @@ raadfiles-admin
 Other contributors:
 \itemize{
   \item Ben Raymond [contributor]
+  \item Kimberlee Baldry (\href{https://orcid.org/0000-0003-3286-8624}{ORCID}) [contributor]
 }
 
 }

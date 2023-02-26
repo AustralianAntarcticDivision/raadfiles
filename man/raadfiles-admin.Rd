@@ -25,7 +25,7 @@ raad_filedb_path(...)
 
 set_raad_filenames(clobber = FALSE)
 
-run_build_raad_cache()
+run_build_raad_cache(test = FALSE)
 }
 \arguments{
 \item{all}{if `TRUE` include 'data_deprecated', expert-use only}

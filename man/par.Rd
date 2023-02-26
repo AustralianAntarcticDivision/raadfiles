@@ -6,7 +6,7 @@
 \title{Each file contains four time steps at six hourly intervals aligned to the
 file base date.}
 \usage{
-par_files(time.resolution = "8daily")
+par_files(time.resolution = "8D")
 }
 \value{
 tibble data frame of file names, with columns `fullname` and `date`
