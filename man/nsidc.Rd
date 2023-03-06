@@ -8,6 +8,8 @@
 \alias{nsidc_south_daily_files}
 \alias{nsidc_north_daily_files}
 \alias{nsidc_daily_files}
+\alias{nsidc_daily_files_v2}
+\alias{nsidc_monthly_files_v2}
 \title{NSIDC daily and monthly sea-ice concentration}
 \usage{
 nsidc_south_monthly_files()
@@ -21,6 +23,13 @@ nsidc_south_daily_files()
 nsidc_north_daily_files()
 
 nsidc_daily_files()
+
+nsidc_daily_files_v2(extra_pattern = NULL)
+
+nsidc_monthly_files_v2(extra_pattern = NULL)
+}
+\arguments{
+\item{extra_pattern}{argument for restricted string matching}
 }
 \value{
 tibble data frame of file names

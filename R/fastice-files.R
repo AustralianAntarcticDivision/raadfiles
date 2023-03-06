@@ -32,7 +32,7 @@ fasticefiles <- function(product = c("circum_fast_ice", "binary_fast_ice"), mask
   #fs <- list.files(file.path(datadir, pref), pattern = "img$")
   if (product == "binary_fast_ice") {
 
-    pattern <- c("data.aad.gov.au", "file/3656")
+    pattern <- c("data\\.aad\\.gov\\.au", "file/3656")
     files <- .find_files_generic(pattern)
     if (mask) {
       files <- dplyr::filter(files, stringr::str_detect(.data$fullname, ".*geo/coastmask.img$"))
@@ -46,7 +46,7 @@ fasticefiles <- function(product = c("circum_fast_ice", "binary_fast_ice"), mask
   }
   if (product == "circum_fast_ice") {
 
-    pattern <- c("public.services.aad.gov.au", "AAS_4116_Fraser_fastice_circumantarctic.*nc$")
+    pattern <- c("public\\.services\\.aad\\.gov\\.au", "AAS_4116_Fraser_fastice_circumantarctic.*nc$")
     files <- .find_files_generic(pattern)
     ## we must expand to the internal band/date
 
