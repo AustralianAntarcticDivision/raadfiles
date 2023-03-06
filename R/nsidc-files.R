@@ -59,7 +59,9 @@ nsidc_south_daily_files <- function() {
     #files <- dplyr::arrange(dplyr::distinct(dplyr::arrange(files, dplyr::desc(.data$fullname)), .data$date, .keep_all = TRUE), .data$date)
     if (nrow(files) < 1)
         stop("no files found")
-    files
+  files <- dplyr::distinct(files, date, .keep_all = TRUE)
+
+    dplyr::arrange(files, date)
 }
 #' @name nsidc
 #' @export
@@ -70,7 +72,9 @@ nsidc_north_daily_files <- function() {
     #files <- dplyr::arrange(dplyr::distinct(dplyr::arrange(files, dplyr::desc(.data$fullname)), .data$date, .keep_all = TRUE), .data$date)
     if (nrow(files) < 1)
         stop("no files found")
-    files
+   files <- dplyr::distinct(files, date, .keep_all = TRUE)
+   dplyr::arrange(files, date)
+
 }
 #' @name nsidc
 #' @export
@@ -111,6 +115,7 @@ nsidc_daily_files_v2 <- function(extra_pattern = NULL) {
   nrt_files <- .find_files_generic(pattern2)
   out <- dplyr::transmute(dplyr::bind_rows(final_files, nrt_files), date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"), .data$fullname)
   out <- dplyr::filter(out, !is.na(.data$date))
+
   dplyr::arrange(out, .data$date)
 }
 

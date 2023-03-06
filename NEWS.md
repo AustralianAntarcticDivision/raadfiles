@@ -2,6 +2,8 @@
 
 * New handling for v2 NSIDC files in NetCDF format. The daily/monthly north/south variants use a new function 'nsidc_files_v2'.  (The old daily/monthly files still have the binary files, but raadtools has moved to using the new scheme.)
 
+`nsidc_south_daily_files()` and `nsidc_south_daily_files()` now return all daily and nrt files, but chooses final (not nrt in preference). In raadtools we cull out the dates that don't have data in them (there are the 2 daily steps in the beginning, and a few weeks gap). 
+
 * Fix regression in `argo_files()` that was limiting to 'usgodae' from sold old unused code, thanks @KimBaldry and @RaymondBen for troubleshooting. 
 
 * New function 'par_files()' for ocean colour PAR, contributed by Kimberlee Baldry @KimBaldry.  
