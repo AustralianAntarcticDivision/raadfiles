@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Do not expand file list for SOSE. 
+
 * Fixed fastice files. 
 
 

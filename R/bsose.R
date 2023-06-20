@@ -60,11 +60,5 @@ sose_monthly_files <- function(varname = "", iteration = "") {
   if (nrow(files) < 1)
     stop("no files found")
 
-  ## expand file  list by dates in file
-  nc <- RNetCDF::open.nc(files$fullname[1L])
-  dates <- RNetCDF::var.get.nc(nc, "time")
-  unit <- RNetCDF::att.get.nc(nc, "time", "units")
-  cal <- RNetCDF::utcal.nc(unit, dates)
-  dates <- ISOdatetime(cal[,1], cal[,2], cal[,3], cal[,4], cal[,5], cal[,6])
-  tibble::tibble(fullname = files$fullname[1], date = dates, band = 1:length(dates))
+  tibble::tibble(fullname = files$fullname[1], date = ISOdatetime(2013, 01, 30, 0, 0, 0, tz = "UTC"))
 }
