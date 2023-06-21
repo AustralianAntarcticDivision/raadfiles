@@ -42,11 +42,8 @@ nsidc_north_monthly_files <- function() {
 #' @name nsidc
 #' @export
 nsidc_monthly_files <- function() {
-
-    pattern <- c("n5eil01u\\.ecs\\.nsidc\\.org", "NSIDC-0051\\.001[/\\\\][[:digit:]]{4}\\.[[:digit:]]{2}\\.01[/\\\\]nt_[[:digit:]]{6}_.*\\.bin$")
-    files <- .find_files_generic(pattern)
-    files <- dplyr::transmute(files, date = as.POSIXct(as.Date(sprintf("%s01", stringr::str_sub(basename(.data$fullname), 4, 9)), "%Y%m%d"), tz = "UTC"),
-                              .data$fullname, .data$root)
+    files <- rbind(nsidc_north_monthly_files(), nsidc_south_monthly_files())
+    ord <- order( files$date, basename(files$fullname))
     files
 
 }
