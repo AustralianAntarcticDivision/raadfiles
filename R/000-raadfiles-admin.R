@@ -186,10 +186,10 @@ set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidat
   if (length(inputs) > 0)  raad_ok <- TRUE
   if (raad_ok) {
     options(raadfiles.data.roots = inputs)
-    cat("global option 'raadfiles.data.roots' set:\n'")
+    packageStartupMessage("global option 'raadfiles.data.roots' set:\n'")
     deets <- paste(inputs, padding, mtimes, sep = "")
-    cat(paste(deets, collapse = "\n "))
-    cat("'\n")
+    packageStartupMessage(paste(deets, collapse = "\n "))
+    packageStartupMessage("'\n")
 
   } else {
     if (verbose) warning("no root paths input")
@@ -290,7 +290,7 @@ set_raad_filenames <- function(clobber = FALSE) {
 
   ## time stamp it
   fs <- set_raad_time_stamp(fs)
-  message(sprintf("Uploading raad file cache as at %s (%i files listed) \n", format(attr(fs, "raad_time_stamp")), dim(fs)[1L]))
+  packageStartupMessage(sprintf("Uploading raad file cache as at %s (%i files listed) \n", format(attr(fs, "raad_time_stamp")), dim(fs)[1L]))
 
   #options(raadfiles.filename.database = fs, raadfiles.database.status = data_dbs)
   assign("raadfiles.filename.database", fs, envir = raadfiles.env)
