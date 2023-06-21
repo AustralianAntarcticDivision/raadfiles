@@ -18,7 +18,6 @@ Imports:
     progress,
     raster,
     rlang,
-    RNetCDF,
     stringr,
     dplyr,
     memoise,
