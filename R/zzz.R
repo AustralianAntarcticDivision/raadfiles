@@ -52,12 +52,10 @@ assign("message1", NULL, envir = env0)
   amsre_daily_files <<- memoise::memoize(amsre_daily_files,  ~memoise::timeout(tm))
 
   argo_files <<- memoise::memoize(argo_files,  ~memoise::timeout(tm))
-  bom_tmax_daily_files <<- memoise::memoize(bom_tmax_daily_files,  ~memoise::timeout(tm))
   cafe_monthly_files <<-   memoise::memoize(cafe_monthly_files,  ~memoise::timeout(tm))
   ccmp_6hourly_files <<- memoise::memoize(ccmp_6hourly_files, ~memoise::timeout(tm))
 
   cersat_daily_files <<- memoise::memoize(cersat_daily_files,  ~memoise::timeout(tm))
-  cmip5_files <<- memoise::memoize(cmip5_files,  ~memoise::timeout(tm))
   cryosat2_files <<- memoise::memoize(cryosat2_files,  ~memoise::timeout(tm))
   etopo1_files <<- memoise::memoize(etopo1_files,  ~memoise::timeout(tm))
   etopo2_files <<- memoise::memoize(etopo2_files,  ~memoise::timeout(tm))
