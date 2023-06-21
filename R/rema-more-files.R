@@ -24,14 +24,11 @@
   .find_files_generic(pattern)
 }
 
-## to suppress check error
-globalVariables("rema_tiles_polygons")
-
 #' @name rema_8m_files
 #' @export
 rema_8m_tiles <- function() {
   ## polygons
-  rema_tiles_polygons
+  stop("no longer supported, please see https://github.com/AustralianAntarcticDivision/remav2")
 }
 #' @name rema_8m_files
 #' @export

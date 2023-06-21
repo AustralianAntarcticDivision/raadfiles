@@ -40,7 +40,6 @@ oisst_daily_files <- function() {
 }
 #' @name oisst
 #' @export
-#' @importFrom raster nlayers stack
 #' @importFrom dplyr filter mutate row_number
 #' @importFrom stringr str_detect str_replace
 #' @importFrom tibble tibble
@@ -52,12 +51,8 @@ oisst_monthly_files <- function() {
                             nrow(files), "please report to the maintainers")
 
 
-  r <- raster::stack(files$fullname[1], quick = TRUE)[[1]]
- # files <- files[rep(1L, raster::nlayers(r)), ]
-
-  dates <- as.POSIXct(strptime(names(r), "X%Y.%m.%d"), tz  = "UTC")
   dplyr::transmute(files,
-                date = dates, fullname  = .data$fullname, root = .data$root)
+                date = NA, fullname  = .data$fullname, root = .data$root)
 
 }
 

@@ -1,5 +1,12 @@
-# raadfiles dev
+# raadfiles 0.1.4
 
+* Removed rema_tiles_polygons data set because we no longer have sp (via raster). We can easily do this other ways, and the REMA here is superseded anyway see https://github.com/AustralianAntarcticDivision/remav2. 
+
+* raadfiles no longer imports the raster package. 
+
+* `srtm_files()` no longer adds the longlat columns. 
+
+* OISST monthly files no longer has a valid date (raadtools does this). 
 
 * Do not expand file list for SOSE or fasticefiles. 
 

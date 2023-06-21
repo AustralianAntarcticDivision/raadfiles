@@ -6,6 +6,9 @@
 \usage{
 altimetry_antarctica_files()
 }
+\value{
+data frame of file paths
+}
 \description{
 Sea Level Anomaly measured by Altimetry and derived variables
 }

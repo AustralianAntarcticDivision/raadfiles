@@ -8,10 +8,12 @@
 #' @return tibble data frame of file names, with columns `fullname` and `date`
 #' @importFrom dplyr arrange distinct filter mutate
 #' @importFrom rlang .data
+#' @param time.resolution time resolution (only "8D" is available)
 #' @name par
 #' @export
 #' @importFrom stringr str_detect str_extract str_replace
 #' @examples
+#' par_files()
 par_files <- function(time.resolution = "8D"){
   files <- .find_files_generic(c("oceandata.sci.gsfc.nasa.gov", "MODISA/Mapped", "4km/par.*nc$"),
                                basefile_pattern =   if (nzchar(time.resolution)) sprintf("\\.%s\\.", time.resolution) else "")

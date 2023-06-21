@@ -94,7 +94,7 @@
 #'
 #' sla, formal_error, U, V
 #'
-#' @return
+#' @return data frame of file paths
 #' @export
 #'
 #' @examples

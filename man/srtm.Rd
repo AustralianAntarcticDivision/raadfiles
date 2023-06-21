@@ -10,8 +10,7 @@ srtm_files()
 \value{
 tibble data frame of file names, with columns `fullname`, `x`, `y` (tiles)
 
-data frame with `fullname` file path, `x`, `y` tile column and row indices, `lon`, `lat`
-a longitude and latitude for each tile, `root` the data file root path
+data frame with `fullname` file path, `x`, `y` tile column and row indices,  `root` the data file root path
 }
 \description{
 SRTM 90m Digital Elevation Database v4.1

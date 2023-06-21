@@ -28,9 +28,7 @@ sose_vars <- function() {
 #' @export
 #' @references http://sose.ucsd.edu/
 #' @examples
-#' \dontrun{
 #'   sose_monthly_files()
-#' }
 sose_monthly_files <- function(varname = "", iteration = "") {
   pattern <- c("sose.ucsd.edu", ".*sose.ucsd.edu.*monthly.*nc$")
   files <- .find_files_generic(pattern)
@@ -38,12 +36,12 @@ sose_monthly_files <- function(varname = "", iteration = "") {
   iters_available <- unique(stringr::str_extract(files$fullname, "ITER[0-9][0-9][0-9]"))
 
   if (iteration == "") {
-    files <- dplyr::filter(files, stringr::str_detect(fullname, max(iters_available)))
+    files <- dplyr::filter(files, stringr::str_detect(.data$fullname, max(iters_available)))
   } else {
     if (!iteration %in% iters_available) {
       stop(sprintf('cannot find iteration %s', iteration))
     }
-    files <- dplyr::filter(files, stringr::str_detect(fullname, iteration))
+    files <- dplyr::filter(files, stringr::str_detect(.data$fullname, iteration))
   }
 
   if (varname == "all") {

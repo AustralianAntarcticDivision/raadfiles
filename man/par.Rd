@@ -8,12 +8,18 @@ file base date.}
 \usage{
 par_files(time.resolution = "8D")
 }
+\arguments{
+\item{time.resolution}{time resolution (only "8D" is available)}
+}
 \value{
 tibble data frame of file names, with columns `fullname` and `date`
 }
 \description{
 Each file contains four time steps at six hourly intervals aligned to the
 file base date.
+}
+\examples{
+par_files()
 }
 \references{
 oceandata.sci.gsfc.nasa.gov/MODISA/Mapped/8Day/4km/par
