@@ -1,3 +1,10 @@
+# raadfiles dev
+
+* GHRSST now picks up new files (since 2023) https://github.com/AustralianAntarcticDivision/raadtools/issues/139#issuecomment-1678118793. 
+
+
+* Made AMSR 3k file finding a bit more deliberate, and can now access the HDF4 files as well. 
+
 # raadfiles 0.1.4
 
 * Fixed a bunch of stuff, and now passing check!
