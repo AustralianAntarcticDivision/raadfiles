@@ -1,12 +1,17 @@
 
 #' @name amsr_daily_files
+#' @param type tif or hdf
 #' @export
-amsr2_3k_daily_files <- function() {
-  pattern <- c("s3125", "tif$", "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s3125.*Antarctic3125")
+amsr2_3k_daily_files <- function(type = c("tif", "hdf")) {
+  type <- match.arg(type)
+  pattern <- c("s3125", sprintf("%s$", type), "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s3125.*Antarctic3125")
 
   files <- .find_files_generic(pattern)
+  ## we can't filter out v5 because some files don't have 5.4 version (.tif 2018-10-28 - 2018-11-21)
+  #files <- dplyr::filter(files, !stringr::str_detect(fullname, sprintf("v5\\.%s", type)))
   files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
-  distinct(arrange(files, .data$date), .data$date, .keep_all = TRUE)
+  ## sort to put the v5.4 at the top of the date group and slice it out, else just get the only one for the date
+  dplyr::arrange(files, .data$date, .data$fullname) |> dplyr::group_by(.data$date) |> dplyr::slice(1L) |> dplyr::ungroup()
 
 }
 
