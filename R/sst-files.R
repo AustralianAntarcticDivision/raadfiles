@@ -73,7 +73,7 @@ oisst_monthly_files <- function() {
 ghrsst_daily_files <- function () {
  #pattern <- c("ghrsst", "JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*\\.nc$")
   ## we were excluding 2023 when it moved (we resolve duplicates below because the new ones come first)
- pattern <- c("podaac", "JPL-L4_GHRSST-SSTfnd-MUR-GLOB")
+ pattern <- c("idea.public",  "JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*tif$")
  files <- .find_files_generic(pattern)
  # datadir <- get_raad_datadir()
   files <-   dplyr::transmute(files,
