@@ -55,9 +55,7 @@ gebco19_files <- function(all = FALSE, ...) {
 if (all) {
     out <- topo_files_generic("www.bodc.ac.uk/.*/GEBCO_15SEC.*")
   } else {
-
-    pattern <- c("data_local", "aad.gov.au/gebco/GEBCO_2019.tif")
-    out <- .find_files_generic(pattern)
+    out <- topo_files_generic(c("gebco", "gebco/GEBCO_2019.tif"))
   }
   out
 }
