@@ -18,6 +18,7 @@
 #' }
 srtm_files <- function() {
 pattern <- c("srtm.csi.cgiar.org", ".*\\.tif$", "srtm_5x5/TIFF/srtm")
+  .Defunct(msg = "srtm_files() now defunct, better to use standard sources like 'sds::cop30()' see gh:hypertidy/sds")
   files <- .find_files_generic(pattern)
   if (nrow(files) < 1)
     stop("no smap files found")

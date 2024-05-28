@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* `srtm_files()` now defunct, use opentopography or similar (one example is in gh:hypertidy/sds::cop30()). 
+
 * Bumped required version of fs to dev, see https://github.com/r-lib/fs/issues/447. 
 
 * GHRSST now uses our own COGs. 
