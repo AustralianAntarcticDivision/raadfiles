@@ -75,11 +75,26 @@ ghrsst_daily_files <- function () {
   ## we were excluding 2023 when it moved (we resolve duplicates below because the new ones come first)
  pattern <- c("idea.public",  "JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*tif$")
  files <- .find_files_generic(pattern)
- # datadir <- get_raad_datadir()
   files <-   dplyr::transmute(files,
                               date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),"%Y%m%d"),tz = "UTC"), .data$fullname, .data$root)
   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)
 
 }
 
+#' @name ghrsst_files
+#' @export
+ghrsst_daily_files_netcdf <- function() {
+  ## this is where they really come from, and since 2023 are all in this one dir (we aren't doing back log)
+  ## archive.podaac.earthdata.nasa.gov/podaac-ops-cumulus-protected/MUR-JPL-L4-GLOB-v4.1/
+  ## those are found by crawling this, but we don't map those to our hierarchy
+  #cmr.earthdata.nasa.gov/virtual-directory/collections/C1996881146-POCLOUD/temporal"
 
+  pattern <- c("ghrsst", "JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*\\.nc$")
+  files1 <- .find_files_generic(pattern)
+  files2 <- .find_files_generic(c("archive.podaac.earthdata.nasa.gov", "JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*\\.nc$"))
+  files <-   dplyr::transmute(rbind(files1, files2),
+                              date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),"%Y%m%d"),tz = "UTC"),
+                              .data$fullname, .data$root)
+  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)
+
+}
