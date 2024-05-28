@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Bumped required version of fs to dev, see https://github.com/r-lib/fs/issues/447. 
+
 * GHRSST now uses our own COGs. 
 
 * GHRSST now picks up new files (since 2023) https://github.com/AustralianAntarcticDivision/raadtools/issues/139#issuecomment-1678118793. 
