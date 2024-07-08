@@ -1,15 +1,10 @@
 Package: raadfiles
 Title: File Database Management for 'raadtools'
-Version: 0.1.4.9007
-Authors@R: c(
-   person("Michael D.","Sumner", role = c("aut", "cre"), email = "michael.sumner@aad.gov.au"), 
-   person("Ben", "Raymond", role = "ctb"), 
-      person(given = "Kimberlee",
-           family = "Baldry",
-           role = c("ctb"),
-           comment = c(ORCID = "0000-0003-3286-8624"))
-   )
-Description: Tools for managing collections of files for the 'raad' family. 
+Version: 0.1.4.9008
+Authors@R: c(person("Michael D.","Sumner", role = c("aut", "cre"), email = "michael.sumner@aad.gov.au"),
+             person("Ben", "Raymond", role = "ctb"),
+             person("Kimberlee", "Baldry", role = c("ctb"), comment = c(ORCID = "0000-0003-3286-8624")))
+Description: Tools for managing collections of files for the 'raad' family.
 Depends:
     R (>= 3.3.0)
 Imports:
@@ -24,5 +19,7 @@ Imports:
 License: GPL-3
 Encoding: UTF-8
 RoxygenNote: 7.2.3
-Suggests: testthat
-Remotes: r-lib/fs
+Suggests:
+    fastrls,
+    testthat
+Remotes: r-lib/fs, AustralianAntarcticDivision/fastrls

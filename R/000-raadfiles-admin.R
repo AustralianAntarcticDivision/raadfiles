@@ -332,16 +332,19 @@ run_build_raad_cache <- function() {
     adminpath <- dirname(raad_filedb_path(roots[i]))
     dir.create(adminpath, showWarnings = FALSE)
     dbpath <- raad_filedb_path(roots[i])
-    filenames <- as.character(fs::dir_ls(roots[i], all = TRUE, recurse = TRUE,
-                                         ## no directory, FIFO, socket, character_device or block_device
-                                         type = c("file", "symlink")))
-    if (is.null(filenames)) {
+    if (requireNamespace("fastrls", quietly = TRUE)) {
+        filenames <- as.character(fastrls::fastrls(roots[i], include_dirs = FALSE, n_threads = 4))
+    } else {
+        filenames <- as.character(fs::dir_ls(roots[i], all = TRUE, recurse = TRUE,
+                                             ## no directory, FIFO, socket, character_device or block_device
+                                             type = c("file", "symlink")))
+    }
+    if (is.null(filenames) || length(filenames) < 1) {
       files <- tibble::tibble(root = character(0), file = character(0))
 
     } else {
       ## fix up root-less file
       filenames <- remove_leading_slash(gsub(roots[i], "", filenames))
-
       files <- tibble::tibble(root = roots[i], file = filenames)
 
     }
