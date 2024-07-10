@@ -14,9 +14,9 @@ topo_files_generic <- function(pattern, ...) {
 #'
 #' There's no single format, there are GeoTIFFs, ArcInfo binary, ERStorage, NetCDF, NetCDF GMT, (Geo) PDF, and some VRT
 #' wrappers for handling raw binary files.
-#'
+
 #' @section GEBCO General Bathymetric Chart of the Oceans:
-#' Versions 2008, 2014, 2019, 2021.
+#' Versions 2008, 2014, 2019, 2021, 2023.
 #' @section IBCSO International Bathymetric Chart of the Southern Ocean:
 #' 'is' ('is_PS71' tif, or grd), 'background_hq', 'bed' ('bed_PS71'), 'digital_chart', 'sid' ('sid_PS71')
 #' @section ETOPO:
@@ -36,9 +36,19 @@ topo_files_generic <- function(pattern, ...) {
 #'
 #' @examples
 #' \dontrun{
-#'   gebco21_files()
+#'   gebco23_files()
 #' }
 #'
+gebco23_files <- function(all = FALSE, ...) {
+  ## there's no "all"
+  out <- topo_files_generic(c("gebco", "idea.public/gebco/gebco_2023_land_cog\\.tif"))
+
+  out
+}
+
+#' @name topography
+#' @rdname topography-files
+#' @export
 gebco21_files <- function(all = FALSE, ...) {
  if (all) {
     out <- topo_files_generic("www.bodc.ac.uk/.*gebco/gebco_2021.*")

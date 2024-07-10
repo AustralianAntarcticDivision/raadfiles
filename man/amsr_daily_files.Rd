@@ -7,13 +7,16 @@
 \alias{amsr2_daily_files}
 \title{AMSR daily  sea-ice concentration}
 \usage{
-amsr2_3k_daily_files()
+amsr2_3k_daily_files(type = c("tif", "hdf"))
 
 amsre_daily_files()
 
 amsr2_daily_files()
 
 amsr_daily_files()
+}
+\arguments{
+\item{type}{tif or hdf}
 }
 \value{
 tibble data frame of file names

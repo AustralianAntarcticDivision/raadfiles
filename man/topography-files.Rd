@@ -2,6 +2,7 @@
 % Please edit documentation in R/topography-files.R
 \name{topography}
 \alias{topography}
+\alias{gebco23_files}
 \alias{gebco21_files}
 \alias{gebco19_files}
 \alias{gebco14_files}
@@ -31,6 +32,8 @@
 \alias{macquarie100m_58S_files}
 \title{Topographic data files}
 \usage{
+gebco23_files(all = FALSE, ...)
+
 gebco21_files(all = FALSE, ...)
 
 gebco19_files(all = FALSE, ...)
@@ -106,7 +109,7 @@ wrappers for handling raw binary files.
 }
 \section{GEBCO General Bathymetric Chart of the Oceans}{
 
-Versions 2008, 2014, 2019, 2021.
+Versions 2008, 2014, 2019, 2021, 2023.
 }
 
 \section{IBCSO International Bathymetric Chart of the Southern Ocean}{
@@ -136,7 +139,7 @@ George V Terre Adelie, Kerguelen, Macquarie 100m
 
 \examples{
 \dontrun{
-  gebco21_files()
+  gebco23_files()
 }
 
 }
