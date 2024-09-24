@@ -86,6 +86,10 @@ altimetry_daily_files <- function(all = FALSE) {
   } else {
     files <- files[!is.na(files$date), ]
   }
+  bad <- grepl("oldformat", files$fullname)
+  if (any(bad) && !all) {
+    files <- files[!bad, ]
+  }
   if (!all) {
     files <- dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date)
   } else {

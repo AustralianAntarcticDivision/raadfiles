@@ -1,5 +1,8 @@
 # raadfiles dev
 
+* Avoid oldformat in Copernicus altimetry files. 
+
+
 * New function `gebco23_files()` for our local copy. 
 
 * `srtm_files()` now defunct, use opentopography or similar (one example is in gh:hypertidy/sds::cop30()). 
