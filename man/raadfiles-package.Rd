@@ -3,7 +3,6 @@
 \docType{package}
 \name{raadfiles-package}
 \alias{raadfiles-package}
-\alias{_PACKAGE}
 \alias{raadfiles}
 \title{Manage files used provided by bowerbird/raadtools.}
 \description{

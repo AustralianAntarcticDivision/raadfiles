@@ -63,7 +63,8 @@ oisst_monthly_files <- function() {
 #' @return tibble data frame of file names
 #' @importFrom dplyr arrange distinct filter mutate
 #' @importFrom rlang .data
-#' @name ghrsst
+#' @name ghrsst_files
+#' @aliases ghrsst_daily_files_netcdf
 #' @export
 #' @importFrom stringr str_detect str_extract str_replace
 #' @examples
