@@ -25,7 +25,7 @@ if (nrow(files) < 1)
   files <- files[nrow(files):1, ]
   files <- dplyr::arrange(dplyr::distinct(files, .data$date,
                                           .keep_all = TRUE), date) %>% dplyr::select(.data$date,
-                                                                                     .data$fullname, .data$root) %>% raadfiles:::set_dt_utc()
+                                                                                     .data$fullname, .data$root)
 
   files
 }

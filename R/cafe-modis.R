@@ -20,7 +20,6 @@ cafe_monthly_files <- function() {
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{7}"),
                                                           "%Y%j"),tz = "UTC"))
   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)  %>%
-    dplyr::select(.data$date, .data$fullname, .data$root) %>%
-    set_dt_utc()
+    dplyr::select(.data$date, .data$fullname, .data$root)
 
 }

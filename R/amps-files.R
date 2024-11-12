@@ -46,10 +46,8 @@ amps_model_files <- function(time.resolution = "4hourly", grid = "d1", ...) {
                                              sprintf("_%s_", grid)))
   dplyr::transmute(files, hour = substr(basename(.data$fullname), 20, 22),
                    model = substr(basename(.data$fullname), 9, 10),
-                   date = as.POSIXct(strptime(basename(files$fullname), "%Y%m%d%H"), tz = "GMT") +
-                     as.integer(.data$hour) * 3600, .data$fullname, .data$root) %>%
-    set_dt_utc()
-
+                   date = as.POSIXct(strptime(basename(files$fullname), "%Y%m%d%H"), tz = "UTC") +
+                     as.integer(.data$hour) * 3600, .data$fullname, .data$root)
 
 }
 

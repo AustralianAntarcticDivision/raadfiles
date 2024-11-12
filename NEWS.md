@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Fix problematic old UTC flush (thanks Dale Maschette #33). 
+
 * Avoid oldformat in Copernicus altimetry files. 
 
 
