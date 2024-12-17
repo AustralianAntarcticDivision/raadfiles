@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Begin ccmp v03. 
+
 * Fix problematic old UTC flush (thanks Dale Maschette #33). 
 
 * Avoid oldformat in Copernicus altimetry files. 

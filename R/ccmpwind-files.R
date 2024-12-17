@@ -37,8 +37,8 @@ ccmp_6hourly_files <- function() {
 
   ## put all NRT last before distinct by date
   files <- files[nrow(files):1, ]
-files <- dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), date)  %>%
-    dplyr::select(.data$date, .data$fullname, .data$root)
+files <- dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), desc(fullname), date)  %>%
+    dplyr::select(.data$date, .data$fullname, .data$root) |> dplyr::arrange(date)
 
   files
 }
