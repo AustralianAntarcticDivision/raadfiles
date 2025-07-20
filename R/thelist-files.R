@@ -122,7 +122,7 @@
 #'   #x <- read_all(sample(grps, 1))
 #' }
 thelist_files <- function(format = c("gdb", "tab", "shp", "asc", "xml", "lyr", "dbf", "zip", "all"), pattern = NULL) {
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "listdata.thelist.tas.gov.au"))
+  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "listdata.thelist.tas.gov.au/opendata/data"))
   # unique(unlist(lapply(strsplit(files$file, "\\."), tail, 1)))
   # [1] "cpg"            "DAT"            "dbf"            "gdbindexes"     "gdbtable"       "gdbtablx"
   # [7] "atx"            "freelist"       "spx"            "gdb/gdb"        "gdb/timestamps" "ID"
