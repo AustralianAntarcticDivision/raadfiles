@@ -52,6 +52,6 @@ fasticefiles <- function(product = c("circum_fast_ice", "binary_fast_ice"), mask
     year <- stringr::str_extract(basename(files$fullname), "[0-9]{4}")
     files$date <- as.POSIXct(sprintf("%s-01-01", year), tz = "UTC")
     return(tibble::tibble(fullname = files$fullname,
-                          date = files$date))
+                          date = files$date) |> dplyr::arrange(date))
   }
 }

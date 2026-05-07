@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Fix fasticefiles order. 
+
 * Re memoize get_raad_file_names. 
 
 * Begin ccmp v03. 
