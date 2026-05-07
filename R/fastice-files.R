@@ -41,15 +41,17 @@ fasticefiles <- function(product = c("circum_fast_ice", "binary_fast_ice"), mask
 
     files <- dplyr::filter(files, stringr::str_detect(.data$fullname, "sqc.img$"))
 
-    files$date <- as.POSIXct(strptime(basename(files$fullname), "%Y_%j"), tz = "UTC")
+
+    files$date <- as.POSIXct(strptime(basename(files$fullname), "FastIce_%j_%"), tz = "UTC")
     return(files)
   }
   if (product == "circum_fast_ice") {
 
     pattern <- c("public\\.services\\.aad\\.gov\\.au", "AAS_4116_Fraser_fastice_circumantarctic.*nc$")
     files <- .find_files_generic(pattern)
-
+    year <- stringr::str_extract(basename(files$fullname), "[0-9]{4}")
+    files$date <- as.POSIXct(sprintf("%s-01-01", year), tz = "UTC")
     return(tibble::tibble(fullname = files$fullname,
-                          date = NA))
+                          date = files$date))
   }
 }

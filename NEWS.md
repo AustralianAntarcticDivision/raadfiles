@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Re memoize get_raad_file_names. 
+
 * Begin ccmp v03. 
 
 * Fix problematic old UTC flush (thanks Dale Maschette #33). 
