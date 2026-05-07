@@ -1,6 +1,6 @@
 Package: raadfiles
 Title: File Database Management for 'raadtools'
-Version: 0.1.4.9015
+Version: 0.1.4.9016
 Authors@R: c(person("Michael D.","Sumner", role = c("aut", "cre"), email = "michael.sumner@aad.gov.au"),
              person("Ben", "Raymond", role = "ctb"),
              person("Kimberlee", "Baldry", role = c("ctb"), comment = c(ORCID = "0000-0003-3286-8624")))
@@ -18,8 +18,8 @@ Imports:
     vroom
 License: GPL-3
 Encoding: UTF-8
-RoxygenNote: 7.3.2
 Suggests:
     fastrls,
     testthat
 Remotes: r-lib/fs, AustralianAntarcticDivision/fastrls
+Config/roxygen2/version: 8.0.0

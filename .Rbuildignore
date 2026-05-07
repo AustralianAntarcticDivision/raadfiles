@@ -5,3 +5,5 @@
 ^data-raw$
 docs/
 ^\.github$
+^\.positai$
+^\.claude$

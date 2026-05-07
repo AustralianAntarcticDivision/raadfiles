@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* fasticefiles has been hard-renamed to fraser_fasticefiles. 
+
 * Fix fasticefiles order. 
 
 * Re memoize get_raad_file_names. 

@@ -26,7 +26,7 @@
 #' @param ... reserved for future use, currently ignored
 #' @return data frame
 #' @export
-fasticefiles <- function(product = c("circum_fast_ice", "binary_fast_ice"), mask = FALSE, ...) {
+fraser_fasticefiles <- function(product = c("circum_fast_ice", "binary_fast_ice"), mask = FALSE, ...) {
   product <- match.arg(product)
   #pref <- file.path("fastice", "fraser_fastice", product)
   #fs <- list.files(file.path(datadir, pref), pattern = "img$")
