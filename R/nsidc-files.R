@@ -102,15 +102,15 @@ nsidc_daily_files_v2 <- function(extra_pattern = NULL) {
   ## FINAL daily files are kept in the NSIDC-0051.001/YYYY.MM.DD folder, with filename nt_YYYYMMDD_*.bin
   ## note that top data folder NSIDC-0051.001 might change when the data version is incremented?
   #pattern <- c("n5eil01u\\.ecs\\.nsidc\\.org", "nsidc-0051\\.001[/\\\\].*[/\\\\]nt_[[:digit:]]{8}_.*\\.bin$")
-  pattern <- c("nsidc\\.org", "NSIDC-0051\\.002", "nc$", extra_pattern)
-
+  #pattern <- c("nsidc\\.org", "NSIDC-0051\\.002", "nc$", extra_pattern)
+  ## hello 2026 nsidc-cumulus-prod-protected/PM/NSIDC-0051/2/ .
+  pattern <- c("NSIDC-0051/2", "nc$", extra_pattern)
   final_files <- .find_files_generic(pattern)
-
-  pattern2 <- c("nsidc\\.org", "NSIDC-0081\\.002", ".*nc$", extra_pattern)
-  ## near-real-time files
-  #nrt_files <- .find_files_generic("nsidc0081_nrt_nasateam_seaice[/\\\\].*_f18_nrt_.*\\.bin$")
-  nrt_files <- .find_files_generic(pattern2)
-  out <- dplyr::transmute(dplyr::bind_rows(final_files, nrt_files), date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"), .data$fullname)
+  #pattern2 <- c("nsidc\\.org", "NSIDC-0081\\.002", ".*nc$", extra_pattern)
+  ## near-real-time files (we can't have yet, pending 0803)
+  #nrt_files <- .find_files_generic(pattern2)
+  #out <- dplyr::transmute(dplyr::bind_rows(final_files, nrt_files), date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"), .data$fullname)
+  out <- dplyr::transmute(final_files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"), .data$fullname)
   out <- dplyr::filter(out, !is.na(.data$date))
 
   dplyr::arrange(out, .data$date)

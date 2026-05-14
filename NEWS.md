@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Modify nsidc daily to pick up the new earthdatacloud series 25km (monthly unchanged). 
+
 * fasticefiles has been hard-renamed to fraser_fasticefiles. 
 
 * Fix fasticefiles order. 
