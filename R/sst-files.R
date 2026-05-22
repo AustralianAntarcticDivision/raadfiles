@@ -72,14 +72,23 @@ oisst_monthly_files <- function() {
 #'   ghrsst_daily_files()
 #' }
 ghrsst_daily_files <- function () {
- #pattern <- c("ghrsst", "JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*\\.nc$")
-  ## we were excluding 2023 when it moved (we resolve duplicates below because the new ones come first)
- pattern <- c("idea.public",  "JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*tif$")
- files <- .find_files_generic(pattern)
-  files <-   dplyr::transmute(files,
-                              date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),"%Y%m%d"),tz = "UTC"), .data$fullname, .data$root)
-  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)
+ # #pattern <- c("ghrsst", "JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*\\.nc$")
+ #  ## we were excluding 2023 when it moved (we resolve duplicates below because the new ones come first)
+ # pattern <- c("idea.public",  "JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*tif$")
+ # files <- .find_files_generic(pattern)
+ #  files <-   dplyr::transmute(files,
+ #                              date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),"%Y%m%d"),tz = "UTC"), .data$fullname, .data$root)
+ #  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)
 
+  date <- as.POSIXct(seq(as.Date("2002-06-01"), Sys.Date() -
+                           2, by = 1), tz = "UTC")
+  template <- template <- "https://data.source.coop/ausantarctic/ghrsst-mur-v2/%s/%s090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1_analysed_sst.tif"
+  ymd <- format(date, "%Y/%m/%d")
+  ymd2 <- format(date, "%Y%m%d")
+  d <- tibble::tibble(fullname = sprintf(template, ymd, ymd2),
+                      date = date)
+  d$fullname <- sprintf("/vsicurl/%s", d$fullname)
+  d
 }
 
 #' @name ghrsst_files
