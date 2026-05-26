@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Sort Altimetry files on processing_date *descending* so that NRT gets filter out preferentially. 
+
 * Switch ghrsst to the online COGs. 
 
 * Modify nsidc daily to pick up the new earthdatacloud series 25km (monthly unchanged). 

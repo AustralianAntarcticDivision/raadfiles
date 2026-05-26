@@ -90,8 +90,9 @@ altimetry_daily_files <- function(all = FALSE) {
   if (any(bad) && !all) {
     files <- files[!bad, ]
   }
+
   if (!all) {
-    files <- dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date)
+    files <- dplyr::arrange(dplyr::distinct(dplyr::arrange(files, dplyr::desc(.data$processing_date)), .data$date, .keep_all = TRUE), .data$date)
   } else {
     files <- dplyr::arrange(files, .data$date, .data$processing_date)
   }
