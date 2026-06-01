@@ -7,7 +7,7 @@
 \alias{amsr2_daily_files}
 \title{AMSR daily  sea-ice concentration}
 \usage{
-amsr2_3k_daily_files(type = c("tif", "hdf"))
+amsr2_3k_daily_files(type = c("netcdf"))
 
 amsre_daily_files()
 

@@ -1,5 +1,7 @@
 # raadfiles dev
 
+*Switch amsr2 3k ice to netcdf not the geotiffs, so the missing value is consistent. 
+
 * Sort Altimetry files on processing_date *descending* so that NRT gets filter out preferentially. 
 
 * Switch ghrsst to the online COGs. 
