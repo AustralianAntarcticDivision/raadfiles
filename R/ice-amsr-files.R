@@ -52,7 +52,7 @@ amsr2_daily_files <- function() {
 #'
 #' `amsr2_daily_files()` returns TIF files
 #'
-#' `amsr2_3k_daily_files()` returns TIF files
+#' `amsr2_3k_daily_files()` returns NetCDF files
 #'
 #' `amsr_daily_files()` returns HDF files
 #'

@@ -44,7 +44,7 @@ oisst_daily_files <- function() {
 #' @importFrom stringr str_detect str_replace
 #' @importFrom tibble tibble
 oisst_monthly_files <- function() {
- pattern <- "ftp.cdc.noaa.gov/Datasets/noaa.oisst.v2/sst.mnmean.nc"
+ pattern <- "downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/sst.mon.mean.nc"
 
   files <- .find_files_generic(pattern)
     if (nrow(files) > 1) warning("only expecting one file for monthly OIv2 SST, but found ",

@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* updated OISST monthly to new file. 
+
 *Switch amsr2 3k ice to netcdf not the geotiffs, so the missing value is consistent. 
 
 * Sort Altimetry files on processing_date *descending* so that NRT gets filter out preferentially. 

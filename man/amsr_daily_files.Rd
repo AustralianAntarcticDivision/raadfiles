@@ -29,7 +29,7 @@ Sea ice concentration files at 6.25 km resolution, southern hemisphere.
 
 `amsr2_daily_files()` returns TIF files
 
-`amsr2_3k_daily_files()` returns TIF files
+`amsr2_3k_daily_files()` returns NetCDF files
 
 `amsr_daily_files()` returns HDF files
 
