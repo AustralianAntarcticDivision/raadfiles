@@ -10,7 +10,11 @@
 \alias{nsidc_daily_files}
 \alias{nsidc_daily_files_v2}
 \alias{nsidc_monthly_files_v2}
+\alias{nsidc_cdr_south_daily_files}
+\alias{nsidc_cdr_north_daily_files}
 \alias{nsidc_cdr_daily_files}
+\alias{nsidc_cdr_south_monthly_files}
+\alias{nsidc_cdr_north_monthly_files}
 \alias{nsidc_cdr_monthly_files}
 \title{NSIDC daily and monthly sea-ice concentration}
 \usage{
@@ -30,34 +34,46 @@ nsidc_daily_files_v2(extra_pattern = NULL)
 
 nsidc_monthly_files_v2(extra_pattern = NULL)
 
-nsidc_south_monthly_files()
+nsidc_cdr_south_daily_files(extra_pattern = NULL, version = "V6")
 
-nsidc_north_monthly_files()
+nsidc_cdr_north_daily_files(extra_pattern = NULL, version = "V6")
 
-nsidc_monthly_files()
+nsidc_cdr_daily_files(extra_pattern = NULL, version = "V6")
 
-nsidc_south_daily_files()
+nsidc_cdr_south_monthly_files(extra_pattern = NULL, version = "V6")
 
-nsidc_north_daily_files()
+nsidc_cdr_north_monthly_files(extra_pattern = NULL, version = "V6")
 
-nsidc_daily_files()
-
-nsidc_cdr_daily_files(extra_pattern = NULL)
-
-nsidc_cdr_monthly_files(extra_pattern = NULL)
+nsidc_cdr_monthly_files(extra_pattern = NULL, version = "V6")
 }
 \arguments{
-\item{extra_pattern}{argument for restricted string matching}
+\item{extra_pattern}{optional character vector of extra regular expressions
+to further restrict matching (CDR functions only)}
+
+\item{version}{CDR data version tag as it appears in the data path,
+default "V6"}
 }
 \value{
 tibble data frame of file names
 
-tibble data frame of file names
+tibble data frame with columns `date` (POSIXct, UTC) and `fullname`
 }
 \description{
 Sea ice concentration files.
 
-Sea ice concentration files.
+Find NSIDC sea ice concentration files. Two families are supported:
+}
+\details{
+- `nsidc_*_files()`: NASA Team 25km polar stereographic files
+  (NSIDC-0051 final and NSIDC-0081 near-real-time).
+- `nsidc_cdr_*_files()`: NOAA/NSIDC Climate Data Record netCDF files
+  (G02202).
+
+Each family has hemisphere-specific (`_south_`, `_north_`) and combined
+variants. Hemisphere-specific variants return one file per date, resolving
+duplicates (data versions, sensor platforms) by preferring the lexically
+last file name. Combined variants return both hemispheres, ordered by date
+then file name, so callers should not assume one row per date.
 }
 \examples{
 \dontrun{
@@ -75,5 +91,12 @@ Sea ice concentration files.
   nsidc_south_daily_files()
   nsidc_north_daily_files()
   nsidc_daily_files()
+
+  nsidc_cdr_south_daily_files()
+  nsidc_cdr_north_daily_files()
+  nsidc_cdr_daily_files()
+  nsidc_cdr_south_monthly_files()
+  nsidc_cdr_north_monthly_files()
+  nsidc_cdr_monthly_files()
 }
 }
