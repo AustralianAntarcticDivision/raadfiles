@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Add `nsidc_cdr_daily_files` and `nsidc_cdr_monthly_files`. 
+
 * updated OISST monthly to new file. 
 
 *Switch amsr2 3k ice to netcdf not the geotiffs, so the missing value is consistent. 

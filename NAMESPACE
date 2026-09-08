@@ -50,6 +50,8 @@ export(macquarie100m_57S_files)
 export(macquarie100m_58S_files)
 export(ncep2_uwnd_6hr_files)
 export(ncep2_vwnd_6hr_files)
+export(nsidc_cdr_daily_files)
+export(nsidc_cdr_monthly_files)
 export(nsidc_daily_files)
 export(nsidc_daily_files_v2)
 export(nsidc_monthly_files)
@@ -104,19 +106,23 @@ export(woa09_daily_files)
 export(woa09_files)
 export(woa13_files)
 importFrom(digest,digest)
-importFrom(dplyr,"%>%")
-importFrom(dplyr,arrange)
-importFrom(dplyr,distinct)
-importFrom(dplyr,filter)
-importFrom(dplyr,mutate)
-importFrom(dplyr,row_number)
-importFrom(dplyr,transmute)
+importFrom(dplyr,
+  "%>%",
+  arrange,
+  distinct,
+  filter,
+  mutate,
+  row_number,
+  transmute
+)
 importFrom(memoise,memoize)
 importFrom(rlang,.data)
 importFrom(stats,runif)
-importFrom(stringr,str_detect)
-importFrom(stringr,str_extract)
-importFrom(stringr,str_replace)
+importFrom(stringr,
+  str_detect,
+  str_extract,
+  str_replace
+)
 importFrom(tibble,tibble)
 importFrom(utils,tail)
 importFrom(vroom,vroom)
