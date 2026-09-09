@@ -66,8 +66,8 @@ NULL
 ## CDR (G02202) file finder shared by all nsidc_cdr_* functions
 ##
 ## paths look like
-##  noaadata.apps.nsidc.org/NOAA/G02202_V6/south/daily/2020/seaice_conc_daily_sh_20200101_f17_v06r00.nc
-##  noaadata.apps.nsidc.org/NOAA/G02202_V6/north/monthly/seaice_conc_monthly_nh_202001_f17_v06r00.nc
+##  noaadata.apps.nsidc.org/NOAA/G02202_V6/north/daily/1978/sic_psn25_19781025_n07_v06r00.nc
+##  noaadata.apps.nsidc.org/NOAA/G02202_V6/south/monthly/sic_pss25_197811_n07_v06r00.nc"
 .nsidc_cdr_files <- function(time.resolution = c("daily", "monthly"),
                              hemisphere = c("both", "south", "north"),
                              version = "V6",
@@ -77,8 +77,8 @@ NULL
 
   hemi_pattern <- switch(hemisphere,
                          both = NULL,
-                         south = "_sh_",
-                         north = "_nh_")
+                         south = "_pss25",
+                         north = "_psn25")
   pattern <- c("noaadata.apps.nsidc.org", sprintf("G02202_%s", version),
                hemi_pattern, time.resolution, "nc$", extra_pattern)
   files <- .nsidc_check(.find_files_generic(pattern))
