@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">raadfiles</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.4.9022</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.5</span>
       </span>
     </div>
 
@@ -41,6 +41,31 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.1.5" id="raadfiles-015">raadfiles 0.1.5<a class="anchor" aria-label="anchor" href="#raadfiles-015"></a></h2>
+<ul><li><p><code><a href="../reference/raadfiles-admin.html">set_raad_filenames()</a></code>: sign each file_db.tab by size+mtime rather than md5 of every byte (<code>run_build_raad_cache</code> rewrites files wholesale, so both move)</p></li>
+<li><p>keep verbatim local copies of the text caches under R_user_dir(cache) and point vroom at them, refreshed only when the signature changes; vroom stays lazy so nothing is materialised on load. Option raadfiles.local.cache = FALSE to disable</p></li>
+<li><p><code><a href="../reference/raadfiles-admin.html">get_raad_filenames()</a></code>: apply the data_deprecated/PRIVATE root filters to the unique root values instead of a regex over every row</p></li>
+<li><p><code><a href="../reference/raadfiles-admin.html">set_raad_data_roots()</a></code>: show mtime of file_db.tab (was looking for file_db.rds)</p></li>
+<li><p>Add <code>nsidc_cdr_daily_files</code> and <code>nsidc_cdr_monthly_files</code>.</p></li>
+<li><p>updated OISST monthly to new file.</p></li>
+</ul><p>*Switch amsr2 3k ice to netcdf not the geotiffs, so the missing value is consistent.</p>
+<ul><li><p>Sort Altimetry files on processing_date <em>descending</em> so that NRT gets filter out preferentially.</p></li>
+<li><p>Switch ghrsst to the online COGs.</p></li>
+<li><p>Modify nsidc daily to pick up the new earthdatacloud series 25km (monthly unchanged).</p></li>
+<li><p>fasticefiles has been hard-renamed to fraser_fasticefiles.</p></li>
+<li><p>Fix fasticefiles order.</p></li>
+<li><p>Re memoize get_raad_file_names.</p></li>
+<li><p>Begin ccmp v03.</p></li>
+<li><p>Fix problematic old UTC flush (thanks Dale Maschette #33).</p></li>
+<li><p>Avoid oldformat in Copernicus altimetry files.</p></li>
+<li><p>New function <code><a href="../reference/topography-files.html">gebco23_files()</a></code> for our local copy.</p></li>
+<li><p><code><a href="../reference/srtm.html">srtm_files()</a></code> now defunct, use opentopography or similar (one example is in gh:hypertidy/sds::cop30()).</p></li>
+<li><p>Bumped required version of fs to dev, see <a href="https://github.com/r-lib/fs/issues/447" class="external-link uri">https://github.com/r-lib/fs/issues/447</a>.</p></li>
+<li><p>GHRSST now uses our own COGs.</p></li>
+<li><p>GHRSST now picks up new files (since 2023) <a href="https://github.com/AustralianAntarcticDivision/raadtools/issues/139#issuecomment-1678118793" class="external-link uri">https://github.com/AustralianAntarcticDivision/raadtools/issues/139#issuecomment-1678118793</a>.</p></li>
+<li><p>Made AMSR 3k file finding a bit more deliberate, and can now access the HDF4 files as well.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1.4" id="raadfiles-014">raadfiles 0.1.4<a class="anchor" aria-label="anchor" href="#raadfiles-014"></a></h2>
 <ul><li><p>Fixed a bunch of stuff, and now passing check!</p></li>
