@@ -114,22 +114,26 @@ export(thelist_files)
 export(woa09_daily_files)
 export(woa09_files)
 export(woa13_files)
-importFrom(dplyr,"%>%")
-importFrom(dplyr,arrange)
-importFrom(dplyr,bind_rows)
-importFrom(dplyr,desc)
-importFrom(dplyr,distinct)
-importFrom(dplyr,filter)
-importFrom(dplyr,mutate)
-importFrom(dplyr,row_number)
-importFrom(dplyr,transmute)
+importFrom(dplyr,
+  "%>%",
+  arrange,
+  bind_rows,
+  desc,
+  distinct,
+  filter,
+  mutate,
+  row_number,
+  transmute
+)
 importFrom(memoise,memoize)
 importFrom(rlang,.data)
 importFrom(stats,runif)
-importFrom(stringr,str_detect)
-importFrom(stringr,str_extract)
-importFrom(stringr,str_replace)
-importFrom(stringr,str_sub)
+importFrom(stringr,
+  str_detect,
+  str_extract,
+  str_replace,
+  str_sub
+)
 importFrom(tibble,tibble)
 importFrom(utils,tail)
 importFrom(vroom,vroom)
