@@ -1,3 +1,19 @@
+# raadfiles 0.1.5.9000
+
+* Collection functions: `.find_files_generic()` now matches literal patterns
+  (no regex metacharacters) with a fixed search and subsets with base
+  indexing; several times cheaper on millions of file names.
+
+* `get_raad_filenames()` is no longer memoised and no longer forces the
+  `[1, ]` materialisation trick: memoise/cachem calls `object.size()` on the
+  cached value, which walked every element of the lazy vroom columns.
+
+* Memoisation moved from ~80 individually listed exported functions to the
+  single internal search they all go through. Around 30 exported `*_files()`
+  functions had never been in that list; all are now cached.
+
+* `stringi` added to Imports (already a hard dependency via stringr).
+
 # raadfiles 0.1.5
 
 
