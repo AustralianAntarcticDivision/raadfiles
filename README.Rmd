@@ -16,60 +16,83 @@ knitr::opts_chunk$set(
 
 # raadfiles
 
-The goal of `raadfiles` is to manage information about the large collection of files used by raadtools, and related systems. 
+raadfiles manages the file listing for a large data collection: which files
+exist under one or more root directories, and functions that pick the files
+for a particular data set out of that listing. It is the file layer under
+[raadtools](https://github.com/AustralianAntarcticDivision/raadtools) but
+works for any file collection.
 
-## Motivation
+The listing is a plain text table per root (`.raad_admin/file_db.tab`, two
+columns `root` and `file`). It is built by scanning the roots and read
+lazily on package load, so `library(raadfiles)` is fast even for millions of
+files, and every `*_files()` function is a substring search over that
+listing.
 
-You have a huge set of files you need to access regularly, and the information about those files is the first thing you need. 
-
-This project aims to speed up and help you control the following: 
-
-* raw file listing
-* seaching file names for patterns
-* caching metadata extracted from the files
-
-The overall goal is to help you write code to access and manipulate the data in those files. This is a natural complement to
-schemes that automatically obtain files and build file collections such as [raadsync](https://github.com/AustralianAntarcticDataCentre/raadsync.git) but can be used for other collections as well. 
-
-
-## Set up
-
-1. Get a huge file collection. (You probably have lots, but see https://github.com/rOpensci/bowerbird for a possible way forward if not).
-2. Install `raadfiles`. 
-3. Set up the automated file listing and caching mechanism. 
-
-## Install raadfiles
+## Install
 
 ```R
 ## install.packages("remotes")
 remotes::install_github("AustralianAntarcticDivision/raadfiles")
 ```
 
-## Set up the automated file listing and caching mechanism
+## Set up a collection
 
-1. An R script to list all the files and save to a cache, use raw text or R workspace `saveRDS` or feather or an actual database. 
-2. Create a cron job to run that script every day/hour/minute. 
-3. Configure `raadfiles::custom_setup` (TBD, see R/zzz.R for the in-built mechanism)
+Point raadfiles at one or more root directories, build the listing, and load
+it. Building is the slow step (a recursive directory scan), so it is normally
+run from a cron job with the automatic load disabled; loading is what
+happens each time the package is attached.
 
-
-## Why raadfiles for raadtools?
-
-* consistent convention around "file", "root" in the file cache to have a clear separation on the configured path versus the data
-* mechanism to load file cache into memory on load, for all functions to share 
-* 
-
-```{r timing, eval=FALSE}
-library(raadtools)
-system.time(rt_files <- sstfiles())
-
+```R
+## the scanning job, run periodically (cron)
+options(raadfiles.file.cache.disable = TRUE)
 library(raadfiles)
-system.time(rf_files <- oisst_daily_files())
-
-range(rt_files$date)
-range(rf_files$date)
-
-length(rt_files$date)
-length(rf_files$date)
-
-
+set_raad_data_roots("/path/to/data", "/path/to/data_local")
+run_build_raad_cache()
 ```
+
+```R
+## an ordinary session: roots are found from the option or known candidates
+## and the listing is loaded on attach
+options(raadfiles.data.roots = c("/path/to/data", "/path/to/data_local"))
+library(raadfiles)
+get_raad_filenames()      ## the whole listing, root + file
+oisst_daily_files()       ## one data set: date, fullname, root
+```
+
+Options that control this (see `?raadfiles-admin`):
+
+* `raadfiles.data.roots` the root directories
+* `raadfiles.file.cache.disable` do not load the listing on attach (for the
+  scanning job)
+* `raadfiles.local.cache` keep local copies of each root's listing under
+  `tools::R_user_dir("raadfiles", "cache")` and read from those; on by
+  default, useful when the roots are on a network mount
+* `raadfiles.quiet` silence the informational messages
+* `raadfiles.file.refresh.threshold` probability that a `*_files()` call
+  re-checks the listing on disk (default 0.01; 0 never, 1 always)
+
+## Collection functions
+
+Every `*_files()` function returns a tibble with `fullname` (the full path)
+and `root`, and `date` first when the data set has one. Extra columns
+(`tile`, `band_level`, ...) follow those. Most functions are a pattern
+search plus a date parsed from the file name; the searches are memoised for
+24 hours.
+
+```R
+library(raadfiles)
+oisst_daily_files()
+nsidc_south_daily_files()
+rema_100m_files()
+```
+
+`get_raad_filenames(all = TRUE)` gives the raw listing including the
+`data_deprecated` roots that are filtered out by default.
+
+## Why a separate package
+
+* one convention for `root` and `file` so the configured path is separate
+  from the data path
+* the listing is loaded once and shared by every function
+* a file collection built by any means (bowerbird, rsync, manual) works, as
+  long as the files are under the roots

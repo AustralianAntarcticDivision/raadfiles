@@ -97,7 +97,6 @@ gebco08_files <- function(all = FALSE, ...) {
 ramp_files <- function(all = FALSE, ...) {
   pattern <- "sidads.colorado.edu/pub/DATASETS/nsidc0082_radarsat_dem_v02/200M/ARCINFO"
   if (!all) pattern <- c(pattern,"sidads.colorado.edu/pub/DATASETS/nsidc0082_radarsat_dem_v02/200M/ARCINFO/osu91a200m/.*w001001.adf$")
-#  print(pattern)
   topo_files_generic(pattern)
 }
 
@@ -203,7 +202,6 @@ lakesuperior_files <- function(all = FALSE, ...)  {
 #' @rdname topography-files
 kerguelen_files <- function(all = FALSE, ...) {
   ## updated 2021-03-01
-  #pattern <- if (all) "ftt.jcu.edu.au" else "ftt.jcu.edu.au/.*/kerg_dem.grd$"
 
     pattern <- "d28rz98at9flks.cloudfront.net/71552"
     if (!all) pattern <- c(pattern,  "d28rz98at9flks.cloudfront.net/71552/.*kerg100_28mar/w001001.adf")

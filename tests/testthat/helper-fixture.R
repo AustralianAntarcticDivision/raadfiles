@@ -52,6 +52,7 @@ use_fixture <- function(fx, local_cache = TRUE) {
   Sys.setenv(R_USER_CACHE_DIR = cache_dir)
   old_opts <- options(raadfiles.data.roots = fx$roots,
                       raadfiles.local.cache = local_cache,
+                      raadfiles.quiet = TRUE,
                       raadfiles.file.refresh.threshold = 0,
                       raadfiles.database.status = NULL)
   memoise::forget(raadfiles:::.find_files_generic)

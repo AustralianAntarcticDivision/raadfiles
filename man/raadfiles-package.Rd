@@ -14,11 +14,6 @@ raadfiles-admin
 \author{
 \strong{Maintainer}: Michael D. Sumner \email{michael.sumner@aad.gov.au}
 
-Authors:
-\itemize{
-  \item Michael D. Sumner \email{michael.sumner@aad.gov.au}
-}
-
 Other contributors:
 \itemize{
   \item Ben Raymond [contributor]

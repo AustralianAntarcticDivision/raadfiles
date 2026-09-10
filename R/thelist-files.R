@@ -102,9 +102,6 @@
 #' @param pattern is used to string match generally, if this is not NULL then format is ignored
 #'
 #' @return tibble data frame of file names
-#' @importFrom dplyr %>% arrange distinct filter mutate
-#' @importFrom rlang .data
-#' @importFrom stringr str_detect str_replace
 #' @name thelist
 #' @export
 
@@ -134,14 +131,8 @@ thelist_files <- function(format = c("gdb", "tab", "shp", "asc", "xml", "lyr", "
   # [25] "html@C=M;O=D"   "html@C=N;O=A"   "html@C=N;O=D"   "html@C=S;O=A"   "html@C=S;O=D"   "asc"
   # [31] "csv"            "txt"            "lyr"
   #
-  ## what will sf read
-  ## dirname(<gdbindexes>) is fine
-  #  afile <- files %>% filter(grepl("gdbindexes", file)) %>% slice(1) %>% mutate(fullname = file.path(root, file)) %>% pull(fullname)
-  #  sf::read_sf(dirname(afile))
-  #  afile <- files %>% filter(grepl("asc", file)) %>% slice(1) %>% mutate(fullname = file.path(root, file)) %>% pull(fullname)
 
 
-  #if (!is.null(type)) files <- dplyr::filter(files, grepl(type, file))
   if (!is.null(pattern)) files <- dplyr::filter(files, grepl(pattern, .data$file))
 
   format <- match.arg(format)
@@ -156,15 +147,11 @@ thelist_files <- function(format = c("gdb", "tab", "shp", "asc", "xml", "lyr", "
   }
 
 
-  #datadir <- get_raad_datadir()
-  #if (!datadir == files$root[1]) warning("datadir and file root don't match?")
   files <-   dplyr::transmute(files, fullname = file.path(.data$root, .data$file), root = .data$root)
 
   if (nrow(files) < 1)
     stop("no files found")
 
-  #files <- dplyr::mutate(files,
-   #                      file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
   .raad_files_result(dplyr::arrange(files, .data$fullname))
 }
 

@@ -61,3 +61,19 @@ test_that("a collection function returns the date/fullname/root contract", {
   expect_equal(nrow(cs), 30)
   expect_true(all(c("date", "fullname", "root") %in% names(cs)))
 })
+
+test_that("suffixed aliases match the older names", {
+  expect_identical(formals(fraser_fastice_files), formals(raadfiles:::fraser_fastice_files))
+  expect_true(all(c("fraser_fastice_files", "fraser_fasticefiles", "iceclim_south_leads_files",
+                    "iceclim_south_leadsfiles", "amps_d1_files", "amps_d1files") %in% getNamespaceExports("raadfiles")))
+  fx <- make_fixture(); cleanup <- use_fixture(fx); on.exit(cleanup())
+  expect_error(iceclim_south_leads_files(), "no files found")
+  expect_error(iceclim_south_leadsfiles(), "no files found")
+})
+
+test_that("candidate paths are platform-filtered", {
+  p <- raadfiles:::.possiblepaths()
+  expect_true(any(startsWith(p, "//")))
+  v <- raadfiles:::validate_possible_paths()
+  if (.Platform$OS.type == "windows") expect_true(all(startsWith(v, "//"))) else expect_false(any(startsWith(v, "//")))
+})

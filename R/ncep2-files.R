@@ -6,11 +6,8 @@
 #' NCEP2 six-hourly reanalysis2 gaussian grid
 #'
 #' @return tibble data frame of file names
-#' @importFrom dplyr arrange distinct filter mutate
-#' @importFrom rlang .data
 #' @name ncep2_files
 #' @export
-#' @importFrom stringr str_extract str_replace
 #' @examples
 #' \dontrun{
 #'   ncep2_uwnd_6hr_files()
@@ -42,15 +39,6 @@ ncep2_vwnd_6hr_files <- function() {
 
 }
 
-#dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "ncep.reanalysis2")) %>% mutate(file = basename(dirname(file))) %>% distinct(file)
-# A tibble: 5 x 1
-#file
-#<chr>
-#1              gaussian_grid
-#2                   pressure
-#3 ncep.reanalysis2.dailyavgs
-#4                    surface
-#5   ncep.reanalysis2.derived
 
 
 

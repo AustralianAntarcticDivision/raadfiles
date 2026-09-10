@@ -8,7 +8,6 @@ Description: Tools for managing collections of files for the 'raad' family.
 Depends:
     R (>= 4.1.0)
 Imports:
-    digest,
     rlang,
     stringi,
     stringr,

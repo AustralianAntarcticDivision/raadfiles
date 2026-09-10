@@ -29,7 +29,10 @@ test_that("database status is a size+mtime signature and short-circuits reload",
   expect_named(st, c("db", "md5", "file_ok"))
   expect_equal(st$db, raad_filedb_path(fx$roots))
   expect_true(all(grepl("^[0-9]+_[0-9]+\\.[0-9]+$", st$md5)))
+  expect_silent(set_raad_filenames())
+  options(raadfiles.quiet = FALSE)
   expect_message(set_raad_filenames(), "up to date")
+  options(raadfiles.quiet = TRUE)
 })
 
 test_that("a rebuilt listing is detected and reloaded", {
@@ -50,6 +53,12 @@ test_that("local copies are kept under R_user_dir and refreshed on change", {
   sigs <- list.files(cd, "\\.sig$", full.names = TRUE)
   expect_length(tabs, length(fx$roots))
   expect_length(sigs, length(fx$roots))
+  ## a leftover copy from a root no longer in use is pruned on the next load
+  junk <- file.path(cd, c("old_root_key.tab", "old_root_key.sig"))
+  file.create(junk)
+  suppressMessages(set_raad_filenames(clobber = TRUE))
+  expect_false(any(file.exists(junk)))
+  expect_length(list.files(cd, "\\.tab$"), length(fx$roots))
   ## copies are byte-identical to the originals
   dbs <- raad_filedb_path(fx$roots)
   copies <- raadfiles:::local_filedb_copies(dbs, raadfiles:::db_signature(dbs))
@@ -86,7 +95,7 @@ test_that("an unwritable cache dir falls back to the originals silently", {
   out <- tryCatch(raadfiles:::local_filedb_copies(dbs, raadfiles:::db_signature(dbs)),
                   warning = function(w) stop("warned: ", conditionMessage(w)))
   expect_true(all(out == dbs | file.exists(out)))
-  expect_no_warning(expect_message(set_raad_filenames(clobber = TRUE), "Uploading"))
+  expect_no_warning(expect_silent(set_raad_filenames(clobber = TRUE)))
   expect_equal(nrow(get_raad_filenames(all = TRUE)), sum(fx$n))
 })
 

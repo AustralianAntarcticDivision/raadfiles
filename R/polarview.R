@@ -4,12 +4,9 @@
 #'
 #' The JPEGs are simple images, the GeoTIFFs are 16-bit integers (haven't explored further)
 #' @return tibble data frame of file names, with columns `fullname` and `date`
-#' @importFrom dplyr arrange distinct filter mutate
-#' @importFrom rlang .data
 #' @name polarview
 #' @export
 #' @param type jpeg or tarball
-#' @importFrom stringr str_detect str_extract str_replace
 #' @examples
 #' \dontrun{
 #'   files <- polarview_files()
@@ -63,7 +60,6 @@ polarview_get_geotransform <- function(x) {
 
 polarview_jpeg_tarball <- function(jpeg) {
   ## we have a jpeg path
-  #files <- polarview_files(type = "jpeg"); jpeg <- files$fullname[20]
 
   patt <- gsub("\\.jpg$", "", basename(jpeg))
   tfiles <- polarview_files(type = "tarball")

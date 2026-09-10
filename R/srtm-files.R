@@ -5,13 +5,10 @@
 #' DOI: 0.1080/13658810601169899
 #' @references [https://cgiarcsi.community/data/srtm-90m-digital-elevation-database-v4-1/]
 #' @return tibble data frame of file names, with columns `fullname`, `x`, `y` (tiles)
-#' @importFrom dplyr arrange distinct filter mutate
-#' @importFrom rlang .data
 #' @name srtm
 #' @aliases srtm
 #' @return data frame with `fullname` file path, `x`, `y` tile column and row indices,  `root` the data file root path
 #' @export
-#' @importFrom stringr str_detect str_extract str_replace
 #' @examples
 #' \dontrun{
 #'   srtm_files()

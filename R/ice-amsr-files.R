@@ -8,10 +8,8 @@ amsr2_3k_daily_files <- function(type = c("netcdf")) {
 
   files <- .find_files_generic(pattern)
   ## we can't filter out v5 because some files don't have 5.4 version (.tif 2018-10-28 - 2018-11-21)
-  #files <- dplyr::filter(files, !stringr::str_detect(fullname, sprintf("v5\\.%s", type)))
   files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
   ## sort to put the v5.4 at the top of the date group and slice it out, else just get the only one for the date
-  #dplyr::arrange(files, .data$date, .data$fullname) |> dplyr::group_by(.data$date) |> dplyr::slice(1L) |> dplyr::ungroup()
   .raad_files_result(dplyr::arrange(files, .data$date, .data$fullname) |> dplyr::distinct(.data$date, .keep_all = TRUE))
 }
 
@@ -62,10 +60,7 @@ amsr2_daily_files <- function() {
 #' @name amsr_daily_files
 #' @aliases amsre_daily_files amsr2_daily_files amsr2_3k_daily_files
 #' @return tibble data frame of file names
-#' @importFrom dplyr arrange distinct filter mutate transmute
-#' @importFrom rlang .data
 #' @export
-#' @importFrom stringr str_detect str_extract
 #' @export
 #' @examples
 #' \dontrun{
@@ -73,12 +68,6 @@ amsr2_daily_files <- function() {
 #'   amsr_daily_files()
 #' }
 amsr_daily_files <- function() {
-  #  ## 2002:2011
-  #    #  f1 <- "ftp-projects.zmaw.de/seaice/AMSR-E_ASI_IceConc/no_landmask/hdf/s6250/"
-  #    ## modified from zmaw.de 2017-06-27 https://github.com/AustralianAntarcticDivision/raadtools/issues/52
-  #    f1 <- "ftp-projects.cen.uni-hamburg.de/seaice/AMSR-E_ASI_IceConc/no_landmask/hdf/s6250/"
-  #    ## 2012:2015+
-  #    f2 <- "seaice.uni-bremen.de/data/amsr2/asi_daygrid_swath/s6250"
 
   pattern <- c("s6250", "hdf$")
   f1 <- "ftp-projects.cen.uni-hamburg.de/seaice/AMSR-E_ASI_IceConc/no_landmask/hdf/s6250/"

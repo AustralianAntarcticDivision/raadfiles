@@ -4,6 +4,7 @@
 #' composites as derived from MOD/MYD-29 IST 5 min granules.
 #'
 #' @param all return all files, or just the core grid files (*.nc)?
+#' @param ... passed to the suffixed function by the older alias names
 #' @references F. Reiser, S. Willmes, G. Heinemann (2020): A new algorithm for daily sea ice lead identification in the Arctic and
 #'  Antarctic winter from thermal-infrared satellite imagery.
 #' @export
@@ -13,7 +14,7 @@
 #'   iceclim_south_leadsfiles()
 #'   iceclim_north_leadsfiles()
 #' }
-iceclim_south_leadsfiles <- function(all = FALSE) {
+iceclim_south_leads_files <- function(all = FALSE) {
   pattern <- c("store.pangaea.de", "ReiserF-etal_2020/Antarctic_Relleads")
   if (!all) {
     pattern <- c(pattern, ".*nc$")
@@ -22,10 +23,17 @@ iceclim_south_leadsfiles <- function(all = FALSE) {
 }
 #' @export
 #' @name leads
-iceclim_north_leadsfiles <- function(all = FALSE) {
+iceclim_north_leads_files <- function(all = FALSE) {
   pattern <- c("store.pangaea.de", "ReiserF-etal_2020/Arctic_Relleads")
   if (!all) {
     pattern <- c(pattern, ".*nc$")
   }
   .find_files_generic(pattern)
 }
+
+#' @rdname leads
+#' @export
+iceclim_south_leadsfiles <- function(...) iceclim_south_leads_files(...)
+#' @rdname leads
+#' @export
+iceclim_north_leadsfiles <- function(...) iceclim_north_leads_files(...)

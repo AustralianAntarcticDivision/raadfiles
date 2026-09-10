@@ -6,12 +6,9 @@
 #'
 #
 #' @return tibble data frame of file names, with columns `fullname` and `date`
-#' @importFrom dplyr arrange distinct filter mutate
-#' @importFrom rlang .data
 #' @param time.resolution time resolution (only "8D" is available)
 #' @name par
 #' @export
-#' @importFrom stringr str_detect str_extract str_replace
 #' @examples
 #' \dontrun{
 #'   par_files()

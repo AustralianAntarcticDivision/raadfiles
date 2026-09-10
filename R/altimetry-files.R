@@ -52,11 +52,8 @@ altimetry_currents_polar_files <- function(hemisphere = "south") {
 #' @param all return all files or only the final processing (NRT is included either way)
 #'
 #' @return tibble data frame of file names, data 'date', and 'processing_date'
-#' @importFrom dplyr arrange distinct filter mutate
-#' @importFrom rlang .data
 #' @name altimetry
 #' @export
-#' @importFrom stringr str_detect str_extract str_replace
 #' @examples
 #' \dontrun{
 #'   altimetry_daily_files()

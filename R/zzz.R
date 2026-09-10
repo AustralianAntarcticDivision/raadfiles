@@ -1,22 +1,8 @@
 raadfiles.env <- new.env(FALSE, parent=globalenv())
 
-env0 <- new.env(FALSE, parent=globalenv())
-assign("message2", NULL, envir = env0)
-assign("message1", NULL, envir = env0)
-.onAttach <- function(libname, pkgname) {
-  mess1 <- get("message1", envir = env0)
-  if (!is.null(mess1)) {
-    packageStartupMessage(mess1)
-  }
-  mess2 <- get("message2", envir = env0)
-  if (!is.null(mess2)) {
-    packageStartupMessage(mess2)
-  }
-
-
-}
-#' @importFrom tibble tibble
 .onLoad <- function(libname, pkgname) {
+  ## messages emitted while loading are packageStartupMessage()s, see raad_inform()
+  old <- options(raadfiles.loading = TRUE); on.exit(options(old), add = TRUE)
 
   run_on_load <- getOption("raadfiles.file.cache.disable")
   file_refresh <- getOption("raadfiles.file.refresh.threshold")
@@ -25,8 +11,7 @@ assign("message1", NULL, envir = env0)
     options(raadfiles.file.refresh.threshold = file_refresh)  ## 0 for never, 1 for every time
   }
   if (isTRUE(run_on_load)) {
-    assign("message1", "raadfiles in admin-mode, no file list loaded", envir = env0)
-    #packageStartupMessage("raadfiles in admin-mode, no file list loaded")
+    raad_inform("raadfiles in admin-mode, no file list loaded")
     return(invisible())
   }
   ## this logic says "data roots list is >=1 and I've set the file list/s found to the in-mem cache
@@ -35,8 +20,7 @@ assign("message1", NULL, envir = env0)
   if (raad_path_was_set) {
     set_raad_filenames(clobber = FALSE)  ## clobber at start-up, why not
   } else {
-    assign("message2", "No existing file cache found, see help('raadfiles-admin') for setting up", envir = env0)
-    #packageStartupMessage("No existing file cache found, see help('raadfiles-admin') for setting up")
+    raad_inform("No existing file cache found, see help('raadfiles-admin') for setting up")
   }
   ## memoise the one internal search that every collection function goes
   ## through, keyed on its pattern arguments, rather than each exported

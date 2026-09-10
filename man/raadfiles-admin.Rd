@@ -88,6 +88,7 @@ There is a family of functions and global options used for administration.
  \code{raadfiles.data.roots} \tab the list of paths to root directories \cr
  \code{raadfiles.file.cache.disable} \tab disable on-load setting of the in-memory file cache (never set automatically by the package)  \cr
  \code{raadfiles.file.refresh.threshold} \tab threshold probability of how often to refresh in-memory file cache (0 = never, 1 = every time `get_raad_filenames()` is called) \cr
+ \code{raadfiles.quiet} \tab set TRUE to silence the informational messages about roots and cache loading \cr
  \code{raadfiles.local.cache} \tab keep local copies of the file listing caches under `tools::R_user_dir("raadfiles", "cache")` and read from those (default TRUE), set FALSE to always read the originals \cr
 }
 }

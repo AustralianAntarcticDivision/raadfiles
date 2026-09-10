@@ -18,9 +18,6 @@
 #' @param version CDR data version tag as it appears in the data path,
 #'   default "V6"
 #' @return tibble data frame with columns `date` (POSIXct, UTC) and `fullname`
-#' @importFrom dplyr arrange bind_rows desc distinct filter transmute
-#' @importFrom rlang .data
-#' @importFrom stringr str_extract str_sub
 #' @name nsidc
 #' @examples
 #' \dontrun{

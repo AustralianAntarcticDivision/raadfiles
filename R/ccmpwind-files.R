@@ -14,11 +14,8 @@
 #'
 #
 #' @return tibble data frame of file names, with columns `fullname` and `date`
-#' @importFrom dplyr arrange distinct filter mutate
-#' @importFrom rlang .data
 #' @name ccmp
 #' @export
-#' @importFrom stringr str_detect str_extract str_replace
 #' @examples
 #' \dontrun{
 #'   ccmp_6hourly_files()

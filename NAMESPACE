@@ -4,7 +4,9 @@ export(.rema_file_filter)
 export(altimetry_antarctica_files)
 export(altimetry_currents_polar_files)
 export(altimetry_daily_files)
+export(amps_d1_files)
 export(amps_d1files)
+export(amps_d2_files)
 export(amps_d2files)
 export(amps_files)
 export(amps_model_files)
@@ -19,6 +21,7 @@ export(cersat_daily_files)
 export(cryosat2_files)
 export(etopo1_files)
 export(etopo2_files)
+export(fraser_fastice_files)
 export(fraser_fasticefiles)
 export(fsle_files)
 export(gebco08_files)
@@ -42,7 +45,9 @@ export(ibcso_files)
 export(ibcso_rid_files)
 export(ibcso_sid_files)
 export(ibcso_tid_files)
+export(iceclim_north_leads_files)
 export(iceclim_north_leadsfiles)
+export(iceclim_south_leads_files)
 export(iceclim_south_leadsfiles)
 export(kerguelen_files)
 export(lakesuperior_files)
@@ -109,27 +114,22 @@ export(thelist_files)
 export(woa09_daily_files)
 export(woa09_files)
 export(woa13_files)
-importFrom(digest,digest)
-importFrom(dplyr,
-  "%>%",
-  arrange,
-  bind_rows,
-  desc,
-  distinct,
-  filter,
-  mutate,
-  row_number,
-  transmute
-)
+importFrom(dplyr,"%>%")
+importFrom(dplyr,arrange)
+importFrom(dplyr,bind_rows)
+importFrom(dplyr,desc)
+importFrom(dplyr,distinct)
+importFrom(dplyr,filter)
+importFrom(dplyr,mutate)
+importFrom(dplyr,row_number)
+importFrom(dplyr,transmute)
 importFrom(memoise,memoize)
 importFrom(rlang,.data)
 importFrom(stats,runif)
-importFrom(stringr,
-  str_detect,
-  str_extract,
-  str_replace,
-  str_sub
-)
+importFrom(stringr,str_detect)
+importFrom(stringr,str_extract)
+importFrom(stringr,str_replace)
+importFrom(stringr,str_sub)
 importFrom(tibble,tibble)
 importFrom(utils,tail)
 importFrom(vroom,vroom)

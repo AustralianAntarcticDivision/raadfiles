@@ -3,6 +3,8 @@
 \name{amps_files}
 \alias{amps_files}
 \alias{amps_model_files}
+\alias{amps_d1_files}
+\alias{amps_d2_files}
 \alias{amps_d1files}
 \alias{amps_d2files}
 \title{AMPS files}
@@ -11,9 +13,13 @@ amps_files()
 
 amps_model_files(time.resolution = "4hourly", grid = "d1", ...)
 
-amps_d1files(time.resolution = "4hourly", ...)
+amps_d1_files(time.resolution = "4hourly", ...)
 
-amps_d2files(time.resolution = "4hourly", ...)
+amps_d2_files(time.resolution = "4hourly", ...)
+
+amps_d1files(...)
+
+amps_d2files(...)
 }
 \arguments{
 \item{time.resolution}{a placeholder, defaults to "4hourly" and remains unused}
@@ -26,13 +32,13 @@ amps_d2files(time.resolution = "4hourly", ...)
 Antarctic Mesoscale Prediction System GRIB files.
 }
 \details{
-`amps_files` returns all the files, `amps_model_files` returns the files with date set from the file name, `amps_d1files` and `amps_d2files` return only the 30km and 10 km resolution grids respectively.
+`amps_files` returns all the files, `amps_model_files` returns the files with date set from the file name, `amps_d1_files` and `amps_d2_files` return (`amps_d1files`/`amps_d2files` are older aliases) only the 30km and 10 km resolution grids respectively.
 }
 \examples{
 \dontrun{
   amps_files()
   amps_model_files()
-  amps_d1files()
-  amps_d2files()
+  amps_d1_files()
+  amps_d2_files()
 }
 }

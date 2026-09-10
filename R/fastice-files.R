@@ -26,10 +26,8 @@
 #' @param ... reserved for future use, currently ignored
 #' @return data frame
 #' @export
-fraser_fasticefiles <- function(product = c("circum_fast_ice", "binary_fast_ice"), mask = FALSE, ...) {
+fraser_fastice_files <- function(product = c("circum_fast_ice", "binary_fast_ice"), mask = FALSE, ...) {
   product <- match.arg(product)
-  #pref <- file.path("fastice", "fraser_fastice", product)
-  #fs <- list.files(file.path(datadir, pref), pattern = "img$")
   if (product == "binary_fast_ice") {
 
     pattern <- c("data\\.aad\\.gov\\.au", "file/3656")
@@ -54,3 +52,7 @@ fraser_fasticefiles <- function(product = c("circum_fast_ice", "binary_fast_ice"
     return(.raad_files_result(dplyr::arrange(files, .data$date)))
   }
 }
+
+#' @rdname fraser_fastice_files
+#' @export
+fraser_fasticefiles <- function(...) fraser_fastice_files(...)

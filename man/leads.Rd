@@ -2,16 +2,24 @@
 % Please edit documentation in R/ice-leads.R
 \name{leads}
 \alias{leads}
+\alias{iceclim_south_leads_files}
+\alias{iceclim_north_leads_files}
 \alias{iceclim_south_leadsfiles}
 \alias{iceclim_north_leadsfiles}
 \title{Files containing relative lead frequencies for the Arctic and Antarctic}
 \usage{
-iceclim_south_leadsfiles(all = FALSE)
+iceclim_south_leads_files(all = FALSE)
 
-iceclim_north_leadsfiles(all = FALSE)
+iceclim_north_leads_files(all = FALSE)
+
+iceclim_south_leadsfiles(...)
+
+iceclim_north_leadsfiles(...)
 }
 \arguments{
 \item{all}{return all files, or just the core grid files (*.nc)?}
+
+\item{...}{passed to the suffixed function by the older alias names}
 }
 \description{
 Average Lead-Frequency for the polar oceans for winter months November-April 2002/03-2018/19 based on daily lead

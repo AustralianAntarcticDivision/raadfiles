@@ -2,7 +2,7 @@
 #'
 #' Antarctic Mesoscale Prediction System GRIB files.
 #'
-#' `amps_files` returns all the files, `amps_model_files` returns the files with date set from the file name, `amps_d1files` and `amps_d2files` return only the 30km and 10 km resolution grids respectively.
+#' `amps_files` returns all the files, `amps_model_files` returns the files with date set from the file name, `amps_d1_files` and `amps_d2_files` return (`amps_d1files`/`amps_d2files` are older aliases) only the 30km and 10 km resolution grids respectively.
 #'
 #' @param time.resolution a placeholder, defaults to "4hourly" and remains unused
 #' @param grid one of `d1` (30km resolution) or `d2` (10km resolution)
@@ -12,8 +12,8 @@
 #' \dontrun{
 #'   amps_files()
 #'   amps_model_files()
-#'   amps_d1files()
-#'   amps_d2files()
+#'   amps_d1_files()
+#'   amps_d2_files()
 #' }
 amps_files <- function() {
   files <- .find_files_generic(c("www2.mmm.ucar.edu", "wrf_grib", "grb$"))
@@ -38,7 +38,7 @@ amps_model_files <- function(time.resolution = "4hourly", grid = "d1", ...) {
 
 #' @name amps_files
 #' @export
-amps_d1files <-
+amps_d1_files <-
 function(time.resolution = "4hourly", ...) {
 
   files <- amps_model_files(time.resolution = time.resolution,
@@ -53,7 +53,7 @@ function(time.resolution = "4hourly", ...) {
 
 #' @name amps_files
 #' @export
-amps_d2files <- function (time.resolution = "4hourly",  ...)
+amps_d2_files <- function (time.resolution = "4hourly",  ...)
 {
   files <- amps_model_files(time.resolution = time.resolution,
                             grid = "d2", ...)
@@ -63,3 +63,10 @@ amps_d2files <- function (time.resolution = "4hourly",  ...)
     filter(!.data$dupe) %>% arrange(.data$date) %>% dplyr::select(
                                                       "date", "fullname", "root")
 }
+
+#' @name amps_files
+#' @export
+amps_d1files <- function(...) amps_d1_files(...)
+#' @name amps_files
+#' @export
+amps_d2files <- function(...) amps_d2_files(...)

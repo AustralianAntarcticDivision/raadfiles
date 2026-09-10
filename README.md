@@ -1,32 +1,84 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-raadfiles
-=========
 
-The goal of raadfiles is to manage information about the files used by raadtools.
+# raadfiles
 
-Why raadfiles?
---------------
+raadfiles manages the file listing for a large data collection: which files
+exist under one or more root directories, and functions that pick the files
+for a particular data set out of that listing. It is the file layer under
+[raadtools](https://github.com/AustralianAntarcticDivision/raadtools) but
+works for any file collection.
 
-``` r
-library(raadtools)
-#> Loading required package: raster
-#> Loading required package: sp
-system.time(rt_files <- sstfiles())
-#>    user  system elapsed 
-#>   8.032   0.228   8.310
+The listing is a plain text table per root (`.raad_admin/file_db.tab`, two
+columns `root` and `file`). It is built by scanning the roots and read
+lazily on package load, so `library(raadfiles)` is fast even for millions of
+files, and every `*_files()` function is a substring search over that
+listing.
 
-library(raadfiles)
-system.time(rf_files <- oisst_daily_files())
-#>    user  system elapsed 
-#>   1.100   0.124   1.224
+## Install
 
-range(rt_files$date)
-#> [1] "1981-09-01 10:00:00 AEST" "2017-05-30 10:00:00 AEST"
-range(rf_files$date)
-#> [1] "1981-09-01 10:00:00 AEST" "2017-05-30 10:00:00 AEST"
-
-length(rt_files$date)
-#> [1] 13056
-length(rf_files$date)
-#> [1] 13056
+```R
+## install.packages("remotes")
+remotes::install_github("AustralianAntarcticDivision/raadfiles")
 ```
+
+## Set up a collection
+
+Point raadfiles at one or more root directories, build the listing, and load
+it. Building is the slow step (a recursive directory scan), so it is normally
+run from a cron job with the automatic load disabled; loading is what
+happens each time the package is attached.
+
+```R
+## the scanning job, run periodically (cron)
+options(raadfiles.file.cache.disable = TRUE)
+library(raadfiles)
+set_raad_data_roots("/path/to/data", "/path/to/data_local")
+run_build_raad_cache()
+```
+
+```R
+## an ordinary session: roots are found from the option or known candidates
+## and the listing is loaded on attach
+options(raadfiles.data.roots = c("/path/to/data", "/path/to/data_local"))
+library(raadfiles)
+get_raad_filenames()      ## the whole listing, root + file
+oisst_daily_files()       ## one data set: date, fullname, root
+```
+
+Options that control this (see `?raadfiles-admin`):
+
+* `raadfiles.data.roots` the root directories
+* `raadfiles.file.cache.disable` do not load the listing on attach (for the
+  scanning job)
+* `raadfiles.local.cache` keep local copies of each root's listing under
+  `tools::R_user_dir("raadfiles", "cache")` and read from those; on by
+  default, useful when the roots are on a network mount
+* `raadfiles.quiet` silence the informational messages
+* `raadfiles.file.refresh.threshold` probability that a `*_files()` call
+  re-checks the listing on disk (default 0.01; 0 never, 1 always)
+
+## Collection functions
+
+Every `*_files()` function returns a tibble with `fullname` (the full path)
+and `root`, and `date` first when the data set has one. Extra columns
+(`tile`, `band_level`, ...) follow those. Most functions are a pattern
+search plus a date parsed from the file name; the searches are memoised for
+24 hours.
+
+```R
+library(raadfiles)
+oisst_daily_files()
+nsidc_south_daily_files()
+rema_100m_files()
+```
+
+`get_raad_filenames(all = TRUE)` gives the raw listing including the
+`data_deprecated` roots that are filtered out by default.
+
+## Why a separate package
+
+* one convention for `root` and `file` so the configured path is separate
+  from the data path
+* the listing is loaded once and shared by every function
+* a file collection built by any means (bowerbird, rsync, manual) works, as
+  long as the files are under the roots

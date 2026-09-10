@@ -1,4 +1,3 @@
-#' @importFrom utils tail
 
 sose_iters <- function() {
   pattern <- c("sose.ucsd.edu", ".*sose.ucsd.edu.*monthly.*nc$")

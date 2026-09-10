@@ -12,16 +12,6 @@
     "//aad.gov.au/files/Ecological_Informatics/data/gridded/data_local",
     "//aad.gov.au/files/Ecological_Informatics/data/gridded/data_deprecated",
 
-    ## old paths 2020-01-20
-    # "/mnt/AADC/Scientific_Data/Data/gridded_new/data",
-    # "/mnt/AADC/Scientific_Data/Data/gridded_new/data_local",
-    # "/mnt/AADC/Scientific_Data/Data/gridded_new/data_staging",
-    # "/mnt/AADC/Scientific_Data/Data/gridded_new/data_deprecated",
-    # "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data",
-    # "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_local",
-    # "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_staging",
-    # "//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_deprecated",
-
     "/mnt/raad",
     "/rdsi/PRIVATE/raad/data",
     "/rdsi/PRIVATE/raad/data_local",
@@ -77,6 +67,7 @@
 #'  \code{raadfiles.data.roots} \tab the list of paths to root directories \cr
 #'  \code{raadfiles.file.cache.disable} \tab disable on-load setting of the in-memory file cache (never set automatically by the package)  \cr
 #'  \code{raadfiles.file.refresh.threshold} \tab threshold probability of how often to refresh in-memory file cache (0 = never, 1 = every time `get_raad_filenames()` is called) \cr
+#'  \code{raadfiles.quiet} \tab set TRUE to silence the informational messages about roots and cache loading \cr
 #'  \code{raadfiles.local.cache} \tab keep local copies of the file listing caches under `tools::R_user_dir("raadfiles", "cache")` and read from those (default TRUE), set FALSE to always read the originals \cr
 #' }
 #'
@@ -105,7 +96,6 @@ get_raad_data_roots <- function() {
 #' @export
 #' @rdname raadfiles-admin
 get_raad_filenames <- function(all = FALSE) {
-  #out <- getOption("raadfiles.filename.database")
   out <- getOption("raadfiles.env")$raadfiles.filename.database
 
   file_refresh <- getOption("raadfiles.file.refresh.threshold")
@@ -117,7 +107,7 @@ get_raad_filenames <- function(all = FALSE) {
       if (isTRUE(getOption("raadfiles.file.cache.disable"))) {
         mess <- paste0(mess, "\n\noption(raadfiles.file.cache.disable) is TRUE, maybe you want to unset that?")
       }
-      message(mess)
+      raad_inform(mess)
       return(tibble::tibble(root = character(0), file = character(0)))
     }
 
@@ -138,6 +128,15 @@ get_raad_filenames <- function(all = FALSE) {
 }
 
 pad4 <- function(x) paste(rep(" ", x + 4), collapse = "")
+
+## Informational output. During .onLoad this is a packageStartupMessage (so
+## suppressPackageStartupMessages() works); afterwards a plain message().
+## Either way option 'raadfiles.quiet = TRUE' silences it.
+raad_inform <- function(...) {
+  if (isTRUE(getOption("raadfiles.quiet"))) return(invisible())
+  if (isTRUE(getOption("raadfiles.loading"))) packageStartupMessage(...) else message(...)
+  invisible()
+}
 
 #' @param ... input file paths to set
 #' @param replace_existing replace existing paths, defaults to TRUE
@@ -173,10 +172,8 @@ set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidat
   if (length(inputs) > 0)  raad_ok <- TRUE
   if (raad_ok) {
     options(raadfiles.data.roots = inputs)
-    packageStartupMessage("global option 'raadfiles.data.roots' set:\n'")
     deets <- paste(inputs, padding, mtimes, sep = "")
-    packageStartupMessage(paste(deets, collapse = "\n "))
-    packageStartupMessage("'\n")
+    raad_inform("global option 'raadfiles.data.roots' set:\n'\n", paste(deets, collapse = "\n "), "\n'\n")
 
   } else {
     if (verbose) warning("no root paths input")
@@ -215,11 +212,15 @@ local_filedb_copies <- function(dbs, sig) {
   ok <- dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE) || dir.exists(cache_dir)
   if (!ok) return(dbs)
   out <- dbs
+  ## one copy per source path, keyed by the path itself made filename-safe
+  keys <- gsub("[^A-Za-z0-9]+", "_", dbs)
+  keys <- substr(keys, max(1L, nchar(keys) - 150L), nchar(keys))
+  ## prune copies for roots no longer in use (or from older key schemes)
+  stale <- setdiff(list.files(cache_dir, "\\.(tab|sig)$"), c(paste0(keys, ".tab"), paste0(keys, ".sig")))
+  if (length(stale)) unlink(file.path(cache_dir, stale))
   for (i in seq_along(dbs)) {
-    ## one copy per source path, keyed by a hash of that path
-    key <- digest::digest(dbs[i], algo = "md5", serialize = FALSE)
-    local <- file.path(cache_dir, paste0(key, ".tab"))
-    sigfile <- file.path(cache_dir, paste0(key, ".sig"))
+    local <- file.path(cache_dir, paste0(keys[i], ".tab"))
+    sigfile <- file.path(cache_dir, paste0(keys[i], ".sig"))
     fresh <- file.exists(local) && file.exists(sigfile) &&
       identical(readLines(sigfile, n = 1L, warn = FALSE), sig[i])
     if (!fresh) {
@@ -266,41 +267,14 @@ set_raad_filenames <- function(clobber = FALSE) {
       if (dim(dplyr::distinct(dplyr::inner_join(data_dbs, current_dbs, c("db", "md5"))))[1L] == dim(data_dbs)[1L]) {
         ## no need to update
         ## don't run get_raad_filenames logic here, because that calls this function with threshold prob
-        #raadf <- getOption("raadfiles.filename.database" )
-        #raadf <- get("raadfiles.filename.database", envir = env0)
         raadf <- getOption("raadfiles.env")$raadfiles.filename.database
-        message(sprintf("Raad file cache is up to date as at %s (%i files listed) \n", format(attr(raadf, "raad_time_stamp")), dim(raadf)[1L]))
+        raad_inform(sprintf("Raad file cache is up to date as at %s (%i files listed)", format(attr(raadf, "raad_time_stamp")), dim(raadf)[1L]))
         return(invisible(NULL))
       }
     }
   }
 
   cltypes <- vroom::cols(root = vroom::col_character(), file = vroom::col_character())
-  ## ---------------------------------------------------
-  ## August 2021: removing all this in favour one big vroom slurp, this means the vroom df does not get materialize
-  ## on package load, it exists in an environment 'raadfiles.env' in options()
-  # fslist <- vector("list", length(raadfiles.data.filedbs))
-  # file_ok <- data_dbs$file_ok
-  # for (i in seq_along(fslist)) {
-  #   db <- try(vroom::vroom(raadfiles.data.filedbs[i], col_types = cltypes, progress = FALSE), silent = TRUE)
-  #   if (!inherits(db, "try-error")) {
-  #      fslist[[i]] <- db
-  #   } else {
-  #     warning(sprintf("failure to read '%s': is file corrupt?\n Consider re-running file cache creation. ", raadfiles.data.filedbs[i]))
-  #     file_ok[i] <- FALSE
-  #   }
-  # }
-  # data_dbs[["file_ok"]] <- file_ok
-  # for (i in seq_along(fslist)) {
-  #   nr <- dim(fslist[[i]])[1L]
-  #   if (nr < 1) {
-  #     ## nothing
-  #   } else {
-  #     fslist[[i]][["root"]] <- rep(raadfiles.data.roots[i], nr)
-  #   }
-  # }
-  # fs <- dplyr::bind_rows(fslist)
-  ## --------------------------------
 
   ## optionally read from local copies of the text caches (see local_filedb_copies)
   read_dbs <- local_filedb_copies(raadfiles.data.filedbs, data_dbs$md5)
@@ -309,18 +283,13 @@ set_raad_filenames <- function(clobber = FALSE) {
   fs[["root"]] <- raadfiles.data.roots[match(fs[[".file_id"]], read_dbs)]
   fs[[".file_id"]] <- NULL
 
-
-  #fs <- tibble::as_tibble(fst::read_fst("/perm_storage/home/mdsumner/bigfile.fst"))
-  #fs <- vroom::vroom("/perm_storage/home/mdsumner/bigfile.tab", col_types = cltypes, progress = FALSE)
   data_dbs$file_ok <- TRUE #file_ok
-  #fs <- do.call(rbind, fslist)
 
 
   ## time stamp it
   fs <- set_raad_time_stamp(fs)
-  packageStartupMessage(sprintf("Uploading raad file cache as at %s (%i files listed) \n", format(attr(fs, "raad_time_stamp")), dim(fs)[1L]))
+  raad_inform(sprintf("Uploading raad file cache as at %s (%i files listed)", format(attr(fs, "raad_time_stamp")), dim(fs)[1L]))
 
-  #options(raadfiles.filename.database = fs, raadfiles.database.status = data_dbs)
   assign("raadfiles.filename.database", fs, envir = raadfiles.env)
   options(raadfiles.database.status = data_dbs, raadfiles.env = raadfiles.env)
   invisible(NULL)
@@ -384,8 +353,6 @@ run_build_raad_cache <- function() {
     tok <- c("file", "files")[(dim(files)[1L] > 1)+1]
     cat(sprintf("%i). Found %i %s in %s.\n", i, dim(files)[1L], tok, roots[i]))
     vroom::vroom_write(files, dbpath)
-    #saveRDS(files, dbpath, compress = "xz")
-    #fst::write.fst(files, dbpath)
   }
   ## trigger update now
   set_raad_filenames(clobber = TRUE)
@@ -405,10 +372,13 @@ validate_input_paths <- function(...) {
   out
 }
 
+## On Windows only the UNC candidates can apply, elsewhere only the POSIX
+## mounts; testing an unreachable UNC path on Windows can take seconds.
 validate_possible_paths <- function() {
   possibles <- .possiblepaths()
-  possibles <- possibles[file.exists(possibles)]
-  possibles
+  unc <- startsWith(possibles, "//")
+  possibles <- if (.Platform$OS.type == "windows") possibles[unc] else possibles[!unc]
+  possibles[file.exists(possibles)]
 }
 
 

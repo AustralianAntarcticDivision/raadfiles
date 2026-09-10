@@ -1,5 +1,28 @@
 # raadfiles 0.1.5.9000
 
+* Candidate root paths: on Windows only the `//aad.gov.au/...` UNC candidates
+  are tested for existence, elsewhere only the POSIX mounts (an unreachable
+  UNC path can take seconds to fail on Windows).
+
+* One message mechanism: informational output goes through an internal
+  `raad_inform()` which is a `packageStartupMessage()` during load and a
+  `message()` afterwards; new option `raadfiles.quiet = TRUE` silences it.
+  The `env0`/`message1`/`message2` deferral plumbing in zzz.R is gone.
+
+* `digest` is no longer a dependency: local copies of the listing are keyed
+  by the (filename-safe) source path. Copies for roots no longer in use, or
+  from the previous key scheme, are pruned on the next load.
+
+* Suffixed names for the collection functions that lacked them:
+  `fraser_fastice_files()`, `iceclim_south_leads_files()`,
+  `iceclim_north_leads_files()`, `amps_d1_files()`, `amps_d2_files()`. The
+  old names remain as aliases.
+
+* Housekeeping: ~200 lines of commented-out code removed; `inst/notes` moved
+  to a top-level `notes/` directory that is not installed; all `@importFrom`
+  tags consolidated in `raadfiles-package.R`; README rewritten to describe
+  the current set-up (roots, `run_build_raad_cache()`, the options).
+
 * Return contract: every collection function now returns a tibble whose
   leading columns are `date` (when there is one), `fullname`, `root`, with
   any extras after, via the internal `.raad_files_result()`. Functions that

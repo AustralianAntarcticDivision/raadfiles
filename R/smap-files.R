@@ -3,12 +3,9 @@
 #' Remote Sensing Systems SMAP Level 3 Sea Surface Salinity Standard Mapped Image 8day running
 #'
 #' @return tibble data frame of file names, with columns `fullname` and `date`
-#' @importFrom dplyr arrange distinct filter mutate
-#' @importFrom rlang .data
 #' @name smap
 #' @aliases salt
 #' @export
-#' @importFrom stringr str_detect str_extract str_replace
 #' @examples
 #' \dontrun{
 #'   smap_daily_files()

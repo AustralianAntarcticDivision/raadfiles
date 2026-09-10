@@ -17,11 +17,8 @@
 #'
 #' Optimally Interpolated version 2 SST moved from 'eclipse.ncdc.noaa.gov', to 'www.ncei.noaa.gov' at the end of 2017. Version 2 was superseded by version 2.1 during 2020.
 #' @return tibble data frame of file names, with columns `fullname` and `date`
-#' @importFrom dplyr arrange distinct filter mutate
-#' @importFrom rlang .data
 #' @name oisst
 #' @export
-#' @importFrom stringr str_detect str_extract str_replace
 #' @examples
 #' \dontrun{
 #'   oisst_daily_files()
@@ -40,9 +37,6 @@ oisst_daily_files <- function() {
 }
 #' @name oisst
 #' @export
-#' @importFrom dplyr filter mutate row_number
-#' @importFrom stringr str_detect str_replace
-#' @importFrom tibble tibble
 oisst_monthly_files <- function() {
  pattern <- "downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/sst.mon.mean.nc"
 
@@ -61,24 +55,14 @@ oisst_monthly_files <- function() {
 #'
 #' The Group for High Resolution Sea Surface Temperature (GHRSST) files.
 #' @return tibble data frame of file names
-#' @importFrom dplyr arrange distinct filter mutate
-#' @importFrom rlang .data
 #' @name ghrsst_files
 #' @aliases ghrsst_daily_files_netcdf
 #' @export
-#' @importFrom stringr str_detect str_extract str_replace
 #' @examples
 #' \dontrun{
 #'   ghrsst_daily_files()
 #' }
 ghrsst_daily_files <- function () {
- # #pattern <- c("ghrsst", "JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*\\.nc$")
- #  ## we were excluding 2023 when it moved (we resolve duplicates below because the new ones come first)
- # pattern <- c("idea.public",  "JPL-L4_GHRSST-SSTfnd-MUR-GLOB.*tif$")
- # files <- .find_files_generic(pattern)
- #  files <-   dplyr::transmute(files,
- #                              date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),"%Y%m%d"),tz = "UTC"), .data$fullname, .data$root)
- #  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)
 
   date <- as.POSIXct(seq(as.Date("2002-06-01"), Sys.Date() -
                            2, by = 1), tz = "UTC")

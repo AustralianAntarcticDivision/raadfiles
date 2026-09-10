@@ -1,22 +1,3 @@
-# REMA
-
-## ALL files
-
-## RASTER FILES
-
-#file paths
-
-## TILE FILES
-
-#actual polygons, with every tile name, ready for join with specific res, variables
-
-## FULL TILING
-
-# the xy grid of the tile name, in its entirety with proper offset/scale/crs
-
-# .rema_all_files <- function() {
-#   ## every file in the tree
-# }
 
 .rema_proc_all_files <- function() {
   .find_files_generic("aad.gov.au/rema/processing")
@@ -126,7 +107,6 @@ rema_8m_dem_files <- function() {
   .name_tiles(rema_8m_files() )
 }
 
-# "/rdsi/PRIVATE/raad2/data_local/aad.gov.au/rema/processing/v1.1/8m/09_38/09_38_8m_filled_geoid.tif"
 #' @name rema_8m_files
 #' @export
 rema_8m_dem_geoid_files <- function() {
@@ -161,22 +141,6 @@ rema_8m_rock_files <- function() {
 }
 
 #
-#
-#
-#
-#
-# ## RAADTOOLS
-# rema_200m_dem <- function() {
-#   ## original tif
-# }
-#
-# rema_200m_dem_geoid <- function() {
-#   ## VRT of the tiles
-# }
-#
-# rema_200m_slope <- function() {
-#   ## VRT of the tiles
-# }
 #
 
 
