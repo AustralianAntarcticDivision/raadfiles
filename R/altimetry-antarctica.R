@@ -113,6 +113,6 @@ pattern <- c("ftp-access.aviso.altimetry.fr",
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),
                                                           "%Y%m%d"),tz = "UTC"))
   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)  %>%
-    dplyr::select(.data$date, .data$fullname, .data$root)
+    dplyr::select("date", "fullname", "root")
 
 }

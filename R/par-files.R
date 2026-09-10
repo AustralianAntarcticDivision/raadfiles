@@ -13,7 +13,9 @@
 #' @export
 #' @importFrom stringr str_detect str_extract str_replace
 #' @examples
-#' par_files()
+#' \dontrun{
+#'   par_files()
+#' }
 par_files <- function(time.resolution = "8D"){
   files <- .find_files_generic(c("oceandata.sci.gsfc.nasa.gov", "MODISA/Mapped", "4km/par.*nc$"),
                                basefile_pattern =   if (nzchar(time.resolution)) sprintf("\\.%s\\.", time.resolution) else "")
@@ -24,8 +26,8 @@ if (nrow(files) < 1)
   files <- dplyr::filter(files, !is.na(.data$date))
   files <- files[nrow(files):1, ]
   files <- dplyr::arrange(dplyr::distinct(files, .data$date,
-                                          .keep_all = TRUE), date) %>% dplyr::select(.data$date,
-                                                                                     .data$fullname, .data$root)
+                                          .keep_all = TRUE), date) %>% dplyr::select("date",
+                                                                                     "fullname", "root")
 
   files
 }

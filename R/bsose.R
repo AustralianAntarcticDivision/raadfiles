@@ -28,7 +28,9 @@ sose_vars <- function() {
 #' @export
 #' @references http://sose.ucsd.edu/
 #' @examples
+#' \dontrun{
 #'   sose_monthly_files()
+#' }
 sose_monthly_files <- function(varname = "", iteration = "") {
   pattern <- c("sose.ucsd.edu", ".*sose.ucsd.edu.*monthly.*nc$")
   files <- .find_files_generic(pattern)

@@ -1,5 +1,21 @@
 # raadfiles 0.1.5.9000
 
+* R CMD check is clean: `par_files()` and `sose_monthly_files()` examples
+  wrapped in \dontrun; `.data` in `dplyr::select()` replaced with column
+  names (tidyselect deprecation); global-variable NOTEs fixed.
+
+* Depends R (>= 4.0.0). `fs` moved to Suggests (only the fallback lister in
+  `run_build_raad_cache()` used it; base `list.files()` is the final
+  fallback).
+
+* `run_build_raad_cache()` no longer lists its own `.raad_admin/file_db.tab`
+  in the file listing.
+
+* New test suite on a synthetic collection built in a tempdir: listing,
+  loading, root filtering, signature invalidation, local copies, literal and
+  regex pattern matching, memoisation, and the collection-function return
+  contract. Runs without any raad data.
+
 * Collection functions: `.find_files_generic()` now matches literal patterns
   (no regex metacharacters) with a fixed search and subsets with base
   indexing; several times cheaper on millions of file names.

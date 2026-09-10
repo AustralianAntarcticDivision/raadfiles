@@ -24,7 +24,9 @@ Dates in the files are extracted and expanded out for every time step, it's assu
 along with a 'level' argument to return a time step or time series.
 }
 \examples{
+\dontrun{
   sose_monthly_files()
+}
 }
 \references{
 http://sose.ucsd.edu/

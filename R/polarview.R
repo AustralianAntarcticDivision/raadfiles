@@ -31,7 +31,7 @@ polarview_files <- function(type = c("jpeg", "tarball")) {
                                                           "%Y%m%d"),tz = "UTC"))
 
   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)  %>%
-    dplyr::select(.data$date, .data$fullname, .data$root)
+    dplyr::select("date", "fullname", "root")
 
 }
 polarview_tifname <- function(x) {

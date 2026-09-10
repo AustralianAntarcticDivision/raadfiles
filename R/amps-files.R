@@ -62,7 +62,7 @@ function(time.resolution = "4hourly", ...) {
   ## we want the most files with the highest preference
   dplyr::mutate(files, prefer = as.integer(.data$hour) > 12, h = as.integer(.data$hour))  %>%
     arrange(desc(.data$prefer), .data$h)   %>% dplyr::mutate(dupe = duplicated(.data$date)) %>% filter(!.data$dupe) %>%
-    arrange(.data$date) %>% dplyr::select(.data$date, .data$fullname, .data$root)
+    arrange(.data$date) %>% dplyr::select("date", "fullname", "root")
 
 }
 
@@ -76,5 +76,5 @@ amps_d2files <- function (time.resolution = "4hourly",  ...)
   dplyr::mutate(files, prefer = as.integer(.data$hour) > 12, h = as.integer(.data$hour)) %>%
     arrange(desc(.data$prefer), .data$h) %>% dplyr::mutate(dupe = duplicated(.data$date)) %>%
     filter(!.data$dupe) %>% arrange(.data$date) %>% dplyr::select(
-                                                      .data$date, .data$fullname, .data$root)
+                                                      "date", "fullname", "root")
 }

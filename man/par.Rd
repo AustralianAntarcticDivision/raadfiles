@@ -19,7 +19,9 @@ Each file contains four time steps at six hourly intervals aligned to the
 file base date.
 }
 \examples{
-par_files()
+\dontrun{
+  par_files()
+}
 }
 \references{
 oceandata.sci.gsfc.nasa.gov/MODISA/Mapped/8Day/4km/par

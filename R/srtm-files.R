@@ -26,5 +26,5 @@ pattern <- c("srtm.csi.cgiar.org", ".*\\.tif$", "srtm_5x5/TIFF/srtm")
   tile <- do.call(rbind, lapply(strsplit(basename(files$fullname), "_"), function(bs) as.integer(gsub("\\.tif$", "", bs[c(2, 3)]))))
   files[c("x", "y")] <- tile
 
-  dplyr::select(files,  .data$fullname, .data$x, .data$y, .data$root)
+  dplyr::select(files,  "fullname", "x", "y", "root")
 }

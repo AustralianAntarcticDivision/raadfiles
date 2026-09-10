@@ -226,7 +226,6 @@ db_signature <- function(dbs) {
 ## back to the originals for any file that cannot be copied.
 local_filedb_copies <- function(dbs, sig) {
   if (!isTRUE(getOption("raadfiles.local.cache", TRUE))) return(dbs)
-  if (getRversion() < "4.0.0") return(dbs)
   cache_dir <- tryCatch(tools::R_user_dir("raadfiles", "cache"), error = function(e) NULL)
   if (is.null(cache_dir)) return(dbs)
   ok <- dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE) || dir.exists(cache_dir)
@@ -361,6 +360,19 @@ get_raad_time_stamp <- function() {
   attr(get_raad_filenames(), "raad_time_stamp")
 }
 
+## recursive file listing of one root: fastrls if installed (fast, threaded),
+## else fs::dir_ls, else base list.files
+list_root_files <- function(root) {
+  if (requireNamespace("fastrls", quietly = TRUE)) {
+    return(as.character(fastrls::fastrls(root, include_dirs = FALSE, n_threads = 4)))
+  }
+  if (requireNamespace("fs", quietly = TRUE)) {
+    ## no directory, FIFO, socket, character_device or block_device
+    return(as.character(fs::dir_ls(root, all = TRUE, recurse = TRUE, type = c("file", "symlink"))))
+  }
+  list.files(root, recursive = TRUE, all.files = TRUE, full.names = TRUE, include.dirs = FALSE)
+}
+
 run_this_function_to_build_raad_cache <- function() {
   .Deprecated("run_build_raad_cache")
   run_build_raad_cache()
@@ -377,19 +389,15 @@ run_build_raad_cache <- function() {
     adminpath <- dirname(raad_filedb_path(roots[i]))
     dir.create(adminpath, showWarnings = FALSE)
     dbpath <- raad_filedb_path(roots[i])
-    if (requireNamespace("fastrls", quietly = TRUE)) {
-        filenames <- as.character(fastrls::fastrls(roots[i], include_dirs = FALSE, n_threads = 4))
-    } else {
-        filenames <- as.character(fs::dir_ls(roots[i], all = TRUE, recurse = TRUE,
-                                             ## no directory, FIFO, socket, character_device or block_device
-                                             type = c("file", "symlink")))
-    }
+    filenames <- list_root_files(roots[i])
     if (is.null(filenames) || length(filenames) < 1) {
       files <- tibble::tibble(root = character(0), file = character(0))
 
     } else {
       ## fix up root-less file
-      filenames <- remove_leading_slash(gsub(roots[i], "", filenames))
+      filenames <- remove_leading_slash(gsub(roots[i], "", filenames, fixed = TRUE))
+      ## the listing must not include the listing itself
+      filenames <- filenames[!startsWith(filenames, ".raad_admin/")]
       files <- tibble::tibble(root = roots[i], file = filenames)
 
     }
