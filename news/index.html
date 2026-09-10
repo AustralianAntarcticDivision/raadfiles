@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">raadfiles</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.5.9000</span>
       </span>
     </div>
 
@@ -41,6 +41,17 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.1.5.9000" id="raadfiles-0159000">raadfiles 0.1.5.9000<a class="anchor" aria-label="anchor" href="#raadfiles-0159000"></a></h2>
+<ul><li><p>R CMD check is clean: <code><a href="../reference/par.html">par_files()</a></code> and <code><a href="../reference/sose_monthly_files.html">sose_monthly_files()</a></code> examples wrapped in ; <code>.data</code> in <code><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">dplyr::select()</a></code> replaced with column names (tidyselect deprecation); global-variable NOTEs fixed.</p></li>
+<li><p>Depends R (&gt;= 4.0.0). <code>fs</code> moved to Suggests (only the fallback lister in <code><a href="../reference/raadfiles-admin.html">run_build_raad_cache()</a></code> used it; base <code><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files()</a></code> is the final fallback).</p></li>
+<li><p><code><a href="../reference/raadfiles-admin.html">run_build_raad_cache()</a></code> no longer lists its own <code>.raad_admin/file_db.tab</code> in the file listing.</p></li>
+<li><p>New test suite on a synthetic collection built in a tempdir: listing, loading, root filtering, signature invalidation, local copies, literal and regex pattern matching, memoisation, and the collection-function return contract. Runs without any raad data.</p></li>
+<li><p>Collection functions: <code>.find_files_generic()</code> now matches literal patterns (no regex metacharacters) with a fixed search and subsets with base indexing; several times cheaper on millions of file names.</p></li>
+<li><p><code><a href="../reference/raadfiles-admin.html">get_raad_filenames()</a></code> is no longer memoised and no longer forces the <code>[1, ]</code> materialisation trick: memoise/cachem calls <code><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size()</a></code> on the cached value, which walked every element of the lazy vroom columns.</p></li>
+<li><p>Memoisation moved from ~80 individually listed exported functions to the single internal search they all go through. Around 30 exported <code>*_files()</code> functions had never been in that list; all are now cached.</p></li>
+<li><p><code>stringi</code> added to Imports (already a hard dependency via stringr).</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1.5" id="raadfiles-015">raadfiles 0.1.5<a class="anchor" aria-label="anchor" href="#raadfiles-015"></a></h2>
 <ul><li><p><code><a href="../reference/raadfiles-admin.html">set_raad_filenames()</a></code>: sign each file_db.tab by size+mtime rather than md5 of every byte (<code>run_build_raad_cache</code> rewrites files wholesale, so both move)</p></li>
