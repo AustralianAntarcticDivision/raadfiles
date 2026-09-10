@@ -11,6 +11,7 @@ Imports:
     digest,
     fs (>= 1.6.5),
     rlang,
+    stringi,
     stringr,
     dplyr,
     memoise,

@@ -72,7 +72,9 @@ assign("message1", NULL, envir = env0)
   george_v_terre_adelie_250m_files <<- memoise::memoize(george_v_terre_adelie_250m_files,  ~memoise::timeout(tm))
   george_v_terre_adelie_500m_files <<- memoise::memoize(george_v_terre_adelie_500m_files,  ~memoise::timeout(tm))
   #get_raad_data_roots <<- memoise::memoize(get_raad_data_roots,  ~memoise::timeout(tm))
-  get_raad_filenames <<- memoise::memoize(get_raad_filenames,  ~memoise::timeout(tm))
+  ## get_raad_filenames is not memoised: memoise/cachem calls object.size() on the
+  ## result, which walks every element of the lazy vroom columns (seconds), and
+  ## the function is cheap once the root filter works on unique roots
   ghrsst_daily_files <<- memoise::memoize(ghrsst_daily_files,  ~memoise::timeout(tm))
   ibcso_background_files <<- memoise::memoize(ibcso_background_files,  ~memoise::timeout(tm))
   ibcso_bed_files <<- memoise::memoize(ibcso_bed_files,  ~memoise::timeout(tm))

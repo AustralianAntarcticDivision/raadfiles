@@ -115,10 +115,6 @@ get_raadfiles_data_roots <- function() {
 get_raad_filenames <- function(all = FALSE) {
   #out <- getOption("raadfiles.filename.database")
   out <- getOption("raadfiles.env")$raadfiles.filename.database
-  ## weird trick to avoid multiple invalidations of the vroom df
-  junk <- raadfiles.env[["raadfiles.filename.database"]][1, ]
-  #assign("raadfiles.filename.database", out, envir = raadfiles.env)
-  #out <- get("raadfiles.filename.database", envir = env0)
 
   file_refresh <- getOption("raadfiles.file.refresh.threshold")
   if (is.null(out) || dim(out)[1L] < 1) {
