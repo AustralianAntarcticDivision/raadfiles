@@ -1,4 +1,15 @@
-# raadfiles dev
+# raadfiles 0.1.5
+
+
+* `set_raad_filenames()`: sign each file_db.tab by size+mtime rather than md5 of
+  every byte (`run_build_raad_cache` rewrites files wholesale, so both move)
+* keep verbatim local copies of the text caches under R_user_dir(cache) and
+  point vroom at them, refreshed only when the signature changes; vroom stays
+  lazy so nothing is materialised on load. Option raadfiles.local.cache = FALSE
+  to disable
+* `get_raad_filenames()`: apply the data_deprecated/PRIVATE root filters to the
+  unique root values instead of a regex over every row
+* `set_raad_data_roots()`: show mtime of file_db.tab (was looking for file_db.rds)
 
 * Add `nsidc_cdr_daily_files` and `nsidc_cdr_monthly_files`. 
 
