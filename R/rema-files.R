@@ -1,40 +1,27 @@
-.rema_all_files <- function(all = FALSE, ...) {
-  pattern <- "data.pgc.umn.edu"
-  .find_files_generic(pattern)
+## filter the PGC REMA collection by a further pattern, via the memoised search
+.rema_pgc_filter <- function(pat) {
+  .find_files_generic(c("data.pgc.umn.edu", pat))
 }
 #' @name rema_8m_files
 #' @export
 rema_tile_files <- function(all = FALSE, ...) {
   pat <- if (all) "Tile_Index_" else "Tile_Index_Rel1.shp$"
-  .rema_all_files(all = TRUE) %>% dplyr::filter(stringr::str_detect(.data$fullname, pat))
+  .rema_pgc_filter(pat)
 }
 #' @name rema_8m_files
 #' @export
 rema_100m_files <- function( ...) {
-  pat <-  "v1.1.*100m_dem"
-  files <- .rema_all_files() %>% dplyr::filter(stringr::str_detect(.data$fullname, pat))
-
-  if (nrow(files) < 1)
-    stop("no files found")
-  files
+  .rema_pgc_filter("v1.1.*100m_dem")
 }
 #' @name rema_8m_files
 #' @export
 rema_200m_files <- function(filled = TRUE, ...) {
-  pat <- if (filled) "v1.1.*200m_dem_filled" else "v1.1.*200m_dem.tif"
-  files <- .rema_all_files() %>% dplyr::filter(stringr::str_detect(.data$fullname, pat))
-  if (nrow(files) < 1)
-    stop("no files found")
-  files
+  .rema_pgc_filter(if (filled) "v1.1.*200m_dem_filled" else "v1.1.*200m_dem.tif")
 }
 #' @name rema_8m_files
 #' @export
 rema_1km_files <- function(filled = TRUE, ...) {
-  pat <- if (filled) "v1.1.*1km_.*filled" else "v1.1.*1km_dem.tif"
-  files <- .rema_all_files() %>% dplyr::filter(stringr::str_detect(.data$fullname, pat))
-  if (nrow(files) < 1)
-    stop("no files found")
-  files
+  .rema_pgc_filter(if (filled) "v1.1.*1km_.*filled" else "v1.1.*1km_dem.tif")
 }
 
 #' Files for The Reference Elevation Model of Antarctica (REMA)
@@ -59,9 +46,7 @@ rema_1km_files <- function(filled = TRUE, ...) {
 rema_8m_files <- function(...) {
   pat <- "v1.1.*8m_dem.tif$"
 
-  files <- .rema_all_files() %>% dplyr::filter(stringr::str_detect(.data$fullname, pat))
-  if (nrow(files) < 1)
-    stop("no files found")
+  files <- .rema_pgc_filter(pat)
   if (nrow(files) < 1516) warning(sprintf("Only a subsample (%i) of the total (1516) 8m mosaic tiles is available. ", nrow(files)))
 
   .name_tiles(files)

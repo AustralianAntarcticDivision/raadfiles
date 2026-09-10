@@ -60,5 +60,6 @@ sose_monthly_files <- function(varname = "", iteration = "") {
   if (nrow(files) < 1)
     stop("no files found")
 
-  tibble::tibble(fullname = files$fullname[1], date = ISOdatetime(2013, 01, 30, 0, 0, 0, tz = "UTC"))
+  .raad_files_result(tibble::tibble(fullname = files$fullname[1], root = files$root[1],
+                                    date = ISOdatetime(2013, 01, 30, 0, 0, 0, tz = "UTC")))
 }

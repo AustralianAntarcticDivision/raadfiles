@@ -12,7 +12,7 @@ amsr2_3k_daily_files <- function(type = c("netcdf")) {
   files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
   ## sort to put the v5.4 at the top of the date group and slice it out, else just get the only one for the date
   #dplyr::arrange(files, .data$date, .data$fullname) |> dplyr::group_by(.data$date) |> dplyr::slice(1L) |> dplyr::ungroup()
-  dplyr::arrange(files, .data$date, .data$fullname) |> dplyr::distinct(.data$date, .keep_all = TRUE)
+  .raad_files_result(dplyr::arrange(files, .data$date, .data$fullname) |> dplyr::distinct(.data$date, .keep_all = TRUE))
 }
 
 
@@ -25,7 +25,7 @@ amsre_daily_files <- function() {
 
   files <- .find_files_generic(pattern)
   files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
-  distinct(arrange(files, .data$date), .data$date, .keep_all = TRUE)
+  .raad_files_result(distinct(arrange(files, .data$date), .data$date, .keep_all = TRUE))
 
 }
 
@@ -36,7 +36,7 @@ amsr2_daily_files <- function() {
 
   files <- .find_files_generic(pattern)
   files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
-  distinct(arrange(files, .data$date), .data$date, .keep_all = TRUE)
+  .raad_files_result(distinct(arrange(files, .data$date), .data$date, .keep_all = TRUE))
 
 }
 
@@ -89,7 +89,7 @@ amsr_daily_files <- function() {
                                                   stringr::str_detect(.data$fullname, f2)))
 
   files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
-  distinct(arrange(files, .data$date), .data$date, .keep_all = TRUE)
+  .raad_files_result(distinct(arrange(files, .data$date), .data$date, .keep_all = TRUE))
 
 
 }

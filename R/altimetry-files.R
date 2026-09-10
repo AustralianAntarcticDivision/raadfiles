@@ -30,7 +30,7 @@ altimetry_currents_polar_files <- function(hemisphere = "south") {
                                                                                    dplyr::rename(vfullname = .data$fullname), "date") %>%
     dplyr::select("date", "ufullname", "vfullname")
 
-  dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date)
+  .raad_files_result(dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date))
 }
 
 

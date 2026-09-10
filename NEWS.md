@@ -1,5 +1,33 @@
 # raadfiles 0.1.5.9000
 
+* Return contract: every collection function now returns a tibble whose
+  leading columns are `date` (when there is one), `fullname`, `root`, with
+  any extras after, via the internal `.raad_files_result()`. Functions that
+  had dropped `root` (`nsidc_daily_files*`, `nsidc_monthly_files_v2`, the
+  `nsidc_cdr_*` family, `sose_monthly_files`, `fraser_fasticefiles`) now
+  keep it. `amps_files()` returned raw `root`/`file` columns and no longer
+  does. Documented exceptions: `altimetry_daily_files()` (paired
+  `ufullname`/`vfullname`) and `ghrsst_daily_files()` (remote generator, see
+  below). A test runs every exported collection function against the
+  fixture and checks the contract for those that find files.
+
+* `amps_files()` and `thelist_files()` go through the memoised search rather
+  than filtering the whole listing themselves; `amps_files()` errors with
+  "no files found" like the others instead of returning zero rows.
+
+* `rema_8m_tiles()` is defunct (it already stopped with a pointer to remav2).
+  `.rema_file_filter()` and the `rema_*` functions route their patterns
+  through the memoised search instead of `dplyr::filter(str_detect())` over
+  the REMA listing.
+
+* Removed the long-deprecated, unexported wrappers `get_raw_raad_filenames`,
+  `get_raadfiles_data_roots`, `set_raadfile_data_roots`,
+  `set_raw_raad_filenames`, `run_this_function_to_build_raad_cache`.
+
+* `ghrsst_daily_files()` is unchanged in this release but flagged: it
+  generates remote URLs rather than consulting the file listing; where it
+  should live (raadfiles, sds, raadtools) is an open decision.
+
 * R CMD check is clean: `par_files()` and `sose_monthly_files()` examples
   wrapped in \dontrun; `.data` in `dplyr::select()` replaced with column
   names (tidyselect deprecation); global-variable NOTEs fixed.

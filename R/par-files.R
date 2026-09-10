@@ -29,5 +29,5 @@ if (nrow(files) < 1)
                                           .keep_all = TRUE), date) %>% dplyr::select("date",
                                                                                      "fullname", "root")
 
-  files
+  .raad_files_result(files)
 }

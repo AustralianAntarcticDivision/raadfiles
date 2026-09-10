@@ -16,9 +16,8 @@
 #' }
 woa13_files <- function() {
   ## https://github.com/AustralianAntarcticDivision/raadtools/issues/53#issuecomment-311489621
-pattern <- c("data.nodc.noaa.gov/woa/WOA13/DATAv2", ".*nc$")
-files <- .find_files_generic(pattern)
-files
+  pattern <- c("data.nodc.noaa.gov/woa/WOA13/DATAv2", ".*nc$")
+  .raad_files_result(.find_files_generic(pattern))
 }
 
 #' @export

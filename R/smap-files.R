@@ -29,5 +29,5 @@ smap_8day_files <- function() {
 files$date <- as.POSIXct(strptime(sprintf("%s-%s", Y, jday), "%Y-%j"), tz = "UTC") #as.POSIXct(strptime(basename(.data$fullname), "RSS_smap_SSS_L3_8day_running_40km"), tz = "UTC"))
   files <- dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)  %>%
     dplyr::select("date", "fullname", "root")
-  files
+  .raad_files_result(files)
 }

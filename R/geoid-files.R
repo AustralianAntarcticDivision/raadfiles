@@ -2,7 +2,7 @@
   # earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/GIS/world_geoid
   pattern <- "earth-info.nga.mil"
   if (!all)  pattern <- c(pattern, "w001001\\.adf$")
-  .find_files_generic(pattern)
+  .raad_files_result(.find_files_generic(pattern))
 }
 
 #' Earth Gravitation Model files

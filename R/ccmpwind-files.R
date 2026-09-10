@@ -40,5 +40,5 @@ ccmp_6hourly_files <- function() {
 files <- dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), desc(.data$fullname), .data$date)  %>%
     dplyr::select("date", "fullname", "root") |> dplyr::arrange(date)
 
-  files
+  .raad_files_result(files)
 }

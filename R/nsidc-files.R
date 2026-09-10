@@ -21,57 +21,41 @@
 #' }
 nsidc_south_monthly_files <- function() {
   files <- nsidc_monthly_files_v2("PS_S")
-   # files <- dplyr::filter(nsidc_monthly_files(), stringr::str_detect(.data$fullname, "_s\\.bin$"))
-    ## arrange and distinct to resolve versions
-    #files <- dplyr::arrange(dplyr::distinct(dplyr::arrange(files, dplyr::desc(.data$fullname)), .data$date, .keep_all = TRUE), .data$date)
-    if (nrow(files) < 1)
-        stop("no files found")
-    files
+  if (nrow(files) < 1)
+    stop("no files found")
+  .raad_files_result(files)
 }
 #' @name nsidc
 #' @export
 nsidc_north_monthly_files <- function() {
   files <- nsidc_monthly_files_v2("PS_N")
-    #files <- dplyr::filter(nsidc_monthly_files(), stringr::str_detect(.data$fullname, "_n\\.bin$"))
-    ## arrange and distinct to resolve versions
-    #files <- dplyr::arrange(dplyr::distinct(dplyr::arrange(files, dplyr::desc(.data$fullname)), .data$date, .keep_all = TRUE), .data$date)
-    if (nrow(files) < 1)
-        stop("no files found")
-    files
+  if (nrow(files) < 1)
+    stop("no files found")
+  .raad_files_result(files)
 }
 #' @name nsidc
 #' @export
 nsidc_monthly_files <- function() {
-    files <- rbind(nsidc_north_monthly_files(), nsidc_south_monthly_files())
-    ord <- order( files$date, basename(files$fullname))
-    files
-
+  files <- rbind(nsidc_north_monthly_files(), nsidc_south_monthly_files())
+  .raad_files_result(files[order(files$date, basename(files$fullname)), ])
 }
 #' @name nsidc
 #' @export
 nsidc_south_daily_files <- function() {
   files <- nsidc_daily_files_v2("PS_S")
-   # files <- dplyr::filter(nsidc_daily_files(), stringr::str_detect(.data$fullname, "_s\\.bin$"))
-    ## arrange and distinct to resolve versions
-    #files <- dplyr::arrange(dplyr::distinct(dplyr::arrange(files, dplyr::desc(.data$fullname)), .data$date, .keep_all = TRUE), .data$date)
-    if (nrow(files) < 1)
-        stop("no files found")
-  files <- dplyr::distinct(files, date, .keep_all = TRUE)
-
-    dplyr::arrange(files, date)
+  if (nrow(files) < 1)
+    stop("no files found")
+  files <- dplyr::distinct(files, .data$date, .keep_all = TRUE)
+  .raad_files_result(dplyr::arrange(files, .data$date))
 }
 #' @name nsidc
 #' @export
 nsidc_north_daily_files <- function() {
   files <- nsidc_daily_files_v2("PS_N")
-    #files <- dplyr::filter(nsidc_daily_files(), stringr::str_detect(fullname, "_n\\.bin$"))
-    ## arrange and distinct to resolve versions
-    #files <- dplyr::arrange(dplyr::distinct(dplyr::arrange(files, dplyr::desc(.data$fullname)), .data$date, .keep_all = TRUE), .data$date)
-    if (nrow(files) < 1)
-        stop("no files found")
-   files <- dplyr::distinct(files, date, .keep_all = TRUE)
-   dplyr::arrange(files, date)
-
+  if (nrow(files) < 1)
+    stop("no files found")
+  files <- dplyr::distinct(files, .data$date, .keep_all = TRUE)
+  .raad_files_result(dplyr::arrange(files, .data$date))
 }
 #' @name nsidc
 #' @export
@@ -87,8 +71,8 @@ nsidc_daily_files <- function() {
     ## near-real-time files
     nrt_files <- .find_files_generic("nsidc\\.org", "nsidc0081_nrt_nasateam_seaice[/\\\\].*_f18_nrt_.*\\.bin$")
 
-    dplyr::transmute(dplyr::bind_rows(final_files, nrt_files),
-                     date = as.POSIXct(as.Date(stringr::str_sub(basename(.data$fullname), 4, 11), "%Y%m%d"), tz = "UTC"), .data$fullname)
+    .raad_files_result(dplyr::transmute(dplyr::bind_rows(final_files, nrt_files),
+                     date = as.POSIXct(as.Date(stringr::str_sub(basename(.data$fullname), 4, 11), "%Y%m%d"), tz = "UTC"), .data$fullname, .data$root))
 }
 
 
@@ -110,10 +94,10 @@ nsidc_daily_files_v2 <- function(extra_pattern = NULL) {
   ## near-real-time files (we can't have yet, pending 0803)
   #nrt_files <- .find_files_generic(pattern2)
   #out <- dplyr::transmute(dplyr::bind_rows(final_files, nrt_files), date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"), .data$fullname)
-  out <- dplyr::transmute(final_files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"), .data$fullname)
+  out <- dplyr::transmute(final_files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"), .data$fullname, .data$root)
   out <- dplyr::filter(out, !is.na(.data$date))
 
-  dplyr::arrange(out, .data$date)
+  .raad_files_result(dplyr::arrange(out, .data$date))
 }
 
 
@@ -139,7 +123,7 @@ nsidc_monthly_files_v2 <- function(extra_pattern = NULL) {
   files  <- files[stringr::str_length(basename(files$fullname)) < 42, ]
   yyyymm <- stringr::str_extract(basename(files$fullname), "[0-9]{6}")
   #files <- files[!is.na(yyyymm), ]; yyyymm <- yyyymm[!is.na(yyyymm)]
-  out <- dplyr::transmute(files, date = as.POSIXct(as.Date(sprintf("%s01", yyyymm), "%Y%m%d"), tz = "UTC"), .data$fullname)
+  out <- dplyr::transmute(files, date = as.POSIXct(as.Date(sprintf("%s01", yyyymm), "%Y%m%d"), tz = "UTC"), .data$fullname, .data$root)
   out <- dplyr::filter(out, !is.na(.data$date))
-  dplyr::arrange(out, .data$date)
+  .raad_files_result(dplyr::arrange(out, .data$date))
 }

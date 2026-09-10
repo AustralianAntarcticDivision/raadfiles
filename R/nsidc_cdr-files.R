@@ -90,7 +90,7 @@ NULL
 
   out <- dplyr::transmute(files,
                           date = as.POSIXct(as.Date(datestr, "%Y%m%d"), tz = "UTC"),
-                          .data$fullname)
+                          .data$fullname, .data$root)
   out <- dplyr::filter(out, !is.na(.data$date))
 
   if (hemisphere == "both") {

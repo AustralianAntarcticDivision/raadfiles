@@ -20,8 +20,20 @@ make_fixture <- function(n_oisst = 40, n_cersat = 30, n_other = 50) {
   other <- sprintf("example.org/some/other/product/%03d/file_%03d.dat", seq_len(n_other), seq_len(n_other))
   ## a file whose name contains regex metacharacters, to check literal matching
   odd <- "example.org/odd/a+b(c)/file[1].txt"
+  ## a few more products so the return-contract test exercises the functions
+  ## that post-process differently (nsidc v2, sose, rema)
+  nsidc <- sprintf("nsidc-cumulus-prod-protected/PM/NSIDC-0051/2/%s/NSIDC0051_SEAICE_PS_S25km_%s_v2.0.nc",
+                   substr(o$ymd[1:10], 1, 4), o$ymd[1:10])
+  sose <- c("sose.ucsd.edu/SO6/ITER122/monthly/SALT_mnthlyBar.0000000100.nc",
+            "sose.ucsd.edu/SO6/ITER133/monthly/SALT_mnthlyBar.0000000100.nc",
+            "sose.ucsd.edu/SO6/ITER133/monthly/THETA_mnthlyBar.0000000100.nc")
+  rema <- c("data.pgc.umn.edu/elev/dem/setsm/REMA/mosaic/v1.1/100m/REMA_100m_dem.tif",
+            "data.pgc.umn.edu/elev/dem/setsm/REMA/mosaic/v1.1/200m/REMA_200m_dem_filled.tif",
+            "data.pgc.umn.edu/elev/dem/setsm/REMA/indexes/REMA_Tile_Index_Rel1.shp",
+            "aad.gov.au/rema/processing/v1.1/100m/REMA_100m_slope.tif",
+            "aad.gov.au/rema/processing/v1.1/8m/09_38/09_38_8m_slope.tif")
 
-  files <- list(c(oisst, other[1:25]), c(cersat, other[26:n_other], odd), c("example.org/deprecated/old.nc"))
+  files <- list(c(oisst, other[1:25], nsidc, rema), c(cersat, other[26:n_other], odd, sose), c("example.org/deprecated/old.nc"))
   for (i in seq_along(roots)) {
     for (f in files[[i]]) {
       p <- file.path(roots[i], f)

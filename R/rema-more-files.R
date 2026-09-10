@@ -19,16 +19,13 @@
 # }
 
 .rema_proc_all_files <- function() {
-  pattern <- "aad.gov.au/rema/processing"
-
-  .find_files_generic(pattern)
+  .find_files_generic("aad.gov.au/rema/processing")
 }
 
 #' @name rema_8m_files
 #' @export
 rema_8m_tiles <- function() {
-  ## polygons
-  stop("no longer supported, please see https://github.com/AustralianAntarcticDivision/remav2")
+  .Defunct(msg = "rema_8m_tiles() is defunct, see https://github.com/AustralianAntarcticDivision/remav2")
 }
 #' @name rema_8m_files
 #' @export
@@ -39,7 +36,7 @@ rema_200m_dem_files <- function() {
 #' @name rema_8m_files
 #' @export
 .rema_file_filter <- function(x) {
-  dplyr::filter(.rema_proc_all_files(), stringr::str_detect(.data$fullname, x))
+  .find_files_generic(c("aad.gov.au/rema/processing", x))
 }
 
 #' @name rema_8m_files

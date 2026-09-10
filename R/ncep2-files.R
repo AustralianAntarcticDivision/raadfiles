@@ -24,7 +24,7 @@ ncep2_uwnd_6hr_files <- function() {
     stop("no files found")
   files <- dplyr::transmute(files, date = ISOdate(as.integer(stringr::str_extract(basename(.data$fullname), "[0-9]{4}")), 1, 1, 0, 0, 0, tz = "UTC"),
                          fullname = .data$fullname, root = .data$root)
-  dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date)
+  .raad_files_result(dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date))
 
 }
 #' @name ncep2_files
@@ -37,7 +37,7 @@ ncep2_vwnd_6hr_files <- function() {
     stop("no files found")
   files <- dplyr::transmute(files, date = ISOdate(as.integer(stringr::str_extract(basename(.data$fullname), "[0-9]{4}")), 1, 1, tz  = "UTC"),
                          fullname = .data$fullname, root = .data$root)
-  dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date)
+  .raad_files_result(dplyr::arrange(dplyr::distinct(files, .data$date, .keep_all = TRUE), .data$date))
 
 
 }

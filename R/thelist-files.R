@@ -122,7 +122,10 @@
 #'   #x <- read_all(sample(grps, 1))
 #' }
 thelist_files <- function(format = c("gdb", "tab", "shp", "asc", "xml", "lyr", "dbf", "zip", "all"), pattern = NULL) {
-  files <- dplyr::filter(get_raad_filenames(), stringr::str_detect(.data$file, "listdata.thelist.tas.gov.au/opendata/data"))
+  ## memoised, literal search of the whole listing; recover the root-relative
+  ## 'file' column the format logic below works on
+  files <- .find_files_generic("listdata.thelist.tas.gov.au/opendata/data")
+  files <- tibble::tibble(root = files$root, file = substring(files$fullname, nchar(files$root) + 2L))
   # unique(unlist(lapply(strsplit(files$file, "\\."), tail, 1)))
   # [1] "cpg"            "DAT"            "dbf"            "gdbindexes"     "gdbtable"       "gdbtablx"
   # [7] "atx"            "freelist"       "spx"            "gdb/gdb"        "gdb/timestamps" "ID"
@@ -162,7 +165,7 @@ thelist_files <- function(format = c("gdb", "tab", "shp", "asc", "xml", "lyr", "
 
   #files <- dplyr::mutate(files,
    #                      file = stringr::str_replace(.data$fullname, paste0(datadir, "/"), ""))
-  dplyr::arrange(files)
+  .raad_files_result(dplyr::arrange(files, .data$fullname))
 }
 
 thelist_munips <- function(x, ...) {

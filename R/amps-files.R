@@ -16,38 +16,23 @@
 #'   amps_d2files()
 #' }
 amps_files <- function() {
-
-  files <- dplyr::filter(get_raad_filenames(),
-                         stringr::str_detect(.data$file, "ucar"))
-  files <- dplyr::filter(files,
-                         stringr::str_detect(.data$file,
-                         "www2.mmm.ucar.edu"))
-
-  files <- dplyr::filter(files,
-                         stringr::str_detect(.data$file,
-                                             "wrf_grib"))
-
-  files <- dplyr::filter(files,
-                         stringr::str_detect(.data$file,
-                                             "grb$"))
-  files <- dplyr::filter(files, !stringr::str_detect(basename(.data$file), "^tmp"))
-
-  files
-
+  files <- .find_files_generic(c("www2.mmm.ucar.edu", "wrf_grib", "grb$"))
+  files <- files[!startsWith(basename(files$fullname), "tmp"), ]
+  if (nrow(files) < 1) stop("no files found")
+  .raad_files_result(files)
 }
 
 #' @name amps_files
 #' @export
 amps_model_files <- function(time.resolution = "4hourly", grid = "d1", ...) {
   files <- amps_files()
-  files$fullname <- file.path(files$root, files$file)
   files <- dplyr::filter(files,
-                         stringr::str_detect(.data$file,
+                         stringr::str_detect(.data$fullname,
                                              sprintf("_%s_", grid)))
-  dplyr::transmute(files, hour = substr(basename(.data$fullname), 20, 22),
+  .raad_files_result(dplyr::transmute(files, hour = substr(basename(.data$fullname), 20, 22),
                    model = substr(basename(.data$fullname), 9, 10),
                    date = as.POSIXct(strptime(basename(files$fullname), "%Y%m%d%H"), tz = "UTC") +
-                     as.integer(.data$hour) * 3600, .data$fullname, .data$root)
+                     as.integer(.data$hour) * 3600, .data$fullname, .data$root))
 
 }
 

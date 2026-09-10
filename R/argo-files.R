@@ -23,7 +23,6 @@ argo_files <- function(type = c("prof", "meta", "traj", "tech", "Mprof"), dac = 
 
 
   pattern <- c(pattern, typefilter)
-  files <- .find_files_generic(pattern)
-files
+  .raad_files_result(.find_files_generic(pattern))
 }
 

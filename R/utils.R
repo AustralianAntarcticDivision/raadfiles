@@ -44,6 +44,15 @@ globalVariables("desc")  ## for dplyr in arrange()
 }
 
 
+## Column contract for collection functions: date (when present), fullname,
+## root, then anything else in the order given. Every *_files() function
+## should return through this.
+.raad_files_result <- function(x) {
+  lead <- intersect(c("date", "fullname", "root"), names(x))
+  x <- x[c(lead, setdiff(names(x), lead))]
+  tibble::as_tibble(x)
+}
+
 ## file cache utilities
 
 remove_leading_slash <- function(x) {

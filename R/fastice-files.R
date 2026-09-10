@@ -43,7 +43,7 @@ fraser_fasticefiles <- function(product = c("circum_fast_ice", "binary_fast_ice"
 
 
     files$date <- as.POSIXct(strptime(basename(files$fullname), "FastIce_%j_%"), tz = "UTC")
-    return(files)
+    return(.raad_files_result(files))
   }
   if (product == "circum_fast_ice") {
 
@@ -51,7 +51,6 @@ fraser_fasticefiles <- function(product = c("circum_fast_ice", "binary_fast_ice"
     files <- .find_files_generic(pattern)
     year <- stringr::str_extract(basename(files$fullname), "[0-9]{4}")
     files$date <- as.POSIXct(sprintf("%s-01-01", year), tz = "UTC")
-    return(tibble::tibble(fullname = files$fullname,
-                          date = files$date) |> dplyr::arrange(date))
+    return(.raad_files_result(dplyr::arrange(files, .data$date)))
   }
 }

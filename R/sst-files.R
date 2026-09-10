@@ -105,6 +105,6 @@ ghrsst_daily_files_netcdf <- function() {
   files <-   dplyr::transmute(rbind(files1, files2),
                               date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$fullname), "[0-9]{8}"),"%Y%m%d"),tz = "UTC"),
                               .data$fullname, .data$root)
-  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date)
+  .raad_files_result(dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date))
 
 }

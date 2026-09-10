@@ -13,8 +13,8 @@
 #'   cersat_daily_files()
 #' }
 cersat_daily_files <- function() {
- pattern <- c("ifremer",  "cersat.*daily/.*\\.nc$")
- files <- .find_files_generic(pattern)
- files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(.data$fullname, "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
- files %>% arrange(.data$date) %>% distinct(.data$date, .keep_all = TRUE)
+  pattern <- c("ifremer",  "cersat.*daily/.*\\.nc$")
+  files <- .find_files_generic(pattern)
+  files <- files %>% mutate(date = as.POSIXct(as.Date(stringr::str_extract(.data$fullname, "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
+  .raad_files_result(files %>% arrange(.data$date) %>% distinct(.data$date, .keep_all = TRUE))
 }

@@ -100,14 +100,6 @@ get_raad_data_roots <- function() {
   if (length(out) < 1) out <- NULL
   out
 }
-get_raw_raad_filenames <- function() {
-  .Deprecated("get_raad_filenames")
-  get_raad_filenames()
-}
-get_raadfiles_data_roots <- function() {
-  .Deprecated("get_raad_data_roots")
-  get_raad_data_roots()
-}
 #' @param all if `TRUE` include 'data_deprecated', expert-use only
 #'
 #' @export
@@ -143,10 +135,6 @@ get_raad_filenames <- function(all = FALSE) {
   }
 
   out
-}
-set_raadfile_data_roots <- function(..., replace_existing = TRUE, use_known_candidates = FALSE) {
-  .Deprecated("set_raad_data_roots")
-  set_raad_data_roots(..., use_known_candidates = use_known_candidates, replace_existing = replace_existing)
 }
 
 pad4 <- function(x) paste(rep(" ", x + 4), collapse = "")
@@ -205,10 +193,6 @@ raad_filedb_path <- function(...) {
   file.path(unlist(list(...)), ".raad_admin/file_db.tab")
 }
 
-set_raw_raad_filenames <- function() {
-  .Deprecated("set_raad_filenames")
-  set_raad_filenames()
-}
 ## cheap signature of each file_db.tab: size and mtime as a single string
 db_signature <- function(dbs) {
   info <- file.info(dbs, extra_cols = FALSE)
@@ -373,10 +357,6 @@ list_root_files <- function(root) {
   list.files(root, recursive = TRUE, all.files = TRUE, full.names = TRUE, include.dirs = FALSE)
 }
 
-run_this_function_to_build_raad_cache <- function() {
-  .Deprecated("run_build_raad_cache")
-  run_build_raad_cache()
-}
 #' @name raadfiles-admin
 #' @export
 run_build_raad_cache <- function() {

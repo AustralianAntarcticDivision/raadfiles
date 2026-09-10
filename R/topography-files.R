@@ -1,7 +1,7 @@
 
 
 topo_files_generic <- function(pattern, ...) {
- .find_files_generic(pattern)
+  .raad_files_result(.find_files_generic(pattern))
 }
 
 #' Topographic data files
@@ -43,7 +43,7 @@ gebco23_files <- function(all = FALSE, ...) {
   ## there's no "all"
   out <- topo_files_generic(c("gebco", "idea.public/gebco/gebco_2023_land_cog\\.tif"))
 
-  out
+  .raad_files_result(out)
 }
 
 #' @name topography
@@ -55,7 +55,7 @@ gebco21_files <- function(all = FALSE, ...) {
   } else {
     out <- topo_files_generic(c("gebco", "gebco/GEBCO_2021.tif"))
   }
-  out
+  .raad_files_result(out)
 }
 #' @name topography
 #' @rdname topography-files
@@ -67,7 +67,7 @@ if (all) {
   } else {
     out <- topo_files_generic(c("gebco", "gebco/GEBCO_2019.tif"))
   }
-  out
+  .raad_files_result(out)
 }
 
 #' @name topography
@@ -78,7 +78,7 @@ gebco14_files <- function(all = FALSE, ...) {
   if (!all) pattern <- c(pattern, "www.bodc.ac.uk/.*/GEBCO_2014_2D.nc$")
   out <- topo_files_generic(pattern)
   if (!all) out <- out[1L, , drop = FALSE]
-  out
+  .raad_files_result(out)
 }
 #' @export
 #' @name topography
@@ -86,9 +86,9 @@ gebco14_files <- function(all = FALSE, ...) {
 gebco08_files <- function(all = FALSE, ...) {
   pattern <- "www.bodc.ac.uk/gebco/"
   if (!all) pattern <- c(pattern, "www.bodc.ac.uk/.*/GRIDONE_2D.nc$")
- out <- topo_files_generic(pattern)
+  out <- topo_files_generic(pattern)
   if (!all) out <- out[1L, , drop = FALSE]
- out
+  .raad_files_result(out)
 }
 
 #' @export
