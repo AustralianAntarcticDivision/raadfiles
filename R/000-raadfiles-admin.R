@@ -77,6 +77,7 @@
 #'  \code{raadfiles.data.roots} \tab the list of paths to root directories \cr
 #'  \code{raadfiles.file.cache.disable} \tab disable on-load setting of the in-memory file cache (never set automatically by the package)  \cr
 #'  \code{raadfiles.file.refresh.threshold} \tab threshold probability of how often to refresh in-memory file cache (0 = never, 1 = every time `get_raad_filenames()` is called) \cr
+#'  \code{raadfiles.local.cache} \tab keep local copies of the file listing caches under `tools::R_user_dir("raadfiles", "cache")` and read from those (default TRUE), set FALSE to always read the originals \cr
 #' }
 #'
 #'
@@ -137,10 +138,12 @@ get_raad_filenames <- function(all = FALSE) {
     set_raad_filenames()
   }
   if (!all) {
-    ## trim out specific files
-    out <- dplyr::filter(out, !stringr::str_detect(.data$root, "/data_deprecated"))
-    out <- dplyr::filter(out, !stringr::str_detect(.data$root, "PRIVATE/raad/data"))
-
+    ## trim out specific roots: test the handful of unique root values, not every row
+    uroot <- unique(out[["root"]])
+    drop <- stringr::str_detect(uroot, "/data_deprecated") | stringr::str_detect(uroot, "PRIVATE/raad/data")
+    if (any(drop)) {
+      out <- out[!(out[["root"]] %in% uroot[drop]), ]
+    }
   }
 
   out
@@ -174,7 +177,7 @@ set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidat
   inputs <- unique(inputs)
   if (length(inputs) < 1) inputs <- ""
   ## find out last modified time of each DB cache
-  mtimes <- format(file.info(file.path(inputs, ".raad_admin", "file_db.rds"))[,"mtime"])
+  mtimes <- format(file.info(raad_filedb_path(inputs))[,"mtime"])
 
   if (any(is.na(mtimes))) mtimes[is.na(mtimes)] <- ""
   maxchar <- max(nchar(inputs) + nchar(mtimes))
@@ -210,6 +213,52 @@ set_raw_raad_filenames <- function() {
   .Deprecated("set_raad_filenames")
   set_raad_filenames()
 }
+## cheap signature of each file_db.tab: size and mtime as a single string
+db_signature <- function(dbs) {
+  info <- file.info(dbs, extra_cols = FALSE)
+  sprintf("%.0f_%.6f", info$size, as.numeric(info$mtime))
+}
+
+## Local copies of the text caches.
+##
+## The file_db.tab files may live on slow network mounts. vroom only indexes
+## them on load, but every later access to the (lazy, ALTREP) strings goes back
+## to that file. When option 'raadfiles.local.cache' is TRUE (the default) a
+## verbatim copy of each cache is kept under tools::R_user_dir("raadfiles",
+## "cache"), refreshed only when the size+mtime signature changes, and vroom is
+## pointed at the copies instead. Returns the paths vroom should read; falls
+## back to the originals for any file that cannot be copied.
+local_filedb_copies <- function(dbs, sig) {
+  if (!isTRUE(getOption("raadfiles.local.cache", TRUE))) return(dbs)
+  if (getRversion() < "4.0.0") return(dbs)
+  cache_dir <- tryCatch(tools::R_user_dir("raadfiles", "cache"), error = function(e) NULL)
+  if (is.null(cache_dir)) return(dbs)
+  ok <- dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE) || dir.exists(cache_dir)
+  if (!ok) return(dbs)
+  out <- dbs
+  for (i in seq_along(dbs)) {
+    ## one copy per source path, keyed by a hash of that path
+    key <- digest::digest(dbs[i], algo = "md5", serialize = FALSE)
+    local <- file.path(cache_dir, paste0(key, ".tab"))
+    sigfile <- file.path(cache_dir, paste0(key, ".sig"))
+    fresh <- file.exists(local) && file.exists(sigfile) &&
+      identical(readLines(sigfile, n = 1L, warn = FALSE), sig[i])
+    if (!fresh) {
+      tmp <- tempfile("file_db", tmpdir = cache_dir, fileext = ".tab")
+      copied <- tryCatch(file.copy(dbs[i], tmp, overwrite = TRUE), error = function(e) FALSE,
+                         warning = function(w) FALSE)
+      if (isTRUE(copied) && file.size(tmp) == file.size(dbs[i]) && file.rename(tmp, local)) {
+        writeLines(sig[i], sigfile)
+        fresh <- TRUE
+      } else {
+        unlink(tmp)
+      }
+    }
+    if (fresh) out[i] <- local
+  }
+  out
+}
+
 #' @param clobber by default do not ignore existing file cache, set to TRUE to ignore and set
 #' @export
 #' @rdname raadfiles-admin
@@ -223,11 +272,11 @@ set_raad_filenames <- function(clobber = FALSE) {
     return(invisible(NULL))
   }
 
-  ## record the db hashes
-  ## to avoid https://github.com/eddelbuettel/digest/issues/13
-  ## ignore the erroneous status from file.access(, 4)
+  ## record a stat-based signature (size + mtime) of each DB cache, rather than
+  ## an md5 of every byte (run_build_raad_cache rewrites each file wholesale so
+  ## both move on every rebuild); column is still called 'md5' for compatibility
   data_dbs <- tibble::tibble(db = raadfiles.data.filedbs,
-                             md5 = unlist(lapply(raadfiles.data.filedbs, digest::digest, algo = "md5", file = TRUE, errormode = "silent"), use.names = FALSE),
+                             md5 = db_signature(raadfiles.data.filedbs),
                              file_ok = TRUE)
 
 
@@ -274,11 +323,11 @@ set_raad_filenames <- function(clobber = FALSE) {
   # fs <- dplyr::bind_rows(fslist)
   ## --------------------------------
 
-  ##rdb <<- raadfiles.data.filedbs
-  fs <- vroom::vroom(raadfiles.data.filedbs, col_types = cltypes, progress = FALSE, id = ".file_id")
-  ##fs[[".file_id"]] <- match(fs[[".file_id"]], raadfiles.data.filedbs)
+  ## optionally read from local copies of the text caches (see local_filedb_copies)
+  read_dbs <- local_filedb_copies(raadfiles.data.filedbs, data_dbs$md5)
+  fs <- vroom::vroom(read_dbs, col_types = cltypes, progress = FALSE, id = ".file_id")
   ## fix break of this, because root re-mapping no occurring on (e.g. Windows) from e4b630882eee94ef843588500bd9dce9a07f6437
-  fs[["root"]] <- raadfiles.data.roots[match(fs[[".file_id"]], raadfiles.data.filedbs)]
+  fs[["root"]] <- raadfiles.data.roots[match(fs[[".file_id"]], read_dbs)]
   fs[[".file_id"]] <- NULL
 
 
