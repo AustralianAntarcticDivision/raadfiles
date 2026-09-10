@@ -51,9 +51,13 @@
 <span></span>
 <span><span class="fu">amps_model_files</span><span class="op">(</span>time.resolution <span class="op">=</span> <span class="st">"4hourly"</span>, grid <span class="op">=</span> <span class="st">"d1"</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">amps_d1files</span><span class="op">(</span>time.resolution <span class="op">=</span> <span class="st">"4hourly"</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">amps_d1_files</span><span class="op">(</span>time.resolution <span class="op">=</span> <span class="st">"4hourly"</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">amps_d2files</span><span class="op">(</span>time.resolution <span class="op">=</span> <span class="st">"4hourly"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">amps_d2_files</span><span class="op">(</span>time.resolution <span class="op">=</span> <span class="st">"4hourly"</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">amps_d1files</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">amps_d2files</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -74,7 +78,7 @@
 </dl></div>
     <div id="details">
     <h2>Details</h2>
-    <p>`amps_files` returns all the files, `amps_model_files` returns the files with date set from the file name, `amps_d1files` and `amps_d2files` return only the 30km and 10 km resolution grids respectively.</p>
+    <p>`amps_files` returns all the files, `amps_model_files` returns the files with date set from the file name, `amps_d1_files` and `amps_d2_files` return (`amps_d1files`/`amps_d2files` are older aliases) only the 30km and 10 km resolution grids respectively.</p>
     </div>
 
     <div id="ref-examples">
@@ -82,8 +86,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span>  <span class="fu">amps_files</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu">amps_model_files</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu">amps_d1files</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu">amps_d2files</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">amps_d1_files</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">amps_d2_files</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

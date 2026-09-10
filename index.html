@@ -61,32 +61,65 @@
 <div class="section level1">
 <div class="page-header"><h1 id="raadfiles">raadfiles<a class="anchor" aria-label="anchor" href="#raadfiles"></a>
 </h1></div>
-<p>The goal of raadfiles is to manage information about the files used by raadtools.</p>
+<p>raadfiles manages the file listing for a large data collection: which files exist under one or more root directories, and functions that pick the files for a particular data set out of that listing. It is the file layer under <a href="https://github.com/AustralianAntarcticDivision/raadtools" class="external-link">raadtools</a> but works for any file collection.</p>
+<p>The listing is a plain text table per root (<code>.raad_admin/file_db.tab</code>, two columns <code>root</code> and <code>file</code>). It is built by scanning the roots and read lazily on package load, so <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library(raadfiles)</a></code> is fast even for millions of files, and every <code>*_files()</code> function is a substring search over that listing.</p>
 <div class="section level2">
-<h2 id="why-raadfiles">Why raadfiles?<a class="anchor" aria-label="anchor" href="#why-raadfiles"></a>
+<h2 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">raadtools</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: raster</span></span>
-<span><span class="co">#&gt; Loading required package: sp</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">rt_files</span> <span class="op">&lt;-</span> <span class="fu">sstfiles</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    user  system elapsed </span></span>
-<span><span class="co">#&gt;   8.032   0.228   8.310</span></span>
-<span></span>
+<code class="sourceCode R"><span><span class="co">## install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"AustralianAntarcticDivision/raadfiles"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="set-up-a-collection">Set up a collection<a class="anchor" aria-label="anchor" href="#set-up-a-collection"></a>
+</h2>
+<p>Point raadfiles at one or more root directories, build the listing, and load it. Building is the slow step (a recursive directory scan), so it is normally run from a cron job with the automatic load disabled; loading is what happens each time the package is attached.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## the scanning job, run periodically (cron)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>raadfiles.file.cache.disable <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">raadfiles</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">rf_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/oisst.html">oisst_daily_files</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    user  system elapsed </span></span>
-<span><span class="co">#&gt;   1.100   0.124   1.224</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">rt_files</span><span class="op">$</span><span class="va">date</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "1981-09-01 10:00:00 AEST" "2017-05-30 10:00:00 AEST"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">rf_files</span><span class="op">$</span><span class="va">date</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "1981-09-01 10:00:00 AEST" "2017-05-30 10:00:00 AEST"</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">rt_files</span><span class="op">$</span><span class="va">date</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 13056</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">rf_files</span><span class="op">$</span><span class="va">date</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 13056</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/raadfiles-admin.html">set_raad_data_roots</a></span><span class="op">(</span><span class="st">"/path/to/data"</span>, <span class="st">"/path/to/data_local"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/raadfiles-admin.html">run_build_raad_cache</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## an ordinary session: roots are found from the option or known candidates</span></span>
+<span><span class="co">## and the listing is loaded on attach</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>raadfiles.data.roots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"/path/to/data"</span>, <span class="st">"/path/to/data_local"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">raadfiles</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/raadfiles-admin.html">get_raad_filenames</a></span><span class="op">(</span><span class="op">)</span>      <span class="co">## the whole listing, root + file</span></span>
+<span><span class="fu"><a href="reference/oisst.html">oisst_daily_files</a></span><span class="op">(</span><span class="op">)</span>       <span class="co">## one data set: date, fullname, root</span></span></code></pre></div>
+<p>Options that control this (see <code>?raadfiles-admin</code>):</p>
+<ul>
+<li>
+<code>raadfiles.data.roots</code> the root directories</li>
+<li>
+<code>raadfiles.file.cache.disable</code> do not load the listing on attach (for the scanning job)</li>
+<li>
+<code>raadfiles.local.cache</code> keep local copies of each root’s listing under <code>tools::R_user_dir("raadfiles", "cache")</code> and read from those; on by default, useful when the roots are on a network mount</li>
+<li>
+<code>raadfiles.quiet</code> silence the informational messages</li>
+<li>
+<code>raadfiles.file.refresh.threshold</code> probability that a <code>*_files()</code> call re-checks the listing on disk (default 0.01; 0 never, 1 always)</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="collection-functions">Collection functions<a class="anchor" aria-label="anchor" href="#collection-functions"></a>
+</h2>
+<p>Every <code>*_files()</code> function returns a tibble with <code>fullname</code> (the full path) and <code>root</code>, and <code>date</code> first when the data set has one. Extra columns (<code>tile</code>, <code>band_level</code>, …) follow those. Most functions are a pattern search plus a date parsed from the file name; the searches are memoised for 24 hours.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">raadfiles</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/oisst.html">oisst_daily_files</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/nsidc.html">nsidc_south_daily_files</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/rema_8m_files.html">rema_100m_files</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><code>get_raad_filenames(all = TRUE)</code> gives the raw listing including the <code>data_deprecated</code> roots that are filtered out by default.</p>
+</div>
+<div class="section level2">
+<h2 id="why-a-separate-package">Why a separate package<a class="anchor" aria-label="anchor" href="#why-a-separate-package"></a>
+</h2>
+<ul>
+<li>one convention for <code>root</code> and <code>file</code> so the configured path is separate from the data path</li>
+<li>the listing is loaded once and shared by every function</li>
+<li>a file collection built by any means (bowerbird, rsync, manual) works, as long as the files are under the roots</li>
+</ul>
 </div>
 </div>
   </div>
