@@ -56,6 +56,7 @@ use_fixture <- function(fx, local_cache = TRUE) {
                       raadfiles.file.refresh.threshold = 0,
                       raadfiles.database.status = NULL)
   memoise::forget(raadfiles:::.find_files_generic)
+  assign("search_index", NULL, envir = raadfiles:::raadfiles.env)
   suppressMessages(capture.output(raadfiles::run_build_raad_cache()))
   function() {
     options(old_opts)

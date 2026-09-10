@@ -1,4 +1,24 @@
-# raadfiles 0.1.5.9000
+# raadfiles 0.1.5.9001
+
+* Search index: the first literal pattern of every collection function is
+  now resolved through a directory/basename index of the listing rather than
+  a scan of the full paths. The index is exact (an occurrence crossing the
+  directory/basename boundary is handled), built lazily on the first search
+  after the listing changes, and persisted as `search_index.rds` beside the
+  local copies. Steady state on a 2M-row listing: first search in a session
+  about 1 s (reading the index), later searches 0.1-0.5 s, versus about 2 s
+  each before. The build after a listing change costs a few seconds once per
+  user. Option `raadfiles.search.index = FALSE` turns it off.
+
+* `.find_files_generic()` and `get_raad_filenames()` subset the column
+  vectors rather than the tibble: a row-subset of the tibble goes through
+  vctrs and materialises the whole lazy column (seconds), a vector subset is
+  lazy.
+
+* A bare `.` no longer makes a pattern a regex for the purposes of choosing
+  fixed matching: host and file names in the collection functions
+  ("www.ncei.noaa.gov", "sst.mon.mean.nc") mean the dot literally. Patterns
+  with other regex syntax are unchanged.
 
 * Candidate root paths: on Windows only the `//aad.gov.au/...` UNC candidates
   are tested for existence, elsewhere only the POSIX mounts (an unreachable

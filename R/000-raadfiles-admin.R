@@ -68,6 +68,7 @@
 #'  \code{raadfiles.file.cache.disable} \tab disable on-load setting of the in-memory file cache (never set automatically by the package)  \cr
 #'  \code{raadfiles.file.refresh.threshold} \tab threshold probability of how often to refresh in-memory file cache (0 = never, 1 = every time `get_raad_filenames()` is called) \cr
 #'  \code{raadfiles.quiet} \tab set TRUE to silence the informational messages about roots and cache loading \cr
+#'  \code{raadfiles.search.index} \tab use (and persist beside the local copies) a directory/basename index that makes literal pattern searches cheap (default TRUE) \cr
 #'  \code{raadfiles.local.cache} \tab keep local copies of the file listing caches under `tools::R_user_dir("raadfiles", "cache")` and read from those (default TRUE), set FALSE to always read the originals \cr
 #' }
 #'
@@ -116,11 +117,16 @@ get_raad_filenames <- function(all = FALSE) {
     set_raad_filenames()
   }
   if (!all) {
-    ## trim out specific roots: test the handful of unique root values, not every row
+    ## trim out specific roots: test the handful of unique root values, not
+    ## every row, and subset the column vectors rather than the tibble (a
+    ## tibble row-subset materialises the lazy vroom columns)
     uroot <- unique(out[["root"]])
     drop <- stringr::str_detect(uroot, "/data_deprecated") | stringr::str_detect(uroot, "PRIVATE/raad/data")
     if (any(drop)) {
-      out <- out[!(out[["root"]] %in% uroot[drop]), ]
+      keep <- !(out[["root"]] %in% uroot[drop])
+      stamp <- attr(out, "raad_time_stamp")
+      out <- tibble::tibble(root = out[["root"]][keep], file = out[["file"]][keep])
+      attr(out, "raad_time_stamp") <- stamp
     }
   }
 
@@ -205,12 +211,19 @@ db_signature <- function(dbs) {
 ## "cache"), refreshed only when the size+mtime signature changes, and vroom is
 ## pointed at the copies instead. Returns the paths vroom should read; falls
 ## back to the originals for any file that cannot be copied.
+## the per-user cache directory, created if needed; NULL if it cannot be
+local_cache_dir <- function() {
+  cache_dir <- tryCatch(tools::R_user_dir("raadfiles", "cache"), error = function(e) NULL)
+  if (is.null(cache_dir)) return(NULL)
+  ok <- dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE) || dir.exists(cache_dir)
+  if (!ok) return(NULL)
+  cache_dir
+}
+
 local_filedb_copies <- function(dbs, sig) {
   if (!isTRUE(getOption("raadfiles.local.cache", TRUE))) return(dbs)
-  cache_dir <- tryCatch(tools::R_user_dir("raadfiles", "cache"), error = function(e) NULL)
+  cache_dir <- local_cache_dir()
   if (is.null(cache_dir)) return(dbs)
-  ok <- dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE) || dir.exists(cache_dir)
-  if (!ok) return(dbs)
   out <- dbs
   ## one copy per source path, keyed by the path itself made filename-safe
   keys <- gsub("[^A-Za-z0-9]+", "_", dbs)
@@ -291,6 +304,11 @@ set_raad_filenames <- function(clobber = FALSE) {
   raad_inform(sprintf("Uploading raad file cache as at %s (%i files listed)", format(attr(fs, "raad_time_stamp")), dim(fs)[1L]))
 
   assign("raadfiles.filename.database", fs, envir = raadfiles.env)
+  ## what the search index (see search-index.R) needs: where the listing was
+  ## read from and its signature; any in-memory index is now stale
+  assign("read_dbs", read_dbs, envir = raadfiles.env)
+  assign("index_key", paste(data_dbs$md5, collapse = "|"), envir = raadfiles.env)
+  assign("search_index", NULL, envir = raadfiles.env)
   options(raadfiles.database.status = data_dbs, raadfiles.env = raadfiles.env)
   invisible(NULL)
 }
