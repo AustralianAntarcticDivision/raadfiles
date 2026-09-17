@@ -1,4 +1,6 @@
-# raadfiles 0.1.5.9001
+# raadfiles dev
+
+* Turned off `extra_cols` in `file.info` to avoid ownership message on windows. 
 
 * Search index: the first literal pattern of every collection function is
   now resolved through a directory/basename index of the listing rather than

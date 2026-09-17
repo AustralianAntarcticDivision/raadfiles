@@ -166,7 +166,7 @@ set_raad_data_roots <- function(..., replace_existing = TRUE, use_known_candidat
   inputs <- unique(inputs)
   if (length(inputs) < 1) inputs <- ""
   ## find out last modified time of each DB cache
-  mtimes <- format(file.info(raad_filedb_path(inputs))[,"mtime"])
+  mtimes <- format(file.info(raad_filedb_path(inputs), extra_cols = FALSE)[,"mtime"])
 
   if (any(is.na(mtimes))) mtimes[is.na(mtimes)] <- ""
   maxchar <- max(nchar(inputs) + nchar(mtimes))
