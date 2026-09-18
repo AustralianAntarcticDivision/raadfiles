@@ -1,5 +1,7 @@
 # raadfiles dev
 
+* Made startup quiet, by default.
+
 * Turned off `extra_cols` in `file.info` to avoid ownership message on windows. 
 
 * Search index: the first literal pattern of every collection function is

@@ -3,7 +3,7 @@ raadfiles.env <- new.env(FALSE, parent=globalenv())
 .onLoad <- function(libname, pkgname) {
   ## messages emitted while loading are packageStartupMessage()s, see raad_inform()
   old <- options(raadfiles.loading = TRUE); on.exit(options(old), add = TRUE)
-
+  options(raadfiles.quiet = TRUE)
   run_on_load <- getOption("raadfiles.file.cache.disable")
   file_refresh <- getOption("raadfiles.file.refresh.threshold")
   if (is.null(file_refresh)) {
